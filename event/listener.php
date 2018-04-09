@@ -16,6 +16,9 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class listener implements EventSubscriberInterface
 {
+	/** @var \phpbb\config\config */
+	protected $config;
+
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
@@ -40,6 +43,7 @@ class listener implements EventSubscriberInterface
 	/**
 	 * Constructor
 	 *
+	 * @param \phpbb\config\config					$config
 	 * @param \phpbb\db\driver\driver_interface		$db						Database object
 	 * @param \phpbb\event\dispatcher_interface		$phpbb_dispatcher
 	 * @param \phpbb\user							$user					User Object
@@ -49,8 +53,9 @@ class listener implements EventSubscriberInterface
 	 * @param string								$php_ext				php_ext
 	 * @access public
 	 */
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\event\dispatcher_interface $phpbb_dispatcher, \phpbb\user $user, \phpbb\template\template $template, \phpbb\request\request $request, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\event\dispatcher_interface $phpbb_dispatcher, \phpbb\user $user, \phpbb\template\template $template, \phpbb\request\request $request, $phpbb_root_path, $php_ext)
 	{
+		$this->config = $config;
 		$this->db = $db;
 		$this->phpbb_dispatcher = $phpbb_dispatcher;
 		$this->user = $user;
@@ -72,7 +77,50 @@ class listener implements EventSubscriberInterface
 		return array(
 			'core.ucp_register_user_row_after'					=> 'ucp_register_user_row_after',
 			'core.ucp_display_module_before'					=> 'ucp_display_module_before',
+			'core.acp_board_config_edit_add'					=> 'acp_board_config_edit_add',
+			'core.page_header_after'							=> 'page_header_after',
 		);
+	}
+
+	/**
+	 * Add field for privacy in ACP settings
+	 *
+	 * @param object $event The event object
+	 * @return null
+	 * @access public
+	 */
+	public function acp_board_config_edit_add($event)
+	{
+		if ($event['mode'] == 'settings')
+		{
+			$this->user->add_lang_ext('tas2580/privacyprotection', 'acp');
+			$display_vars = $event['display_vars'];
+			$insert = array('tas2580_privacyprotection_privacy_url' => array(
+				'lang'		=> 'ACP_PRIVACY_URL',
+				'validate'	=> 'string',
+				'type'		=> 'url:40:255',
+				'explain'	=> true
+			));
+			$display_vars['vars'] = $this->array_insert($display_vars['vars'], 'legend2', $insert);
+			$event['display_vars'] = $display_vars;
+		}
+	}
+
+	/**
+	 * Modify link to privacy
+	 *
+	 * @param object $event The event object
+	 * @return null
+	 * @access public
+	 */
+	public function page_header_after()
+	{
+		if ($this->config['tas2580_privacyprotection_privacy_url'])
+		{
+			$this->template->assign_vars(array(
+				'U_PRIVACY'		=> $this->config['tas2580_privacyprotection_privacy_url'],
+			));
+		}
 	}
 
 	/**
@@ -198,5 +246,23 @@ class listener implements EventSubscriberInterface
 			$data = str_replace('"', '""', $data);
 		}
 		return '"' . $data . '"';
+	}
+
+	private function array_insert(&$array, $position, $insert)
+	{
+		if (is_int($position))
+		{
+			array_splice($array, $position, 0, $insert);
+		}
+		else
+		{
+			$pos   = array_search($position, array_keys($array));
+			$array = array_merge(
+				array_slice($array, 0, $pos),
+				$insert,
+				array_slice($array, $pos)
+			);
+		}
+		return $array;
 	}
 }
