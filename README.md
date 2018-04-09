@@ -5,7 +5,7 @@ use this extension.
 
 
 ## INSTALLATION
-To install this extension download it from here and upload the files in your forum under <b>/ext/tas2580/seourls</b>.
+To install this extension download it from here and upload the files in your forum under <b>/ext/tas2580/privacyprotection</b>.
 After that go to the Admin panel of your forum and navigate in to Customise -> Extension Management -> Extensions. Search this extension in the list of extensions and click on Enable.
 
 
