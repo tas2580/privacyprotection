@@ -1,8 +1,8 @@
 <?php
 /**
 *
-* @package phpBB Extension - tas2580 Usermap
-* @copyright (c) 2016 tas2580 (https://tas2580.net)
+* @package phpBB Extension - tas2580 privacyprotection
+* @copyright (c) 2018 tas2580 (https://tas2580.net)
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -34,4 +34,6 @@ $lang = array_merge($lang, array(
 	'DOWNLOAD_MY_DATA_EXPLAIN'		=> 'Hier kannst du deine persönlichen Daten und die von dir geschriebenen Beiträge als CSV-Datei runter laden.',
 	'DOWNLOAD_MY_DATA_BTN'			=> 'Download Profildaten',
 	'DOWNLOAD_MY_POSTS_BTN'			=> 'Download meine Beiträge',
+	'NEED_ACCEPT_PRIVACY'			=> 'Du musst die Datenschuterklärung lesen und akzeptieren.',
+	'PRIVACY_ACCEPTED'				=> 'Datenschutzerklärung akzeptiert?',
 ));

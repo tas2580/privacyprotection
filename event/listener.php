@@ -1,8 +1,8 @@
 <?php
 /**
  *
- * @package phpBB Extension - tas2580 SEO URLs
- * @copyright (c) 2016 tas2580 (https://tas2580.net)
+ * @package phpBB Extension - tas2580 privacyprotection
+ * @copyright (c) 2018 tas2580 (https://tas2580.net)
  * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
  *
  */
@@ -77,6 +77,7 @@ class listener implements EventSubscriberInterface
 		return array(
 			'core.ucp_register_user_row_after'					=> 'ucp_register_user_row_after',
 			'core.ucp_display_module_before'					=> 'ucp_display_module_before',
+			'core.ucp_register_data_after'						=> 'ucp_register_data_after',
 			'core.acp_board_config_edit_add'					=> 'acp_board_config_edit_add',
 			'core.page_header_after'							=> 'page_header_after',
 		);
@@ -135,6 +136,25 @@ class listener implements EventSubscriberInterface
 		$user_row = $event['user_row'];
 		$user_row['user_allow_massemail'] = $this->request->variable('massemail', 0);
 		$event['user_row'] = $user_row;
+	}
+
+	/**
+	 * Check if the user accepted the privacy policy
+	 *
+	 * @param object $event The event object
+	 * @return null
+	 * @access public
+	 */
+	public function ucp_register_data_after($event)
+	{
+		$error = $event['error'];
+		$privacy = $this->request->variable('privacy', 0);
+		if ($privacy <> 1)
+		{
+			$this->user->add_lang_ext('tas2580/privacyprotection', 'ucp');
+			$error[] = $this->user->lang['NEED_ACCEPT_PRIVACY'];
+			$event['error'] = $error;
+		}
 	}
 
 	/**
