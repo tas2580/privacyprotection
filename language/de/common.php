@@ -30,9 +30,6 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 //
 $lang = array_merge($lang, array(
-	'ACP_PRIVACY_URL'				=> 'URL zur Datenschutzerklärung',
-	'ACP_PRIVACY_URL_EXPLAIN'		=> 'Gib eine URL zu deiner Datenschutzerklärung ein. Die URL überschreibt alle Links zur original Datenschutzerklärung.',
-	'UPDATE_PRIVACY'				=> 'Datenschutzerklärung aktualisieren',
-	'UPDATE_PRIVACY_EXPLAIN'		=> 'Führe die Aktion aus nachdem du die Datenschutzerklärung aktualisiert hast. Alle Benutzer müssen dann der neuen Datenschutzerklärung zustimmen.',
-	'PRIVACY_POLICE_UPDATED'		=> 'Die Datenschutzerklärung wurden auf das aktuelle Dateum gesetzt. Alle Benutzer müssen der neuen Datenschutzerklärung zustimen bevor sie das Forum benutzen können.'
+	'NEED_ACCPEPT_PRIVACY'		=> 'Die <a href="%s">Datenschutzerklärung</a> hat sich geändert. Du musst die neue Datenschutzerklärung akzeptieren um das Forum weiter benutzen zu können.',
+	'ACCEPT_PRIVACY'			=> 'Datenschutzerklärung akzeptiert',
 ));

@@ -80,8 +80,32 @@ class listener implements EventSubscriberInterface
 			'core.ucp_register_data_after'						=> 'ucp_register_data_after',
 			'core.acp_board_config_edit_add'					=> 'acp_board_config_edit_add',
 			'core.page_header_after'							=> 'page_header_after',
+			'core.acp_main_notice'								=> 'acp_main_notice',
 		);
 	}
+
+	public function acp_main_notice()
+	{
+		$this->user->add_lang_ext('tas2580/privacyprotection', 'acp');
+
+		$update_privacy = $this->request->variable('action_update_privacy', '');
+		if ($update_privacy)
+		{
+			if (confirm_box(true))
+			{
+
+				$this->config->set('tas2580_privacyprotection_last_update', time());
+				trigger_error($this->user->lang['PRIVACY_POLICE_UPDATED'] . adm_back_link($this->u_action));
+			}
+			else
+			{
+				confirm_box(false, $this->user->lang['CONFIRM_OPERATION'], build_hidden_fields(array(
+					'action_update_privacy'		=> $update_privacy))
+				);
+			}
+		}
+	}
+
 
 	/**
 	 * Add field for privacy in ACP settings
@@ -116,6 +140,32 @@ class listener implements EventSubscriberInterface
 	 */
 	public function page_header_after()
 	{
+		if ($this->user->data['is_registered'] && $this->user->data['tas2580_privacy_last_accepted'] < $this->config['tas2580_privacyprotection_last_update'])
+		{
+			// User has accepted the new privacy policy
+			$mode = $this->request->variable('mode', '');
+			if ($mode == 'accept_privacy')
+			{
+				$data = array(
+					'tas2580_privacy_last_accepted'		=> time(),
+				);
+				$sql = 'UPDATE ' . USERS_TABLE . '
+					SET ' . $this->db->sql_build_array('UPDATE', $data) . '
+					WHERE user_id = ' . (int) $this->user->data['user_id'] ;
+				$this->db->sql_query($sql);
+				redirect(append_sid("{$this->phpbb_root_path}index.{$this->php_ext}"));
+			}
+
+			$this->user->add_lang_ext('tas2580/privacyprotection', 'common');
+			$privacy_link = empty($this->config['tas2580_privacyprotection_privacy_url']) ? append_sid("{$this->phpbb_root_path}ucp.{$this->php_ext}", 'mode=privacy') : $this->config['tas2580_privacyprotection_privacy_url'];
+			$this->template->assign_vars(array(
+				'S_NEED_ACCPEPT_PRIVACY'		=> true,
+				'NEED_ACCPEPT_PRIVACY'			=> sprintf($this->user->lang['NEED_ACCPEPT_PRIVACY'], $privacy_link),
+				'U_ACCPEPT_PRIVACY'				=> append_sid("{$this->phpbb_root_path}index.{$this->php_ext}", 'mode=accept_privacy'),
+			));
+		}
+
+		// Modify privacy policy URL
 		if ($this->config['tas2580_privacyprotection_privacy_url'])
 		{
 			$this->template->assign_vars(array(
