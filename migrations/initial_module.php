@@ -23,7 +23,7 @@ class initial_module extends \phpbb\db\migration\migration
 		return array(
 			'add_columns'	=> array(
 				$this->table_prefix . 'users'	=> array(
-					'tas2580_privacy_last_accepted'				=> array('VCHAR:14', '0'),
+					'tas2580_privacy_last_accepted'				=> array('TIMESTAMP', '0'),
 				),
 			),
 		);
