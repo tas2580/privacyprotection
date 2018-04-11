@@ -77,6 +77,7 @@ class listener implements EventSubscriberInterface
 		return array(
 			'core.ucp_register_user_row_after'					=> 'ucp_register_user_row_after',
 			'core.ucp_display_module_before'					=> 'ucp_display_module_before',
+			'core.ucp_register_data_before'						=> 'ucp_register_data_before',
 			'core.ucp_register_data_after'						=> 'ucp_register_data_after',
 			'core.acp_board_config_edit_add'					=> 'acp_board_config_edit_add',
 			'core.page_header_after'							=> 'page_header_after',
@@ -186,6 +187,17 @@ class listener implements EventSubscriberInterface
 		$user_row = $event['user_row'];
 		$user_row['user_allow_massemail'] = $this->request->variable('massemail', 0);
 		$event['user_row'] = $user_row;
+	}
+
+	public function ucp_register_data_before()
+	{
+		$this->user->add_lang_ext('tas2580/privacyprotection', 'ucp');
+		$privacy_link = empty($this->config['tas2580_privacyprotection_privacy_url']) ? append_sid("{$this->phpbb_root_path}ucp.{$this->php_ext}", 'mode=privacy') : $this->config['tas2580_privacyprotection_privacy_url'];
+		$this->template->assign_vars(array(
+			'PRIVACY_ACCEPTED_EXPLAIN'			=> sprintf($this->user->lang['PRIVACY_ACCEPTED_EXPLAIN'], $privacy_link),
+		));
+
+
 	}
 
 	/**
