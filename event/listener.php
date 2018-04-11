@@ -163,6 +163,7 @@ class listener implements EventSubscriberInterface
 				'S_NEED_ACCPEPT_PRIVACY'		=> true,
 				'NEED_ACCPEPT_PRIVACY'			=> sprintf($this->user->lang['NEED_ACCPEPT_PRIVACY'], $privacy_link),
 				'U_ACCPEPT_PRIVACY'				=> append_sid("{$this->phpbb_root_path}index.{$this->php_ext}", 'mode=accept_privacy'),
+				'S_IS_BOT'						=> true,	// Handle users as bot until they accept the privacy policy
 			));
 		}
 
