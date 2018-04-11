@@ -80,6 +80,7 @@ class listener implements EventSubscriberInterface
 			'core.ucp_register_data_before'						=> 'ucp_register_data_before',
 			'core.ucp_register_data_after'						=> 'ucp_register_data_after',
 			'core.acp_board_config_edit_add'					=> 'acp_board_config_edit_add',
+			'core.modify_posting_parameters'					=> 'modify_posting_parameters',
 			'core.page_header_after'							=> 'page_header_after',
 			'core.acp_main_notice'								=> 'acp_main_notice',
 		);
@@ -129,6 +130,22 @@ class listener implements EventSubscriberInterface
 			));
 			$display_vars['vars'] = $this->array_insert($display_vars['vars'], 'legend2', $insert);
 			$event['display_vars'] = $display_vars;
+		}
+	}
+
+	/**
+	 * Check if the user has accepted the privacy policy
+	 *
+	 * @param object $event The event object
+	 * @return null
+	 * @access public
+	 */
+	public function modify_posting_parameters()
+	{
+		if ($this->user->data['tas2580_privacy_last_accepted'] < $this->config['tas2580_privacyprotection_last_update'])
+		{
+			$this->user->add_lang_ext('tas2580/privacyprotection', 'common');
+			trigger_error('NEED_TO_ACCEPT_PRIVACY_POLICY');
 		}
 	}
 
