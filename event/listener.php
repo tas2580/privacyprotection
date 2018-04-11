@@ -79,6 +79,7 @@ class listener implements EventSubscriberInterface
 			'core.ucp_display_module_before'					=> 'ucp_display_module_before',
 			'core.ucp_register_data_before'						=> 'ucp_register_data_before',
 			'core.ucp_register_data_after'						=> 'ucp_register_data_after',
+			'core.user_add_modify_data'							=> 'user_add_modify_data',
 			'core.acp_board_config_edit_add'					=> 'acp_board_config_edit_add',
 			'core.modify_posting_parameters'					=> 'modify_posting_parameters',
 			'core.page_header_after'							=> 'page_header_after',
@@ -214,8 +215,20 @@ class listener implements EventSubscriberInterface
 		$this->template->assign_vars(array(
 			'PRIVACY_ACCEPTED_EXPLAIN'			=> sprintf($this->user->lang['PRIVACY_ACCEPTED_EXPLAIN'], $privacy_link),
 		));
+	}
 
-
+	/**
+	 * Set time for last accepted to now for new users
+	 *
+	 * @param object $event The event object
+	 * @return null
+	 * @access public
+	 */
+	public function user_add_modify_data($event)
+	{
+		$sql_ary = $event['sql_ary'];
+		$sql_ary['tas2580_privacy_last_accepted'] = time();
+		$event['sql_ary'] = $sql_ary;
 	}
 
 	/**
