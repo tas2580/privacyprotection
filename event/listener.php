@@ -279,6 +279,10 @@ class listener implements EventSubscriberInterface
 				$result = $this->db->sql_query($sql);
 				$user_row = $this->db->sql_fetchrow($result);
 
+				// Format date
+				$user_row['user_regdate'] = $this->user->format_date($user_row['user_regdate']);
+				$user_row['user_lastvisit'] = $this->user->format_date($user_row['user_lastvisit']);
+
 				// Select data from profile fields table
 				$sql = 'SELECT *
 					FROM ' .  PROFILE_FIELDS_DATA_TABLE . '
@@ -292,6 +296,9 @@ class listener implements EventSubscriberInterface
 					WHERE session_user_id = ' . (int) $this->user->data['user_id'];
 				$result = $this->db->sql_query($sql);
 				$session_row = $this->db->sql_fetchrow($result);
+
+				// Format date
+				$session_row['session_last_visit'] = $this->user->format_date($session_row['session_last_visit']);
 
 				// Merge all data
 				$data = array_merge($user_row, $session_row, $profile_fields_row);
@@ -340,6 +347,7 @@ class listener implements EventSubscriberInterface
 				{
 					$row['post_text'] = $this->escape($row['post_text']);
 					$row['post_subject'] = $this->escape($row['post_subject']);
+					$row['post_time'] = '"' . $this->user->format_date($row['post_time']) . '"';
 					echo implode(', ', $row) . "\n";
 				}
 				exit;
