@@ -158,6 +158,14 @@ class listener implements EventSubscriberInterface
 					SET user_ip = '127.0.0.1'";
 				$this->db->sql_query($sql);
 
+				/**
+				 * Delete additional IP addresses
+				 *
+				 * @event tas2580.privacyprotection_delete_ip_after
+				 */
+				$vars = array();
+				extract($this->phpbb_dispatcher->trigger_event('tas2580.privacyprotection_delete_ip_after', compact($vars)));
+
 				trigger_error('IP_DELETE_SUCCESS');
 			}
 			else
