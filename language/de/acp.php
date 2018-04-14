@@ -32,6 +32,8 @@ if (empty($lang) || !is_array($lang))
 $lang = array_merge($lang, array(
 	'ACP_PRIVACY_URL'				=> 'URL zur Datenschutzerklärung',
 	'ACP_PRIVACY_URL_EXPLAIN'		=> 'Gib eine URL zu deiner Datenschutzerklärung ein. Die URL überschreibt alle Links zur original Datenschutzerklärung.',
+	'ACP_ANONYMIZE'					=> 'IP anonymisieren',
+	'ACP_ANONYMIZE_EXPLAIN'			=> 'Wenn aktiviert speichert phpBB keine IP Adressen der Benutzer.',
 	'UPDATE_PRIVACY'				=> 'Datenschutzerklärung aktualisieren',
 	'UPDATE_PRIVACY_EXPLAIN'		=> 'Führe die Aktion aus nachdem du die Datenschutzerklärung aktualisiert hast. Alle Benutzer müssen dann der neuen Datenschutzerklärung zustimmen.',
 	'PRIVACY_POLICE_UPDATED'		=> 'Die Datenschutzerklärung wurden auf das aktuelle Dateum gesetzt. Alle Benutzer müssen der neuen Datenschutzerklärung zustimen bevor sie das Forum benutzen können.'

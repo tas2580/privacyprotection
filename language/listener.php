@@ -96,10 +96,7 @@ class listener implements EventSubscriberInterface
 	 */
 	public function common()
 	{
-		if ($this->config['tas2580_privacyprotection_anonymize_ip'])
-		{
-			$this->request->overwrite('REMOTE_ADDR', '127.0.0.1', \phpbb\request\request_interface::SERVER);
-		}
+		$this->request->overwrite('REMOTE_ADDR', '127.0.0.1', \phpbb\request\request_interface::SERVER);
 	}
 
 	public function acp_main_notice()
@@ -126,7 +123,7 @@ class listener implements EventSubscriberInterface
 
 
 	/**
-	 * Add fields for privacy in ACP settings
+	 * Add field for privacy in ACP settings
 	 *
 	 * @param object $event The event object
 	 * @return null
@@ -138,20 +135,12 @@ class listener implements EventSubscriberInterface
 		{
 			$this->user->add_lang_ext('tas2580/privacyprotection', 'acp');
 			$display_vars = $event['display_vars'];
-			$insert = array(
-				'tas2580_privacyprotection_privacy_url' => array(
-					'lang'		=> 'ACP_PRIVACY_URL',
-					'validate'	=> 'string',
-					'type'		=> 'url:40:255',
-					'explain'	=> true
-				),
-				'tas2580_privacyprotection_anonymize_ip' => array(
-					'lang'		=> 'ACP_ANONYMIZE',
-					'validate'	=> 'bool',
-					'type'		=> 'radio:yes_no',
-					'explain'	=> true
-				),
-			);
+			$insert = array('tas2580_privacyprotection_privacy_url' => array(
+				'lang'		=> 'ACP_PRIVACY_URL',
+				'validate'	=> 'string',
+				'type'		=> 'url:40:255',
+				'explain'	=> true
+			));
 			$display_vars['vars'] = $this->array_insert($display_vars['vars'], 'legend2', $insert);
 			$event['display_vars'] = $display_vars;
 		}
