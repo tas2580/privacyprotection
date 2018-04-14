@@ -106,6 +106,7 @@ class listener implements EventSubscriberInterface
 	{
 		$this->user->add_lang_ext('tas2580/privacyprotection', 'acp');
 
+		// update privacy policy
 		$update_privacy = $this->request->variable('action_update_privacy', '');
 		if ($update_privacy)
 		{
@@ -113,12 +114,56 @@ class listener implements EventSubscriberInterface
 			{
 
 				$this->config->set('tas2580_privacyprotection_last_update', time());
-				trigger_error($this->user->lang['PRIVACY_POLICE_UPDATED'] . adm_back_link($this->u_action));
+				trigger_error('PRIVACY_POLICE_UPDATED');
 			}
 			else
 			{
 				confirm_box(false, $this->user->lang['CONFIRM_OPERATION'], build_hidden_fields(array(
 					'action_update_privacy'		=> $update_privacy))
+				);
+			}
+		}
+
+		// anonymize stored IPs
+		$delete_ip = $this->request->variable('action_delete_ip', '');
+		if ($delete_ip)
+		{
+			if (confirm_box(true))
+			{
+				$sql = 'UPDATE ' . POSTS_TABLE . "
+					SET poster_ip = '127.0.0.1'";
+				$this->db->sql_query($sql);
+
+				$sql = 'UPDATE ' . LOG_TABLE . "
+					SET log_ip = '127.0.0.1'";
+				$this->db->sql_query($sql);
+
+				$sql = 'UPDATE ' . POLL_VOTES_TABLE . "
+					SET vote_user_ip = '127.0.0.1'";
+				$this->db->sql_query($sql);
+
+				$sql = 'UPDATE ' . PRIVMSGS_TABLE . "
+					SET author_ip = '127.0.0.1'";
+				$this->db->sql_query($sql);
+
+				$sql = 'UPDATE ' . SESSIONS_TABLE . "
+					SET session_ip = '127.0.0.1'";
+				$this->db->sql_query($sql);
+
+				$sql = 'UPDATE ' . SESSIONS_KEYS_TABLE . "
+					SET last_ip = '127.0.0.1'";
+				$this->db->sql_query($sql);
+
+				$sql = 'UPDATE ' . USERS_TABLE . "
+					SET user_ip = '127.0.0.1'";
+				$this->db->sql_query($sql);
+
+				trigger_error('IP_DELETE_SUCCESS');
+			}
+			else
+			{
+				confirm_box(false, $this->user->lang['CONFIRM_OPERATION'], build_hidden_fields(array(
+					'action_delete_ip'		=> $delete_ip))
 				);
 			}
 		}
@@ -139,6 +184,7 @@ class listener implements EventSubscriberInterface
 			$this->user->add_lang_ext('tas2580/privacyprotection', 'acp');
 			$display_vars = $event['display_vars'];
 			$insert = array(
+				'legend15'                => 'PRIVACY_SETTINGS',
 				'tas2580_privacyprotection_privacy_url' => array(
 					'lang'		=> 'ACP_PRIVACY_URL',
 					'validate'	=> 'string',
