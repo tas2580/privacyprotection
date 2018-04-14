@@ -85,6 +85,7 @@ class listener implements EventSubscriberInterface
 			'core.modify_posting_parameters'					=> 'modify_posting_parameters',
 			'core.page_header_after'							=> 'page_header_after',
 			'core.acp_main_notice'								=> 'acp_main_notice',
+			'core.mcp_post_template_data'						=> 'mcp_post_template_data',
 		);
 	}
 
@@ -157,6 +158,14 @@ class listener implements EventSubscriberInterface
 				$sql = 'UPDATE ' . USERS_TABLE . "
 					SET user_ip = '127.0.0.1'";
 				$this->db->sql_query($sql);
+
+				/**
+				 * Delete additional IP addresses
+				 *
+				 * @event tas2580.privacyprotection_delete_ip_after
+				 */
+				$vars = array();
+				extract($this->phpbb_dispatcher->trigger_event('tas2580.privacyprotection_delete_ip_after', compact($vars)));
 
 				trigger_error('IP_DELETE_SUCCESS');
 			}
@@ -260,6 +269,24 @@ class listener implements EventSubscriberInterface
 			$this->template->assign_vars(array(
 				'U_PRIVACY'		=> $this->config['tas2580_privacyprotection_privacy_url'],
 			));
+		}
+	}
+
+	/**
+	 * Do not display IP in MCP
+	 *
+	 * @param object $event The event object
+	 * @return null
+	 * @access public
+	 */
+	public function mcp_post_template_data($event)
+	{
+		// Do not display IP in MCP
+		if ($this->config['tas2580_privacyprotection_anonymize_ip'])
+		{
+			$mcp_post_template_data = $event['mcp_post_template_data'];
+			$mcp_post_template_data['S_CAN_VIEWIP'] = false;
+			$event['mcp_post_template_data'] = $mcp_post_template_data;
 		}
 	}
 
