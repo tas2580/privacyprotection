@@ -96,17 +96,13 @@ class listener implements EventSubscriberInterface
 	 */
 	public function common()
 	{
-		if ($this->config['tas2580_privacyprotection_anonymize_ip'])
-		{
-			$this->request->overwrite('REMOTE_ADDR', '127.0.0.1', \phpbb\request\request_interface::SERVER);
-		}
+		$this->request->overwrite('REMOTE_ADDR', '127.0.0.1', \phpbb\request\request_interface::SERVER);
 	}
 
 	public function acp_main_notice()
 	{
 		$this->user->add_lang_ext('tas2580/privacyprotection', 'acp');
 
-		// update privacy policy
 		$update_privacy = $this->request->variable('action_update_privacy', '');
 		if ($update_privacy)
 		{
@@ -114,7 +110,7 @@ class listener implements EventSubscriberInterface
 			{
 
 				$this->config->set('tas2580_privacyprotection_last_update', time());
-				trigger_error('PRIVACY_POLICE_UPDATED');
+				trigger_error($this->user->lang['PRIVACY_POLICE_UPDATED'] . adm_back_link($this->u_action));
 			}
 			else
 			{
@@ -123,55 +119,11 @@ class listener implements EventSubscriberInterface
 				);
 			}
 		}
-
-		// anonymize stored IPs
-		$delete_ip = $this->request->variable('action_delete_ip', '');
-		if ($delete_ip)
-		{
-			if (confirm_box(true))
-			{
-				$sql = 'UPDATE ' . POSTS_TABLE . "
-					SET poster_ip = '127.0.0.1'";
-				$this->db->sql_query($sql);
-
-				$sql = 'UPDATE ' . LOG_TABLE . "
-					SET log_ip = '127.0.0.1'";
-				$this->db->sql_query($sql);
-
-				$sql = 'UPDATE ' . POLL_VOTES_TABLE . "
-					SET vote_user_ip = '127.0.0.1'";
-				$this->db->sql_query($sql);
-
-				$sql = 'UPDATE ' . PRIVMSGS_TABLE . "
-					SET author_ip = '127.0.0.1'";
-				$this->db->sql_query($sql);
-
-				$sql = 'UPDATE ' . SESSIONS_TABLE . "
-					SET session_ip = '127.0.0.1'";
-				$this->db->sql_query($sql);
-
-				$sql = 'UPDATE ' . SESSIONS_KEYS_TABLE . "
-					SET last_ip = '127.0.0.1'";
-				$this->db->sql_query($sql);
-
-				$sql = 'UPDATE ' . USERS_TABLE . "
-					SET user_ip = '127.0.0.1'";
-				$this->db->sql_query($sql);
-
-				trigger_error('IP_DELETE_SUCCESS');
-			}
-			else
-			{
-				confirm_box(false, $this->user->lang['CONFIRM_OPERATION'], build_hidden_fields(array(
-					'action_delete_ip'		=> $delete_ip))
-				);
-			}
-		}
 	}
 
 
 	/**
-	 * Add fields for privacy in ACP settings
+	 * Add field for privacy in ACP settings
 	 *
 	 * @param object $event The event object
 	 * @return null
@@ -183,21 +135,12 @@ class listener implements EventSubscriberInterface
 		{
 			$this->user->add_lang_ext('tas2580/privacyprotection', 'acp');
 			$display_vars = $event['display_vars'];
-			$insert = array(
-				'legend15'                => 'PRIVACY_SETTINGS',
-				'tas2580_privacyprotection_privacy_url' => array(
-					'lang'		=> 'ACP_PRIVACY_URL',
-					'validate'	=> 'string',
-					'type'		=> 'url:40:255',
-					'explain'	=> true
-				),
-				'tas2580_privacyprotection_anonymize_ip' => array(
-					'lang'		=> 'ACP_ANONYMIZE',
-					'validate'	=> 'bool',
-					'type'		=> 'radio:yes_no',
-					'explain'	=> true
-				),
-			);
+			$insert = array('tas2580_privacyprotection_privacy_url' => array(
+				'lang'		=> 'ACP_PRIVACY_URL',
+				'validate'	=> 'string',
+				'type'		=> 'url:40:255',
+				'explain'	=> true
+			));
 			$display_vars['vars'] = $this->array_insert($display_vars['vars'], 'legend2', $insert);
 			$event['display_vars'] = $display_vars;
 		}
