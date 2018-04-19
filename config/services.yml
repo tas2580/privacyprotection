@@ -2,13 +2,13 @@ services:
     tas2580.privacyprotection.listener:
         class: tas2580\privacyprotection\event\listener
         arguments:
-            - @config
-            - @dbal.conn
-            - @dispatcher
-            - @user
-            - @template
-            - @request
-            - %core.root_path%
-            - %core.php_ext%
+            - '@config'
+            - '@dbal.conn'
+            - '@dispatcher'
+            - '@user'
+            - '@template'
+            - '@request'
+            - '%core.root_path%'
+            - '%core.php_ext%'
         tags:
             - { name: event.listener }
