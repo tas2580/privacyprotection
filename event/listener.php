@@ -229,6 +229,18 @@ class listener implements EventSubscriberInterface
 					'type'		=> 'radio:yes_no',
 					'explain'	=> true
 				),
+				'tas2580_privacyprotection_post_dl' => array(
+					'lang'		=> 'ACP_POST_DOWNLOAD',
+					'validate'	=> 'bool',
+					'type'		=> 'radio:yes_no',
+					'explain'	=> true
+				),
+				'tas2580_privacyprotection_data_dl' => array(
+					'lang'		=> 'ACP_DATA_DOWNLOAD',
+					'validate'	=> 'bool',
+					'type'		=> 'radio:yes_no',
+					'explain'	=> true
+				),
 			);
 			$display_vars['vars'] = $this->array_insert($display_vars['vars'], 'legend2', $insert);
 			$event['display_vars'] = $display_vars;
@@ -385,8 +397,8 @@ class listener implements EventSubscriberInterface
 			case '': // The dirty code of phpBB can also use empty mode for the front page
 				$this->user->add_lang_ext('tas2580/privacyprotection', 'ucp');
 				$this->template->assign_vars(array(
-					'U_DOWNLOAD_MY_DATA'		=> append_sid("{$this->phpbb_root_path}ucp.$this->php_ext", 'mode=profile_download'),
-					'U_DOWNLOAD_MY_POSTS'		=> append_sid("{$this->phpbb_root_path}ucp.$this->php_ext", 'mode=post_download'),
+					'U_DOWNLOAD_MY_DATA'		=> ($this->config['tas2580_privacyprotection_data_dl'] == 1) ? append_sid("{$this->phpbb_root_path}ucp.$this->php_ext", 'mode=profile_download') : '',
+					'U_DOWNLOAD_MY_POSTS'		=> ($this->config['tas2580_privacyprotection_post_dl'] == 1) ? append_sid("{$this->phpbb_root_path}ucp.$this->php_ext", 'mode=post_download') : '',
 				));
 				break;
 
