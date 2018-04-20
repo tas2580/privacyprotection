@@ -87,6 +87,7 @@ class listener implements EventSubscriberInterface
 			'core.page_header_after'							=> 'page_header_after',
 			'core.acp_main_notice'								=> 'acp_main_notice',
 			'core.mcp_post_template_data'						=> 'mcp_post_template_data',
+			'core.viewtopic_modify_page_title'					=> 'viewtopic_modify_page_title',
 		);
 	}
 
@@ -470,6 +471,16 @@ class listener implements EventSubscriberInterface
 					echo implode(', ', $row) . "\n";
 				}
 				exit;
+		}
+	}
+
+	public function viewtopic_modify_page_title()
+	{
+		if ($this->user->data['is_registered'] && $this->user->data['tas2580_privacy_last_accepted'] < $this->config['tas2580_privacyprotection_last_update'])
+		{
+			$this->template->assign_vars(array(
+				'S_QUICK_REPLY'		=> false,
+			));
 		}
 	}
 
