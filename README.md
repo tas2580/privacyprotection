@@ -10,3 +10,10 @@ After that go to the Admin panel of your forum and navigate to Customise -> Exte
 
 ## LICENSE
 <a href="http://opensource.org/licenses/gpl-2.0.php">GNU General Public License v2</a>
+
+Automated Testing
+-------
+We use automated unit tests to prevent regressions. Check out our travis build below:
+
+[![Build Status](https://travis-ci.org/tas2580/privacyprotection.svg?branch=master)](https://travis-ci.org/privacyprotection)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/tas2580/privacyprotection/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/tas2580/privacyprotection/?branch=master)
