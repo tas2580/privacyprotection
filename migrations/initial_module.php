@@ -15,6 +15,7 @@ class initial_module extends \phpbb\db\migration\migration
 	{
 		return array(
 			array('config.add', array('tas2580_privacyprotection_privacy_url', '')),
+			array('config.add', array('tas2580_privacyprotection_reject_url', '')),
 			array('config.add', array('tas2580_privacyprotection_last_update', '0')),
 		);
 	}
