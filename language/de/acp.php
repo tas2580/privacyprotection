@@ -41,4 +41,5 @@ $lang = array_merge($lang, array(
 	'DELETE_IP'						=> 'Alle IP Adressen anonymisieren',
 	'DELETE_IP_EXPLAIN'				=> 'Führe die Aktion aus um alle IP Adressen zu anonymisieren.<br><strong>Die Aktion kann nicht rückgängig gemacht werden!</strong>',
 	'IP_DELETE_SUCCESS'				=> 'Alle IP Adressen wurden anonymisiert.',
+	'PRIVACY_LAST_ACCPEPT'			=> 'Datenschutzerklärung zuletzt akzeptiert',
 ));

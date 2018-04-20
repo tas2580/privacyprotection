@@ -82,6 +82,7 @@ class listener implements EventSubscriberInterface
 			'core.ucp_register_data_after'						=> 'ucp_register_data_after',
 			'core.user_add_modify_data'							=> 'user_add_modify_data',
 			'core.acp_board_config_edit_add'					=> 'acp_board_config_edit_add',
+			'core.acp_users_display_overview'					=> 'acp_users_display_overview',
 			'core.modify_posting_parameters'					=> 'modify_posting_parameters',
 			'core.page_header_after'							=> 'page_header_after',
 			'core.acp_main_notice'								=> 'acp_main_notice',
@@ -178,6 +179,21 @@ class listener implements EventSubscriberInterface
 		}
 	}
 
+	/**
+	 * Display last accepted time in ACP
+	 *
+	 * @param object $event The event object
+	 * @return null
+	 * @access public
+	 */
+	public function acp_users_display_overview($event)
+	{
+		$this->user->add_lang_ext('tas2580/privacyprotection', 'acp');
+
+		$this->template->assign_vars(array(
+			'PRIVACY_LAST_ACCPEPT'		=> ($event['user_row']['tas2580_privacy_last_accepted'] <> 0) ? $this->user->format_date($event['user_row']['tas2580_privacy_last_accepted']) : $this->user->lang('NEVER'),
+		));
+	}
 
 	/**
 	 * Add fields for privacy in ACP settings
