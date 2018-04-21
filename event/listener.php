@@ -223,6 +223,14 @@ class listener implements EventSubscriberInterface
 					'type'		=> 'url:40:255',
 					'explain'	=> true
 				),
+				'tas2580_privacyprotection_reject_group' => array(
+					'lang' => 'ACP_REJECT_GROUP',
+					'validate' => 'int',
+					'type' => 'select',
+					'function' => array($this, "group_select_options"),
+					'params' => array('{CONFIG_VALUE}'),
+					'explain' => true
+				),
 				'tas2580_privacyprotection_anonymize_ip' => array(
 					'lang'		=> 'ACP_ANONYMIZE',
 					'validate'	=> 'bool',
@@ -285,7 +293,29 @@ class listener implements EventSubscriberInterface
 					SET ' . $this->db->sql_build_array('UPDATE', $data) . '
 					WHERE user_id = ' . (int) $this->user->data['user_id'] ;
 				$this->db->sql_query($sql);
+
+				// Remove user from group
+				if ($this->config['tas2580_privacyprotection_reject_group'] <> 0)
+				{
+					if (!function_exists('group_user_del'))
+					{
+						include($this->phpbb_root_path . 'includes/functions_user.' . $this->php_ext);
+					}
+					group_user_del($this->config['tas2580_privacyprotection_reject_group'], array($this->user->data['user_id']));
+				}
+
 				redirect(append_sid("{$this->phpbb_root_path}index.{$this->php_ext}"));
+			}
+
+			// Move user to group
+			if ($this->config['tas2580_privacyprotection_reject_group'] <> 0)
+			{
+				if (!function_exists('group_user_add'))
+				{
+					include($this->phpbb_root_path . 'includes/functions_user.' . $this->php_ext);
+				}
+
+				group_user_add($this->config['tas2580_privacyprotection_reject_group'], array($this->user->data['user_id']));
 			}
 
 			$this->user->add_lang_ext('tas2580/privacyprotection', 'common');
@@ -494,6 +524,25 @@ class listener implements EventSubscriberInterface
 				'S_QUICK_REPLY'		=> false,
 			));
 		}
+	}
+
+	/**
+	 * Add option 0 to phpBB group select function
+	 *
+	 * @param int $group_id
+	 * @return string
+	 */
+	public function group_select_options($group_id)
+	{
+		$return = '<option class="sep" value="0">' . $this->user->lang['ACP_NO_REJECT_GROUP'] . '</option>';
+
+		if (!function_exists('group_select_options'))
+		{
+			include($this->phpbb_root_path . 'includes/functions_admin.' . $this->php_ext);
+		}
+		$return .= group_select_options($group_id);
+
+		return $return;
 	}
 
 	/**
