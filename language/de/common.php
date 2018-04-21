@@ -30,9 +30,9 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 //
 $lang = array_merge($lang, array(
-	'NEED_ACCPEPT_PRIVACY_HL'			=> 'Neue Datenschutzerklärung',
-	'NEED_ACCPEPT_PRIVACY'				=> 'Die <a href="%s">Datenschutzerklärung</a> hat sich geändert. Du musst die neue Datenschutzerklärung akzeptieren um das Forum weiter benutzen zu können.',
-	'ACCEPT_PRIVACY'					=> 'Datenschutzerklärung akzeptiert',
+	'NEED_ACCPEPT_PRIVACY_HL'			=> 'Aktualisierte Datenschutzerklärung',
+	'NEED_ACCPEPT_PRIVACY'				=> 'Unsere <a href="%s" target="_blank">Datenschutzerklärung</a> hat sich geändert. Du musst die neue Datenschutzerklärung akzeptieren, um das Forum weiterhin nutzen zu können.',
+	'ACCEPT_PRIVACY'					=> 'Datenschutzerklärung akzeptieren',
 	'REJECT_PRIVACY'					=> 'Datenschutzerklärung ablehnen',
-	'NEED_TO_ACCEPT_PRIVACY_POLICY'		=> 'Du musst die Datenschutzerklärung akzeptieren bevor du Beiträge schreiben kannst.',
+	'NEED_TO_ACCEPT_PRIVACY_POLICY'		=> 'Du musst die Datenschutzerklärung akzeptieren, bevor du Beiträge schreiben kannst.',
 ));
