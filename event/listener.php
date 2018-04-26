@@ -466,6 +466,7 @@ class listener implements EventSubscriberInterface
 					WHERE user_id = ' . (int) $this->user->data['user_id'];
 				$result = $this->db->sql_query($sql);
 				$profile_fields_row = $this->db->sql_fetchrow($result);
+				$profile_fields_row = is_array($profile_fields_row) ? $profile_fields_row : array();
 
 				// Select data from session table
 				$sql = 'SELECT session_id, session_last_visit, session_ip, session_browser
