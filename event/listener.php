@@ -88,6 +88,7 @@ class listener implements EventSubscriberInterface
 			'core.acp_main_notice'								=> 'acp_main_notice',
 			'core.mcp_post_template_data'						=> 'mcp_post_template_data',
 			'core.viewtopic_modify_page_title'					=> 'viewtopic_modify_page_title',
+			'core.viewforum_modify_topics_data'					=> 'viewforum_modify_topics_data',
 		);
 	}
 
@@ -536,6 +537,16 @@ class listener implements EventSubscriberInterface
 		{
 			$this->template->assign_vars(array(
 				'S_QUICK_REPLY'		=> false,
+			));
+		}
+	}
+
+	public function viewforum_modify_topics_data()
+	{
+		if ($this->user->data['is_registered'] && $this->user->data['tas2580_privacy_last_accepted'] < $this->config['tas2580_privacyprotection_last_update'])
+		{
+			$this->template->assign_vars(array(
+				'S_DISPLAY_POST_INFO'	=> false,
 			));
 		}
 	}
