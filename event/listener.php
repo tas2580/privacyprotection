@@ -99,9 +99,21 @@ class listener implements EventSubscriberInterface
 	 */
 	public function common()
 	{
-		if ($this->config['tas2580_privacyprotection_anonymize_ip'])
+		switch ($this->config['tas2580_privacyprotection_anonymize_ip'])
 		{
-			$this->request->overwrite('REMOTE_ADDR', '127.0.0.1', \phpbb\request\request_interface::SERVER);
+			// Do not anonymize
+			case 0:
+				break;
+
+			// Set all IPs to 127.0.0.1
+			case 1:
+				$this->request->overwrite('REMOTE_ADDR', '127.0.0.1', \phpbb\request\request_interface::SERVER);
+				break;
+
+			// Use fake IPv6
+			case 2:
+				$fake_ip = $this->generate_fake_ip();
+				$this->request->overwrite('REMOTE_ADDR', $fake_ip, \phpbb\request\request_interface::SERVER);
 		}
 	}
 
@@ -224,17 +236,19 @@ class listener implements EventSubscriberInterface
 					'explain'	=> true
 				),
 				'tas2580_privacyprotection_reject_group' => array(
-					'lang' => 'ACP_REJECT_GROUP',
-					'validate' => 'int',
-					'type' => 'select',
-					'function' => array($this, "group_select_options"),
-					'params' => array('{CONFIG_VALUE}'),
-					'explain' => true
+					'lang'		=> 'ACP_REJECT_GROUP',
+					'validate'	=> 'int',
+					'type'		=> 'select',
+					'function'	=> array($this, "group_select_options"),
+					'params'	=> array('{CONFIG_VALUE}'),
+					'explain'	=> true
 				),
 				'tas2580_privacyprotection_anonymize_ip' => array(
 					'lang'		=> 'ACP_ANONYMIZE',
-					'validate'	=> 'bool',
-					'type'		=> 'radio:yes_no',
+					'validate'	=> 'int',
+					'type'		=> 'select',
+					'function'	=> array($this, "anonymize_ip_options"),
+					'params'	=> array('{CONFIG_VALUE}'),
 					'explain'	=> true
 				),
 				'tas2580_privacyprotection_post_dl' => array(
@@ -348,7 +362,7 @@ class listener implements EventSubscriberInterface
 	public function mcp_post_template_data($event)
 	{
 		// Do not display IP in MCP
-		if ($this->config['tas2580_privacyprotection_anonymize_ip'])
+		if ($this->config['tas2580_privacyprotection_anonymize_ip'] == 1)
 		{
 			$mcp_post_template_data = $event['mcp_post_template_data'];
 			$mcp_post_template_data['S_CAN_VIEWIP'] = false;
@@ -544,6 +558,39 @@ class listener implements EventSubscriberInterface
 
 		return $return;
 	}
+
+	/**
+	 * Generate HTML option list with anonymize ip options
+	 *
+	 * @param int $anonymize
+	 * @return string
+	 */
+	public function anonymize_ip_options($anonymize)
+	{
+		$this->user->add_lang_ext('tas2580/privacyprotection', 'acp');
+		$values = array('NONE', 'FULL', 'HASH');
+		$option = '';
+		foreach($values as $id => $value)
+		{
+			$selected = ($id == $anonymize) ? ' selected="selected"' : '';
+			$option .= '<option' . $selected . ' value="' . $id . '">' . $this->user->lang['ANONYMIZE_IP_' . $value] . '</option>';
+		}
+		return $option;
+	}
+
+	/**
+	 * Generate fake IPv6 from real IP and other browser data
+	 *
+	 * @return string
+	 */
+	private function generate_fake_ip()
+	{
+		$lang = $this->request->variable('HTTP_ACCEPT_LANGUAGE', '', false, \phpbb\request\request_interface::SERVER);
+		$ua = $this->request->variable('HTTP_USER_AGENT', '', false, \phpbb\request\request_interface::SERVER);
+		$ip = $this->request->variable('REMOTE_ADDR', '', false, \phpbb\request\request_interface::SERVER);
+		return implode(':', str_split(md5($lang . $ua . $ip), 4));
+	}
+
 
 	/**
 	 * If there is a quotation mark in the string we need to replace it with double quotation marks (RFC 4180)
