@@ -21,6 +21,7 @@ class privacyprotection_module
 		$this->request = $request;
 		$this->db = $db;
 		$this->config = $config;
+		$this->template = $template;
 
 		add_form_key('acp_privacyprotection');
 		switch ($mode)
@@ -115,7 +116,7 @@ class privacyprotection_module
 					trigger_error($this->user->lang('ACP_SAVED') . adm_back_link($this->u_action));
 				}
 				// Send the curent settings to template
-				$template->assign_vars(array(
+				$this->template->assign_vars(array(
 					'U_ACTION'					=> $this->u_action,
 					'PRIVACY_URL'				=> $this->config['tas2580_privacyprotection_privacy_url'],
 					'REJECT_URL'				=> $this->config['tas2580_privacyprotection_reject_url'],
@@ -128,20 +129,20 @@ class privacyprotection_module
 				$this->page_title = $this->user->lang('ACP_PRIVACYPROTECTION_PRIVACY');
 
 				$config_text = $phpbb_container->get('config_text');
-				$user->add_lang('ucp');
+				$this->user->add_lang('ucp');
 
 				if ($this->request->is_set_post('submit'))
 				{
 					if (!check_form_key('acp_privacyprotection'))
 					{
-						trigger_error($user->lang('FORM_INVALID') . adm_back_link($this->u_action), E_USER_WARNING);
+						trigger_error($this->user->lang('FORM_INVALID') . adm_back_link($this->u_action), E_USER_WARNING);
 					}
 
 					$config_text->set('privacy_text', $this->request->variable('privacy_text', '', true));
-					trigger_error($user->lang['ACP_SAVED'] . adm_back_link($this->u_action));
+					trigger_error($this->user->lang['ACP_SAVED'] . adm_back_link($this->u_action));
 				}
 
-				$template->assign_vars(array(
+				$this->template->assign_vars(array(
 					'PRIVACY_URL'		=> empty($this->config['tas2580_privacyprotection_privacy_url']) ? '' : sprintf($this->user->lang['PRIVACY_URL_WARNING'], $this->config['tas2580_privacyprotection_privacy_url']),
 					'PRIVACY_TEXT'		=> $config_text->get('privacy_text'),
 					'PLACEHOLDER'		=> htmlspecialchars($this->user->lang['PRIVACY_POLICY']),

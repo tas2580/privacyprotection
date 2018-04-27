@@ -6,24 +6,24 @@
 <fieldset>
 	<legend>{L_ACP_PRIVACY_SETTINGS}</legend>
 	<dl>
-		<dt><label for="anonymize_ip">{L_ACP_ANONYMIZE_IP}{L_COLON}</label><br /><span>{L_ACP_ANONYMIZE_IP_EXPLAIN}</span></dt>
-		<dd><select id="anonymize_ip" name="anonymize_ip">{ANONYMIZE_IP}"</select></dd>
+		<dt><label for="anonymize_ip">{L_ACP_ANONYMIZE_IP}{L_COLON}</label><br><span>{L_ACP_ANONYMIZE_IP_EXPLAIN}</span></dt>
+		<dd><select id="anonymize_ip" name="anonymize_ip">{ANONYMIZE_IP}</select></dd>
 	</dl>
 	<dl>
-		<dt><label for="reject_group">{L_ACP_REJECT_GROUP}{L_COLON}</label><br /><span>{L_ACP_REJECT_GROUP_EXPLAIN}</span></dt>
-		<dd><select id="reject_group" name="reject_group">{REJECT_GROUP}"</select></dd>
+		<dt><label for="reject_group">{L_ACP_REJECT_GROUP}{L_COLON}</label><br><span>{L_ACP_REJECT_GROUP_EXPLAIN}</span></dt>
+		<dd><select id="reject_group" name="reject_group">{REJECT_GROUP}</select></dd>
 	</dl>
 	<dl>
-		<dt><label for="privacy_url">{L_ACP_PRIVACY_URL}{L_COLON}</label><br /><span>{L_ACP_PRIVACY_URL_EXPLAIN}</span></dt>
-		<dd><input id="privacy_url" type="url" name="privacy_url" value="{PRIVACY_URL}" /></dd>
+		<dt><label for="privacy_url">{L_ACP_PRIVACY_URL}{L_COLON}</label><br><span>{L_ACP_PRIVACY_URL_EXPLAIN}</span></dt>
+		<dd><input id="privacy_url" type="url" name="privacy_url" value="{PRIVACY_URL}" style="width:80%;"></dd>
 	</dl>
 	<dl>
-		<dt><label for="reject_url">{L_ACP_REJECT_URL}{L_COLON}</label><br /><span>{L_ACP_REJECT_URL_EXPLAIN}</span></dt>
-		<dd><input id="reject_url" type="url" name="reject_url" value="{REJECT_URL}" /></dd>
+		<dt><label for="reject_url">{L_ACP_REJECT_URL}{L_COLON}</label><br><span>{L_ACP_REJECT_URL_EXPLAIN}</span></dt>
+		<dd><input id="reject_url" type="url" name="reject_url" value="{REJECT_URL}" style="width:80%;"></dd>
 	</dl>
 	<p class="submit-buttons">
-		<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
-		<input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}" />
+		<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}">&nbsp;
+		<input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}">
 	</p>
 	{S_FORM_TOKEN}
 </fieldset>
@@ -32,14 +32,14 @@
 	<legend>{L_ACP_PRIVACY_OPTIONS}</legend>
 	<form id="action_update_privacy_form" method="post" action="{U_ACTION}" data-ajax="true">
 		<dl>
-			<dt><label for="action_update_privacy">{L_UPDATE_PRIVACY}</label><br /><span>{L_UPDATE_PRIVACY_EXPLAIN}</span></dt>
-			<dd><input class="button2" type="submit" id="action_update_privacy" name="action_update_privacy" value="{L_RUN}" /></dd>
+			<dt><label for="action_update_privacy">{L_UPDATE_PRIVACY}</label><br><span>{L_UPDATE_PRIVACY_EXPLAIN}</span></dt>
+			<dd><input class="button2" type="submit" id="action_update_privacy" name="action_update_privacy" value="{L_RUN}"></dd>
 		</dl>
 	</form>
 	<form id="action_delete_ip" method="post" action="{U_ACTION}" data-ajax="true">
 		<dl>
-			<dt><label for="action_delete_ip">{L_DELETE_IP}</label><br /><span>{L_DELETE_IP_EXPLAIN}</span></dt>
-			<dd><input class="button2" type="submit" id="action_delete_ip" name="action_delete_ip" value="{L_RUN}" /></dd>
+			<dt><label for="action_delete_ip">{L_DELETE_IP}</label><br><span>{L_DELETE_IP_EXPLAIN}</span></dt>
+			<dd><input class="button2" type="submit" id="action_delete_ip" name="action_delete_ip" value="{L_RUN}"></dd>
 		</dl>
 	</form>
 </fieldset>

@@ -16,8 +16,14 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class listener implements EventSubscriberInterface
 {
+	/** @var \phpbb\auth\auth */
+	protected $auth;
+
 	/** @var \phpbb\config\config */
 	protected $config;
+
+	/** @var \phpbb\config\db_text */
+	protected $config_text;
 
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
@@ -79,16 +85,16 @@ class listener implements EventSubscriberInterface
 		return array(
 			'core.common'										=> 'common',
 			'core.permissions'									=> 'permissions',
-			'core.ucp_register_user_row_after'					=> 'ucp_register_user_row_after',
+			'core.page_header_after'							=> 'page_header_after',
+			'core.page_footer'									=> 'page_footer',
+			'core.acp_users_display_overview'					=> 'acp_users_display_overview',
 			'core.ucp_display_module_before'					=> 'ucp_display_module_before',
 			'core.ucp_register_data_before'						=> 'ucp_register_data_before',
 			'core.ucp_register_data_after'						=> 'ucp_register_data_after',
-			'core.user_add_modify_data'							=> 'user_add_modify_data',
-			'core.acp_users_display_overview'					=> 'acp_users_display_overview',
-			'core.modify_posting_parameters'					=> 'modify_posting_parameters',
-			'core.page_header_after'							=> 'page_header_after',
-			'core.page_footer'									=> 'page_footer',
+			'core.ucp_register_user_row_after'					=> 'ucp_register_user_row_after',
 			'core.mcp_post_template_data'						=> 'mcp_post_template_data',
+			'core.user_add_modify_data'							=> 'user_add_modify_data',
+			'core.modify_posting_parameters'					=> 'modify_posting_parameters',
 			'core.viewtopic_modify_page_title'					=> 'viewtopic_modify_page_title',
 			'core.viewforum_modify_topics_data'					=> 'viewforum_modify_topics_data',
 		);
@@ -120,7 +126,6 @@ class listener implements EventSubscriberInterface
 		}
 	}
 
-
 	/**
 	* Add permissions
 	*
@@ -143,40 +148,6 @@ class listener implements EventSubscriberInterface
 		);
 
 		$event['permissions'] = $permissions;
-	}
-
-
-	/**
-	 * Display last accepted time in ACP
-	 *
-	 * @param object $event The event object
-	 * @return null
-	 * @access public
-	 */
-	public function acp_users_display_overview($event)
-	{
-		$this->user->add_lang_ext('tas2580/privacyprotection', 'acp');
-
-		$this->template->assign_vars(array(
-			'PRIVACY_LAST_ACCPEPT'		=> ($event['user_row']['tas2580_privacy_last_accepted'] <> 0) ? $this->user->format_date($event['user_row']['tas2580_privacy_last_accepted']) : $this->user->lang('NEVER'),
-		));
-	}
-
-
-	/**
-	 * Check if the user has accepted the privacy policy
-	 *
-	 * @param object $event The event object
-	 * @return null
-	 * @access public
-	 */
-	public function modify_posting_parameters()
-	{
-		if ($this->user->data['tas2580_privacy_last_accepted'] < $this->config['tas2580_privacyprotection_last_update'])
-		{
-			$this->user->add_lang_ext('tas2580/privacyprotection', 'common');
-			trigger_error('NEED_TO_ACCEPT_PRIVACY_POLICY');
-		}
 	}
 
 	/**
@@ -246,6 +217,12 @@ class listener implements EventSubscriberInterface
 		}
 	}
 
+	/**
+	 * Overwrite AGREEMENT_TEXT for privacy policy
+	 *
+	 * @return null
+	 * @access public
+	 */
 	public function page_footer()
 	{
 		$mode = $this->request->variable('mode', '');
@@ -258,77 +235,19 @@ class listener implements EventSubscriberInterface
 	}
 
 	/**
-	 * Do not display IP in MCP
+	 * Display last accepted time in ACP
 	 *
 	 * @param object $event The event object
 	 * @return null
 	 * @access public
 	 */
-	public function mcp_post_template_data($event)
+	public function acp_users_display_overview($event)
 	{
-		// Do not display IP in MCP
-		if ($this->config['tas2580_privacyprotection_anonymize_ip'] == 1)
-		{
-			$mcp_post_template_data = $event['mcp_post_template_data'];
-			$mcp_post_template_data['S_CAN_VIEWIP'] = false;
-			$event['mcp_post_template_data'] = $mcp_post_template_data;
-		}
-	}
+		$this->user->add_lang_ext('tas2580/privacyprotection', 'acp');
 
-	/**
-	 * Display option to allow massemail on register
-	 *
-	 * @param object $event The event object
-	 * @return null
-	 * @access public
-	 */
-	public function ucp_register_user_row_after($event)
-	{
-		$user_row = $event['user_row'];
-		$user_row['user_allow_massemail'] = $this->request->variable('massemail', 0);
-		$event['user_row'] = $user_row;
-	}
-
-	public function ucp_register_data_before()
-	{
-		$this->user->add_lang_ext('tas2580/privacyprotection', 'ucp');
-		$privacy_link = empty($this->config['tas2580_privacyprotection_privacy_url']) ? append_sid("{$this->phpbb_root_path}ucp.{$this->php_ext}", 'mode=privacy') : $this->config['tas2580_privacyprotection_privacy_url'];
 		$this->template->assign_vars(array(
-			'PRIVACY_ACCEPTED_EXPLAIN'			=> sprintf($this->user->lang['PRIVACY_ACCEPTED_EXPLAIN'], $privacy_link),
+			'PRIVACY_LAST_ACCPEPT'		=> ($event['user_row']['tas2580_privacy_last_accepted'] <> 0) ? $this->user->format_date($event['user_row']['tas2580_privacy_last_accepted']) : $this->user->lang('NEVER'),
 		));
-	}
-
-	/**
-	 * Set time for last accepted to now for new users
-	 *
-	 * @param object $event The event object
-	 * @return null
-	 * @access public
-	 */
-	public function user_add_modify_data($event)
-	{
-		$sql_ary = $event['sql_ary'];
-		$sql_ary['tas2580_privacy_last_accepted'] = time();
-		$event['sql_ary'] = $sql_ary;
-	}
-
-	/**
-	 * Check if the user accepted the privacy policy
-	 *
-	 * @param object $event The event object
-	 * @return null
-	 * @access public
-	 */
-	public function ucp_register_data_after($event)
-	{
-		$error = $event['error'];
-		$privacy = $this->request->variable('privacy', 0);
-		if ($privacy <> 1)
-		{
-			$this->user->add_lang_ext('tas2580/privacyprotection', 'ucp');
-			$error[] = $this->user->lang['NEED_ACCEPT_PRIVACY'];
-			$event['error'] = $error;
-		}
 	}
 
 	/**
@@ -445,6 +364,107 @@ class listener implements EventSubscriberInterface
 		}
 	}
 
+	/**
+	 * Check if the user has accepted the privacy policy
+	 *
+	 * @return null
+	 * @access public
+	 */
+	public function ucp_register_data_before()
+	{
+		$this->user->add_lang_ext('tas2580/privacyprotection', 'ucp');
+		$privacy_link = empty($this->config['tas2580_privacyprotection_privacy_url']) ? append_sid("{$this->phpbb_root_path}ucp.{$this->php_ext}", 'mode=privacy') : $this->config['tas2580_privacyprotection_privacy_url'];
+		$this->template->assign_vars(array(
+			'PRIVACY_ACCEPTED_EXPLAIN'			=> sprintf($this->user->lang['PRIVACY_ACCEPTED_EXPLAIN'], $privacy_link),
+		));
+	}
+
+	/**
+	 * Check if the user accepted the privacy policy
+	 *
+	 * @param object $event The event object
+	 * @return null
+	 * @access public
+	 */
+	public function ucp_register_data_after($event)
+	{
+		$error = $event['error'];
+		$privacy = $this->request->variable('privacy', 0);
+		if ($privacy <> 1)
+		{
+			$this->user->add_lang_ext('tas2580/privacyprotection', 'ucp');
+			$error[] = $this->user->lang['NEED_ACCEPT_PRIVACY'];
+			$event['error'] = $error;
+		}
+	}
+
+	/**
+	 * Display option to allow massemail on register
+	 *
+	 * @param object $event The event object
+	 * @return null
+	 * @access public
+	 */
+	public function ucp_register_user_row_after($event)
+	{
+		$user_row = $event['user_row'];
+		$user_row['user_allow_massemail'] = $this->request->variable('massemail', 0);
+		$event['user_row'] = $user_row;
+	}
+
+	/**
+	 * Do not display IP in MCP
+	 *
+	 * @param object $event The event object
+	 * @return null
+	 * @access public
+	 */
+	public function mcp_post_template_data($event)
+	{
+		// Do not display IP in MCP
+		if ($this->config['tas2580_privacyprotection_anonymize_ip'] == 1)
+		{
+			$mcp_post_template_data = $event['mcp_post_template_data'];
+			$mcp_post_template_data['S_CAN_VIEWIP'] = false;
+			$event['mcp_post_template_data'] = $mcp_post_template_data;
+		}
+	}
+
+	/**
+	 * Set time for last accepted to now for new users
+	 *
+	 * @param object $event The event object
+	 * @return null
+	 * @access public
+	 */
+	public function user_add_modify_data($event)
+	{
+		$sql_ary = $event['sql_ary'];
+		$sql_ary['tas2580_privacy_last_accepted'] = time();
+		$event['sql_ary'] = $sql_ary;
+	}
+
+	/**
+	 * Do not allow posting if the user has not accepted the privacy policy
+	 *
+	 * @return null
+	 * @access public
+	 */
+	public function modify_posting_parameters()
+	{
+		if ($this->user->data['tas2580_privacy_last_accepted'] < $this->config['tas2580_privacyprotection_last_update'])
+		{
+			$this->user->add_lang_ext('tas2580/privacyprotection', 'common');
+			trigger_error('NEED_TO_ACCEPT_PRIVACY_POLICY');
+		}
+	}
+
+	/**
+	 * Disable quick replay if privacy is not accepted
+	 *
+	 * @return null
+	 * @access public
+	 */
 	public function viewtopic_modify_page_title()
 	{
 		if ($this->user->data['is_registered'] && $this->user->data['tas2580_privacy_last_accepted'] < $this->config['tas2580_privacyprotection_last_update'])
@@ -455,6 +475,12 @@ class listener implements EventSubscriberInterface
 		}
 	}
 
+	/**
+	 * Disable post info if privacy is not accepted
+	 *
+	 * @return null
+	 * @access public
+	 */
 	public function viewforum_modify_topics_data()
 	{
 		if ($this->user->data['is_registered'] && $this->user->data['tas2580_privacy_last_accepted'] < $this->config['tas2580_privacyprotection_last_update'])
@@ -464,7 +490,6 @@ class listener implements EventSubscriberInterface
 			));
 		}
 	}
-
 
 	/**
 	 * Generate fake IPv6 from real IP and other browser data
@@ -478,7 +503,6 @@ class listener implements EventSubscriberInterface
 		$ip = $this->request->variable('REMOTE_ADDR', '', false, \phpbb\request\request_interface::SERVER);
 		return implode(':', str_split(md5($lang . $ua . $ip), 4));
 	}
-
 
 	/**
 	 * If there is a quotation mark in the string we need to replace it with double quotation marks (RFC 4180)
@@ -494,5 +518,4 @@ class listener implements EventSubscriberInterface
 		}
 		return '"' . $data . '"';
 	}
-
 }
