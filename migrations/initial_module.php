@@ -17,9 +17,10 @@ class initial_module extends \phpbb\db\migration\migration
 			array('config.add', array('tas2580_privacyprotection_privacy_url', '')),
 			array('config.add', array('tas2580_privacyprotection_reject_url', '')),
 			array('config.add', array('tas2580_privacyprotection_reject_group', '0')),
+			array('config.add', array('tas2580_privacyprotection_anonymize_ip', '0')),
 			array('config.add', array('tas2580_privacyprotection_last_update', '0')),
-			array('config.add', array('tas2580_privacyprotection_post_dl', '1')),
-			array('config.add', array('tas2580_privacyprotection_data_dl', '1')),
+			array('permission.add', array('u_privacyprotection_dl_data', true, 'u_')),
+			array('permission.add', array('u_privacyprotection_dl_posts', true, 'u_')),
 		);
 	}
 	public function update_schema()

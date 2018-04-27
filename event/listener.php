@@ -53,8 +53,9 @@ class listener implements EventSubscriberInterface
 	 * @param string								$php_ext				php_ext
 	 * @access public
 	 */
-	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\event\dispatcher_interface $phpbb_dispatcher, \phpbb\user $user, \phpbb\template\template $template, \phpbb\request\request $request, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\event\dispatcher_interface $phpbb_dispatcher, \phpbb\user $user, \phpbb\template\template $template, \phpbb\request\request $request, $phpbb_root_path, $php_ext)
 	{
+		$this->auth = $auth;
 		$this->config = $config;
 		$this->db = $db;
 		$this->phpbb_dispatcher = $phpbb_dispatcher;
@@ -76,6 +77,7 @@ class listener implements EventSubscriberInterface
 	{
 		return array(
 			'core.common'										=> 'common',
+			'core.permissions'									=> 'permissions',
 			'core.ucp_register_user_row_after'					=> 'ucp_register_user_row_after',
 			'core.ucp_display_module_before'					=> 'ucp_display_module_before',
 			'core.ucp_register_data_before'						=> 'ucp_register_data_before',
@@ -116,6 +118,31 @@ class listener implements EventSubscriberInterface
 				$fake_ip = $this->generate_fake_ip();
 				$this->request->overwrite('REMOTE_ADDR', $fake_ip, \phpbb\request\request_interface::SERVER);
 		}
+	}
+
+
+	/**
+	* Add permissions
+	*
+	* @param	object	$event	The event object
+	* @return	null
+	* @access	public
+	*/
+	public function permissions($event)
+	{
+		$permissions = $event['permissions'];
+		$permissions += array(
+			'u_privacyprotection_dl_data'	=> array(
+				'lang'		=> 'ACL_U_PRIVACYPROTECTION_DL_DATA',
+				'cat'		=> 'profile'
+			),
+			'u_privacyprotection_dl_posts'	=> array(
+				'lang'		=> 'ACL_U_PRIVACYPROTECTION_DL_POSTS',
+				'cat'		=> 'profile'
+			),
+		);
+
+		$event['permissions'] = $permissions;
 	}
 
 	public function acp_main_notice()
@@ -250,18 +277,6 @@ class listener implements EventSubscriberInterface
 					'type'		=> 'select',
 					'function'	=> array($this, "anonymize_ip_options"),
 					'params'	=> array('{CONFIG_VALUE}'),
-					'explain'	=> true
-				),
-				'tas2580_privacyprotection_post_dl' => array(
-					'lang'		=> 'ACP_POST_DOWNLOAD',
-					'validate'	=> 'bool',
-					'type'		=> 'radio:yes_no',
-					'explain'	=> true
-				),
-				'tas2580_privacyprotection_data_dl' => array(
-					'lang'		=> 'ACP_DATA_DOWNLOAD',
-					'validate'	=> 'bool',
-					'type'		=> 'radio:yes_no',
 					'explain'	=> true
 				),
 			);
@@ -442,12 +457,17 @@ class listener implements EventSubscriberInterface
 			case '': // The dirty code of phpBB can also use empty mode for the front page
 				$this->user->add_lang_ext('tas2580/privacyprotection', 'ucp');
 				$this->template->assign_vars(array(
-					'U_DOWNLOAD_MY_DATA'		=> ($this->config['tas2580_privacyprotection_data_dl'] == 1) ? append_sid("{$this->phpbb_root_path}ucp.$this->php_ext", 'mode=profile_download') : '',
-					'U_DOWNLOAD_MY_POSTS'		=> ($this->config['tas2580_privacyprotection_post_dl'] == 1) ? append_sid("{$this->phpbb_root_path}ucp.$this->php_ext", 'mode=post_download') : '',
+					'U_DOWNLOAD_MY_DATA'		=> $this->auth->acl_get('u_privacyprotection_dl_data') ? append_sid("{$this->phpbb_root_path}ucp.$this->php_ext", 'mode=profile_download') : '',
+					'U_DOWNLOAD_MY_POSTS'		=> $this->auth->acl_get('u_privacyprotection_dl_posts') ? append_sid("{$this->phpbb_root_path}ucp.$this->php_ext", 'mode=post_download') : '',
 				));
 				break;
 
 			case 'profile_download':
+				if (!$this->auth->acl_get('u_privacyprotection_dl_data'))
+				{
+					trigger_error('NOT_AUTHORISED');
+				}
+
 				// Select data from user table
 				$sql = 'SELECT user_id, user_ip, user_regdate, username, user_email, user_lastvisit, user_posts, user_lang, user_timezone, user_dateformat,
 						user_avatar, user_sig, user_jabber
@@ -509,6 +529,10 @@ class listener implements EventSubscriberInterface
 				exit;
 
 			case 'post_download':
+				if (!$this->auth->acl_get('u_privacyprotection_dl_posts'))
+				{
+					trigger_error('NOT_AUTHORISED');
+				}
 
 				header("Content-type: text/csv");
 				header("Content-Disposition: attachment; filename=my_post_data.csv");
