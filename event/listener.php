@@ -53,10 +53,11 @@ class listener implements EventSubscriberInterface
 	 * @param string								$php_ext				php_ext
 	 * @access public
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\event\dispatcher_interface $phpbb_dispatcher, \phpbb\user $user, \phpbb\template\template $template, \phpbb\request\request $request, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\config\db_text $config_text, \phpbb\db\driver\driver_interface $db, \phpbb\event\dispatcher_interface $phpbb_dispatcher, \phpbb\user $user, \phpbb\template\template $template, \phpbb\request\request $request, $phpbb_root_path, $php_ext)
 	{
 		$this->auth = $auth;
 		$this->config = $config;
+		$this->config_text = $config_text;
 		$this->db = $db;
 		$this->phpbb_dispatcher = $phpbb_dispatcher;
 		$this->user = $user;
@@ -83,11 +84,10 @@ class listener implements EventSubscriberInterface
 			'core.ucp_register_data_before'						=> 'ucp_register_data_before',
 			'core.ucp_register_data_after'						=> 'ucp_register_data_after',
 			'core.user_add_modify_data'							=> 'user_add_modify_data',
-			'core.acp_board_config_edit_add'					=> 'acp_board_config_edit_add',
 			'core.acp_users_display_overview'					=> 'acp_users_display_overview',
 			'core.modify_posting_parameters'					=> 'modify_posting_parameters',
 			'core.page_header_after'							=> 'page_header_after',
-			'core.acp_main_notice'								=> 'acp_main_notice',
+			'core.page_footer'									=> 'page_footer',
 			'core.mcp_post_template_data'						=> 'mcp_post_template_data',
 			'core.viewtopic_modify_page_title'					=> 'viewtopic_modify_page_title',
 			'core.viewforum_modify_topics_data'					=> 'viewforum_modify_topics_data',
@@ -145,80 +145,6 @@ class listener implements EventSubscriberInterface
 		$event['permissions'] = $permissions;
 	}
 
-	public function acp_main_notice()
-	{
-		$this->user->add_lang_ext('tas2580/privacyprotection', 'acp');
-
-		// update privacy policy
-		$update_privacy = $this->request->variable('action_update_privacy', '');
-		if ($update_privacy)
-		{
-			if (confirm_box(true))
-			{
-
-				$this->config->set('tas2580_privacyprotection_last_update', time());
-				trigger_error('PRIVACY_POLICE_UPDATED');
-			}
-			else
-			{
-				confirm_box(false, $this->user->lang['CONFIRM_OPERATION'], build_hidden_fields(array(
-					'action_update_privacy'		=> $update_privacy))
-				);
-			}
-		}
-
-		// anonymize stored IPs
-		$delete_ip = $this->request->variable('action_delete_ip', '');
-		if ($delete_ip)
-		{
-			if (confirm_box(true))
-			{
-				$sql = 'UPDATE ' . POSTS_TABLE . "
-					SET poster_ip = '127.0.0.1'";
-				$this->db->sql_query($sql);
-
-				$sql = 'UPDATE ' . LOG_TABLE . "
-					SET log_ip = '127.0.0.1'";
-				$this->db->sql_query($sql);
-
-				$sql = 'UPDATE ' . POLL_VOTES_TABLE . "
-					SET vote_user_ip = '127.0.0.1'";
-				$this->db->sql_query($sql);
-
-				$sql = 'UPDATE ' . PRIVMSGS_TABLE . "
-					SET author_ip = '127.0.0.1'";
-				$this->db->sql_query($sql);
-
-				$sql = 'UPDATE ' . SESSIONS_TABLE . "
-					SET session_ip = '127.0.0.1'";
-				$this->db->sql_query($sql);
-
-				$sql = 'UPDATE ' . SESSIONS_KEYS_TABLE . "
-					SET last_ip = '127.0.0.1'";
-				$this->db->sql_query($sql);
-
-				$sql = 'UPDATE ' . USERS_TABLE . "
-					SET user_ip = '127.0.0.1'";
-				$this->db->sql_query($sql);
-
-				/**
-				 * Delete additional IP addresses
-				 *
-				 * @event tas2580.privacyprotection_delete_ip_after
-				 */
-				$vars = array();
-				extract($this->phpbb_dispatcher->trigger_event('tas2580.privacyprotection_delete_ip_after', compact($vars)));
-
-				trigger_error('IP_DELETE_SUCCESS');
-			}
-			else
-			{
-				confirm_box(false, $this->user->lang['CONFIRM_OPERATION'], build_hidden_fields(array(
-					'action_delete_ip'		=> $delete_ip))
-				);
-			}
-		}
-	}
 
 	/**
 	 * Display last accepted time in ACP
@@ -236,54 +162,6 @@ class listener implements EventSubscriberInterface
 		));
 	}
 
-	/**
-	 * Add fields for privacy in ACP settings
-	 *
-	 * @param object $event The event object
-	 * @return null
-	 * @access public
-	 */
-	public function acp_board_config_edit_add($event)
-	{
-		if ($event['mode'] == 'settings')
-		{
-			$this->user->add_lang_ext('tas2580/privacyprotection', 'acp');
-			$display_vars = $event['display_vars'];
-			$insert = array(
-				'legend15'                => 'PRIVACY_SETTINGS',
-				'tas2580_privacyprotection_privacy_url' => array(
-					'lang'		=> 'ACP_PRIVACY_URL',
-					'validate'	=> 'string',
-					'type'		=> 'url:40:255',
-					'explain'	=> true
-				),
-				'tas2580_privacyprotection_reject_url' => array(
-					'lang'		=> 'ACP_REJECT_URL',
-					'validate'	=> 'string',
-					'type'		=> 'url:40:255',
-					'explain'	=> true
-				),
-				'tas2580_privacyprotection_reject_group' => array(
-					'lang'		=> 'ACP_REJECT_GROUP',
-					'validate'	=> 'int',
-					'type'		=> 'select',
-					'function'	=> array($this, "group_select_options"),
-					'params'	=> array('{CONFIG_VALUE}'),
-					'explain'	=> true
-				),
-				'tas2580_privacyprotection_anonymize_ip' => array(
-					'lang'		=> 'ACP_ANONYMIZE',
-					'validate'	=> 'int',
-					'type'		=> 'select',
-					'function'	=> array($this, "anonymize_ip_options"),
-					'params'	=> array('{CONFIG_VALUE}'),
-					'explain'	=> true
-				),
-			);
-			$display_vars['vars'] = $this->array_insert($display_vars['vars'], 'legend2', $insert);
-			$event['display_vars'] = $display_vars;
-		}
-	}
 
 	/**
 	 * Check if the user has accepted the privacy policy
@@ -364,6 +242,17 @@ class listener implements EventSubscriberInterface
 		{
 			$this->template->assign_vars(array(
 				'U_PRIVACY'		=> $this->config['tas2580_privacyprotection_privacy_url'],
+			));
+		}
+	}
+
+	public function page_footer()
+	{
+		$mode = $this->request->variable('mode', '');
+		if ($mode == 'privacy')
+		{
+			$this->template->assign_vars(array(
+				'AGREEMENT_TEXT'		=> html_entity_decode($this->config_text->get('privacy_text')),
 			));
 		}
 	}
@@ -576,43 +465,6 @@ class listener implements EventSubscriberInterface
 		}
 	}
 
-	/**
-	 * Add option 0 to phpBB group select function
-	 *
-	 * @param int $group_id
-	 * @return string
-	 */
-	public function group_select_options($group_id)
-	{
-		$return = '<option class="sep" value="0">' . $this->user->lang['ACP_NO_REJECT_GROUP'] . '</option>';
-
-		if (!function_exists('group_select_options'))
-		{
-			include($this->phpbb_root_path . 'includes/functions_admin.' . $this->php_ext);
-		}
-		$return .= group_select_options($group_id);
-
-		return $return;
-	}
-
-	/**
-	 * Generate HTML option list with anonymize ip options
-	 *
-	 * @param int $anonymize
-	 * @return string
-	 */
-	public function anonymize_ip_options($anonymize)
-	{
-		$this->user->add_lang_ext('tas2580/privacyprotection', 'acp');
-		$values = array('NONE', 'FULL', 'HASH');
-		$option = '';
-		foreach($values as $id => $value)
-		{
-			$selected = ($id == $anonymize) ? ' selected="selected"' : '';
-			$option .= '<option' . $selected . ' value="' . $id . '">' . $this->user->lang['ANONYMIZE_IP_' . $value] . '</option>';
-		}
-		return $option;
-	}
 
 	/**
 	 * Generate fake IPv6 from real IP and other browser data
@@ -643,21 +495,4 @@ class listener implements EventSubscriberInterface
 		return '"' . $data . '"';
 	}
 
-	private function array_insert(&$array, $position, $insert)
-	{
-		if (is_int($position))
-		{
-			array_splice($array, $position, 0, $insert);
-		}
-		else
-		{
-			$pos   = array_search($position, array_keys($array));
-			$array = array_merge(
-				array_slice($array, 0, $pos),
-				$insert,
-				array_slice($array, $pos)
-			);
-		}
-		return $array;
-	}
 }

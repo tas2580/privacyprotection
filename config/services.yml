@@ -4,6 +4,7 @@ services:
         arguments:
             - '@auth'
             - '@config'
+            - '@config_text'
             - '@dbal.conn'
             - '@dispatcher'
             - '@user'
