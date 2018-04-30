@@ -31,9 +31,9 @@ if (empty($lang) || !is_array($lang))
 // in a url you again do not need to specify an order e.g., 'Click %sHERE%s' is fine
 //
 // Some characters you may want to copy&paste:
-// ’ » “ ” …
+// ‚ ‘ ’ « » „ “ ” …
 //
 $lang = array_merge($lang, array(
-	'ACL_U_PRIVACYPROTECTION_DL_DATA'				=> 'Darf seine Profildaten runter laden',
-	'ACL_U_PRIVACYPROTECTION_DL_POSTS'				=> 'Darf seine Beiträge runter laden',
+	'ACL_U_PRIVACYPROTECTION_DL_DATA'				=> 'Can download his own profile data',
+	'ACL_U_PRIVACYPROTECTION_DL_POSTS'				=> 'Can download his own postings',
 ));

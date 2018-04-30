@@ -6,6 +6,9 @@
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
+/**
+* DO NOT CHANGE
+*/
 if (!defined('IN_PHPBB'))
 {
 	exit;
@@ -30,9 +33,7 @@ if (empty($lang) || !is_array($lang))
 // ‚ ‘ ’ « » „ “ ” …
 //
 $lang = array_merge($lang, array(
-	'NEED_ACCPEPT_PRIVACY_HL'			=> 'Aktualisierte Datenschutzerklärung',
-	'NEED_ACCPEPT_PRIVACY'				=> 'Unsere <a href="%s" target="_blank">Datenschutzerklärung</a> hat sich geändert. Du musst die neue Datenschutzerklärung akzeptieren, um das Forum weiterhin nutzen zu können.',
-	'ACCEPT_PRIVACY'					=> 'Datenschutzerklärung akzeptieren',
-	'REJECT_PRIVACY'					=> 'Datenschutzerklärung ablehnen',
-	'NEED_TO_ACCEPT_PRIVACY_POLICY'		=> 'Du musst die Datenschutzerklärung akzeptieren, bevor du in diesem Forum Inhalte erzeugen kannst.',
+	'ACP_PRIVACYPROTECTION_TITLE'		=> 'Privacy protection',
+	'ACP_PRIVACYPROTECTION_SETTINGS'	=> 'Settings',
+	'ACP_PRIVACYPROTECTION_PRIVACY'		=> 'Privacy policy',
 ));
