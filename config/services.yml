@@ -2,7 +2,9 @@ services:
     tas2580.privacyprotection.listener:
         class: tas2580\privacyprotection\event\listener
         arguments:
+            - '@auth'
             - '@config'
+            - '@config_text'
             - '@dbal.conn'
             - '@dispatcher'
             - '@user'

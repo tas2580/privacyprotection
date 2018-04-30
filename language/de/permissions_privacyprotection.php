@@ -6,6 +6,10 @@
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
+
+/**
+* DO NOT CHANGE
+*/
 if (!defined('IN_PHPBB'))
 {
 	exit;
@@ -30,11 +34,6 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 //
 $lang = array_merge($lang, array(
-	'DOWNLOAD_MY_DATA'				=> 'Meine Daten runterladen',
-	'DOWNLOAD_MY_DATA_EXPLAIN'		=> 'Hier kannst du deine persönlichen Profil Daten als CSV-Datei runterladen.',
-	'DOWNLOAD_MY_POSTS_EXPLAIN'		=> 'Hier kannst die von dir geschriebenen Beiträge als CSV-Datei runterladen.',
-	'DOWNLOAD_BTN'					=> 'Download',
-	'NEED_ACCEPT_PRIVACY'			=> 'Du musst die Datenschuterklärung lesen und akzeptieren.',
-	'PRIVACY_ACCEPTED'				=> 'Datenschutzrichtlinie gelesen und akzeptiert',
-	'PRIVACY_ACCEPTED_EXPLAIN'		=> 'Ich bestätige mit dem Auswählen dieses Feldes, das ich die <a href="%s" target="_blank">Datenschutzrichtlinie</a> gelesen habe und akzeptiere diese.',
+	'ACL_U_PRIVACYPROTECTION_DL_DATA'				=> 'Kann seine Profildaten runter laden',
+	'ACL_U_PRIVACYPROTECTION_DL_POSTS'				=> 'Kann seine Beiträge runter laden',
 ));

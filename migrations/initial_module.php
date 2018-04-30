@@ -14,12 +14,39 @@ class initial_module extends \phpbb\db\migration\migration
 	public function update_data()
 	{
 		return array(
+			// Add ACP module
+			array('module.add', array(
+				'acp',
+				'ACP_CAT_DOT_MODS',
+				'ACP_PRIVACYPROTECTION_TITLE'
+			)),
+			array('module.add', array(
+				'acp',
+				'ACP_PRIVACYPROTECTION_TITLE',
+				array(
+					'module_basename'	=> '\tas2580\privacyprotection\acp\privacyprotection_module',
+					'modes'				=> array('settings'),
+				),
+			)),
+			array('module.add', array(
+				'acp',
+				'ACP_PRIVACYPROTECTION_TITLE',
+				array(
+					'module_basename'	=> '\tas2580\privacyprotection\acp\privacyprotection_module',
+					'modes'				=> array('privacy'),
+				),
+			)),
+
+			// Add config values
 			array('config.add', array('tas2580_privacyprotection_privacy_url', '')),
 			array('config.add', array('tas2580_privacyprotection_reject_url', '')),
 			array('config.add', array('tas2580_privacyprotection_reject_group', '0')),
+			array('config.add', array('tas2580_privacyprotection_anonymize_ip', '0')),
 			array('config.add', array('tas2580_privacyprotection_last_update', '0')),
-			array('config.add', array('tas2580_privacyprotection_post_dl', '1')),
-			array('config.add', array('tas2580_privacyprotection_data_dl', '1')),
+
+			// Add permissions
+			array('permission.add', array('u_privacyprotection_dl_data', true, 'u_')),
+			array('permission.add', array('u_privacyprotection_dl_posts', true, 'u_')),
 		);
 	}
 	public function update_schema()
