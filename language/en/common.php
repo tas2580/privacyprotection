@@ -30,7 +30,7 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 //
 $lang = array_merge($lang, array(
-	'NEED_ACCPEPT_PRIVACY'				=> 'There has been an update to the <a href="%s">Privacy Policy Statement</a>. You have to re-confirm your acceptance in order to continue using this board.',
+	'NEED_ACCEPT_PRIVACY'				=> 'There has been an update to the <a href="%s">Privacy Policy Statement</a>. You have to re-confirm your acceptance in order to continue using this board.',
 	'ACCEPT_PRIVACY'					=> 'Privacy Policy accepted',
 	'NEED_TO_ACCEPT_PRIVACY_POLICY'		=> 'You have to confirm your acceptance of the Privacy Policy Statement to be able to create content in this board.',
 ));
