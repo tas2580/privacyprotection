@@ -35,4 +35,5 @@ $lang = array_merge($lang, array(
 	'ACCEPT_PRIVACY'					=> 'Privacy Policy accepted',
 	'REJECT_PRIVACY'					=> 'Privacy Policy declined',
 	'NEED_TO_ACCEPT_PRIVACY_POLICY'		=> 'You have to confirm your acceptance of the privacy policy to be able to create content in this board.',
+	'CONFIRM_ACCEPT_PRIVACY'			=> 'I accept the <a href="%s">Privacy policy</a>.'
 ));

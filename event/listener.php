@@ -94,7 +94,8 @@ class listener implements EventSubscriberInterface
 			'core.ucp_register_user_row_after'					=> 'ucp_register_user_row_after',
 			'core.mcp_post_template_data'						=> 'mcp_post_template_data',
 			'core.user_add_modify_data'							=> 'user_add_modify_data',
-			'core.modify_posting_parameters'					=> 'modify_posting_parameters',
+			'core.modify_posting_auth'							=> 'modify_posting_auth',
+			'core.posting_modify_message_text'					=> 'posting_modify_message_text',
 			'core.viewtopic_modify_page_title'					=> 'viewtopic_modify_page_title',
 			'core.viewforum_modify_topics_data'					=> 'viewforum_modify_topics_data',
 		);
@@ -451,12 +452,42 @@ class listener implements EventSubscriberInterface
 	 * @return null
 	 * @access public
 	 */
-	public function modify_posting_parameters()
+	public function modify_posting_auth()
 	{
-		if ($this->user->data['tas2580_privacy_last_accepted'] < $this->config['tas2580_privacyprotection_last_update'])
+		if ($this->user->data['is_registered'] && $this->user->data['tas2580_privacy_last_accepted'] < $this->config['tas2580_privacyprotection_last_update'])
 		{
 			$this->user->add_lang_ext('tas2580/privacyprotection', 'common');
 			trigger_error('NEED_TO_ACCEPT_PRIVACY_POLICY');
+		}
+		else if(!$this->user->data['is_registered'])
+		{
+			$this->user->add_lang_ext('tas2580/privacyprotection', 'common');
+			$privacy_link = empty($this->config['tas2580_privacyprotection_privacy_url']) ? append_sid("{$this->phpbb_root_path}ucp.{$this->php_ext}", 'mode=privacy') : $this->config['tas2580_privacyprotection_privacy_url'];
+			$this->template->assign_vars(array(
+				'ACCEPT_PRIVACY'			=> sprintf($this->user->lang['CONFIRM_ACCEPT_PRIVACY'], $privacy_link),
+			));
+		}
+	}
+
+	/**
+	 * Check if guest has accepted the privacy
+	 *
+	 * @param object $event The event object
+	 * @return null
+	 * @access public
+	 */
+	public function posting_modify_message_text($event)
+	{
+		if(!$this->user->data['is_registered'])
+		{
+			$accept_privacy = $this->request->variable('accept_privacy', 0);
+			if($accept_privacy == 0)
+			{
+				$error = $event['error'];
+				$this->user->add_lang_ext('tas2580/privacyprotection', 'common');
+				$error[] = $this->user->lang['NEED_TO_ACCEPT_PRIVACY_POLICY'];
+				$event['error'] = $error;
+			}
 		}
 	}
 
