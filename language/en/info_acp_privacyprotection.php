@@ -6,6 +6,9 @@
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
+/**
+* DO NOT CHANGE
+*/
 if (!defined('IN_PHPBB'))
 {
 	exit;
@@ -30,9 +33,7 @@ if (empty($lang) || !is_array($lang))
 // ‚ ‘ ’ « » „ “ ” …
 //
 $lang = array_merge($lang, array(
-	'NEED_ACCPEPT_PRIVACY_HL'			=> 'Privacy policy updated',
-	'NEED_ACCEPT_PRIVACY'				=> 'There has been an update to the <a href="%s">Privacy Policy Statement</a>. You have to re-confirm your acceptance in order to continue using this board.',
-	'ACCEPT_PRIVACY'					=> 'Privacy Policy accepted',
-	'REJECT_PRIVACY'					=> 'Privacy Policy declined',
-	'NEED_TO_ACCEPT_PRIVACY_POLICY'		=> 'You have to confirm your acceptance of the privacy policy to be able to create content in this board.',
+	'ACP_PRIVACYPROTECTION_TITLE'		=> 'Privacy protection',
+	'ACP_PRIVACYPROTECTION_SETTINGS'	=> 'Settings',
+	'ACP_PRIVACYPROTECTION_PRIVACY'		=> 'Privacy policy',
 ));

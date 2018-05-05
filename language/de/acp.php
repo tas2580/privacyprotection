@@ -27,14 +27,14 @@ if (empty($lang) || !is_array($lang))
 // in a url you again do not need to specify an order e.g., 'Click %sHERE%s' is fine
 //
 // Some characters you may want to copy&paste:
-// ’ » “ ” …
+// ‚ ‘ ’ « » „ “ ” …
 //
 $lang = array_merge($lang, array(
 	'ACP_PRIVACY_SETTINGS'					=> 'Datenschutz-Einstellungen',
 	'ACP_PRIVACY_URL'						=> 'URL zu deiner Datenschutzerklärung',
 	'ACP_PRIVACY_URL_EXPLAIN'				=> 'Gib eine URL zu deiner Datenschutzerklärung ein. Die URL überschreibt alle Links zur ursprünglichen Datenschutzerklärung von phpBB.',
-	'ACP_REJECT_URL'						=> 'URL zum ablehnen',
-	'ACP_REJECT_URL_EXPLAIN'				=> 'Wenn hier eine URL angegeben wird gibt die Aktualisierungsmeldung einen zusätzlichen Button zum ablehnen der Datenschutzerklärung aus, der auf die hier angegebene URL verweist.',
+	'ACP_REJECT_URL'						=> 'URL für die Ablehnung',
+	'ACP_REJECT_URL_EXPLAIN'				=> 'Wenn hier eine URL angegeben wird, gibt die Aktualisierungsmeldung einen zusätzlichen Button zum Ablehnen der Datenschutzerklärung aus, der auf die hier angegebene URL verweist.',
 	'ACP_REJECT_GROUP'						=> 'In Gruppe verschieben',
 	'ACP_REJECT_GROUP_EXPLAIN'				=> 'Wähle eine Gruppe in die alle Benutzer verschoben werden, die der Datenschutzerklärung nicht zugestimmt haben.',
 	'ACP_NO_REJECT_GROUP'					=> ' - Nicht verschieben -',
@@ -43,8 +43,8 @@ $lang = array_merge($lang, array(
 	'ANONYMIZE_IP_NONE'						=> 'Nicht anonymisieren',
 	'ANONYMIZE_IP_FULL'						=> 'Komplett anonymisieren',
 	'ANONYMIZE_IP_HASH'						=> 'Hash verwenden',
-	'ACP_PRIVACYPROTECTION_PRIVACY_EXPLAIN'	=> 'Hier kannst du deine eigene Datenschutzerklärung eingeben und so die Datenschutzerklärung aus der Sprachdatei überschreiben. Du kannst hier HTML verwenden, verwende <code>%1$s</code> für den Namen des Forums und <code>%2$s</code> für die URL zum Forum. Lasse das Feld leer um die Datenschutzerklärung aus der Sprachdatei zu verwenden.',
-	'PRIVACY_URL_WARNING'					=> 'Du hast <a href="%1$s">%1$s</a> als URL für die Datenschutzerklärung angegeben. Die hier eingegebene Datenschutzerklärung wird erst angezeigt wenn du die URL in den Einstellungen entfernst.',
+	'ACP_PRIVACYPROTECTION_PRIVACY_EXPLAIN'	=> 'Hier kannst du deine eigene Datenschutzerklärung eingeben, und so die Datenschutzerklärung aus der Sprachdatei überschreiben. Du kannst hier HTML verwenden. Verwende <code>%1$s</code> für den Namen des Forums und <code>%2$s</code> für die URL zum Forum. Lasse das Feld leer, um die Datenschutzerklärung aus der Sprachdatei zu verwenden.',
+	'PRIVACY_URL_WARNING'					=> 'Du hast <a href="%1$s">%1$s</a> als URL für die Datenschutzerklärung angegeben. Die oben angezeigte Datenschutzerklärung wird nur erscheinen, wenn du die URL in den Einstellungen wieder entfernst.',
 	'ACP_PRIVACY_OPTIONS'					=> 'Datenschutz-Optionen',
 	'UPDATE_PRIVACY'						=> 'Datenschutzerklärung wurde aktualisiert',
 	'UPDATE_PRIVACY_EXPLAIN'				=> 'Führe die Aktion aus nachdem du die Datenschutzerklärung aktualisiert hast. Alle Benutzer müssen dann der neuen Datenschutzerklärung zustimmen.',
