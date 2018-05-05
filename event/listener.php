@@ -200,8 +200,8 @@ class listener implements EventSubscriberInterface
 			$this->user->add_lang_ext('tas2580/privacyprotection', 'common');
 			$privacy_link = empty($this->config['tas2580_privacyprotection_privacy_url']) ? append_sid("{$this->phpbb_root_path}ucp.{$this->php_ext}", 'mode=privacy') : $this->config['tas2580_privacyprotection_privacy_url'];
 			$this->template->assign_vars(array(
-				'S_NEED_ACCPEPT_PRIVACY'		=> true,
-				'NEED_ACCPEPT_PRIVACY'			=> sprintf($this->user->lang['NEED_ACCPEPT_PRIVACY'], $privacy_link),
+				'S_NEED_ACCEPT_PRIVACY'		=> true,
+				'NEED_ACCEPT_PRIVACY'			=> sprintf($this->user->lang['NEED_ACCEPT_PRIVACY'], $privacy_link),
 				'U_ACCPEPT_PRIVACY'				=> append_sid("{$this->phpbb_root_path}index.{$this->php_ext}", 'mode=accept_privacy'),
 				'U_REJECT_PRIVACY'				=> $this->config['tas2580_privacyprotection_reject_url'],
 				'S_IS_BOT'						=> true,	// Handle users as bot until they accept the privacy policy
@@ -228,8 +228,9 @@ class listener implements EventSubscriberInterface
 		$mode = $this->request->variable('mode', '');
 		if ($mode == 'privacy')
 		{
+			$privacy_text = empty($this->config_text->get('privacy_text')) ? $this->user->lang['PRIVACY_POLICY'] : html_entity_decode($this->config_text->get('privacy_text'));
 			$this->template->assign_vars(array(
-				'AGREEMENT_TEXT'		=> html_entity_decode($this->config_text->get('privacy_text')),
+				'AGREEMENT_TEXT'		=> sprintf($privacy_text, $this->config['sitename'], generate_board_url()),
 			));
 		}
 	}
