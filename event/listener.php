@@ -228,8 +228,9 @@ class listener implements EventSubscriberInterface
 		$mode = $this->request->variable('mode', '');
 		if ($mode == 'privacy')
 		{
+			$privacy_text = empty($this->config_text->get('privacy_text')) ? $this->user->lang['PRIVACY_POLICY'] : html_entity_decode($this->config_text->get('privacy_text'));
 			$this->template->assign_vars(array(
-				'AGREEMENT_TEXT'		=> html_entity_decode($this->config_text->get('privacy_text')),
+				'AGREEMENT_TEXT'		=> sprintf($privacy_text, $this->config['sitename'], generate_board_url()),
 			));
 		}
 	}
