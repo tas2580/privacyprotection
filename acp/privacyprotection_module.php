@@ -127,7 +127,10 @@ class privacyprotection_module
 							}
 
 							group_user_del($this->config['tas2580_privacyprotection_reject_group'], $users);
-							group_user_add($reject_group, $users);
+							if ($reject_group <> 0)
+							{
+								group_user_add($reject_group, $users);
+							}
 						}
 
 						$this->config->set('tas2580_privacyprotection_reject_group', $this->request->variable('reject_group', 0));
