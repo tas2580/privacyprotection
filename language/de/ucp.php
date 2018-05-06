@@ -34,7 +34,8 @@ $lang = array_merge($lang, array(
 	'DOWNLOAD_MY_DATA_EXPLAIN'		=> 'Hier kannst du deine persönlichen Profil Daten als CSV-Datei runterladen.',
 	'DOWNLOAD_MY_POSTS_EXPLAIN'		=> 'Hier kannst die von dir geschriebenen Beiträge als CSV-Datei runterladen.',
 	'DOWNLOAD_BTN'					=> 'Download',
-	'NEED_ACCEPT_PRIVACY'			=> 'Du musst die Datenschuterklärung lesen und akzeptieren.',
-	'PRIVACY_ACCEPTED'				=> 'Datenschutzrichtlinie gelesen und akzeptiert',
-	'PRIVACY_ACCEPTED_EXPLAIN'		=> 'Ich bestätige mit dem Auswählen dieses Feldes, das ich die <a href="%s" target="_blank">Datenschutzrichtlinie</a> gelesen habe und akzeptiere diese.',
+	'NEED_ACCEPT_PRIVACY'			=> 'Du musst die Datenschutzerklärung lesen und akzeptieren.',
+	'PRIVACY_ACCEPTED'				=> 'Datenschutzerklärung gelesen und akzeptiert',
+	'PRIVACY_ACCEPTED_EXPLAIN'		=> 'Ich bestätige mit dem Auswählen dieses Feldes, das ich die <a href="%s">Datenschutzerklärung</a> gelesen habe und akzeptiere diese.',
+	'PRIVACY_LAST_ACCEPTED'			=> 'Datenschutzerklärung zuletzt akzeptiert',
 ));

@@ -275,6 +275,7 @@ class listener implements EventSubscriberInterface
 				$this->template->assign_vars(array(
 					'U_DOWNLOAD_MY_DATA'		=> $this->auth->acl_get('u_privacyprotection_dl_data') ? append_sid("{$this->phpbb_root_path}ucp.$this->php_ext", 'mode=profile_download') : '',
 					'U_DOWNLOAD_MY_POSTS'		=> $this->auth->acl_get('u_privacyprotection_dl_posts') ? append_sid("{$this->phpbb_root_path}ucp.$this->php_ext", 'mode=post_download') : '',
+					'PRIVACY_LAST_ACCEPTED'		=> $this->user->format_date($this->user->data['tas2580_privacy_last_accepted']),
 				));
 				break;
 
