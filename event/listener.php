@@ -234,6 +234,12 @@ class listener implements EventSubscriberInterface
 				'AGREEMENT_TEXT'		=> sprintf($privacy_text, $this->config['sitename'], generate_board_url()),
 			));
 		}
+
+		// Display link in footer
+		$this->template->assign_vars(array(
+			'S_PRIVACY_FOOTER_LINK'		=> $this->config['tas2580_privacyprotection_footerlink'],
+		));
+
 	}
 
 	/**

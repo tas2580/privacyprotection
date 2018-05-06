@@ -112,6 +112,7 @@ class privacyprotection_module
 					$this->config->set('tas2580_privacyprotection_reject_url', $this->request->variable('reject_url', '', true));
 					$this->config->set('tas2580_privacyprotection_reject_group', $this->request->variable('reject_group', 0));
 					$this->config->set('tas2580_privacyprotection_anonymize_ip', $this->request->variable('anonymize_ip', 0));
+					$this->config->set('tas2580_privacyprotection_footerlink', $this->request->variable('footerlink', 0));
 
 					trigger_error($this->user->lang('ACP_SAVED') . adm_back_link($this->u_action));
 				}
@@ -122,6 +123,7 @@ class privacyprotection_module
 					'REJECT_URL'				=> $this->config['tas2580_privacyprotection_reject_url'],
 					'REJECT_GROUP'				=> $this->group_select_options($this->config['tas2580_privacyprotection_reject_group']),
 					'ANONYMIZE_IP'				=> $this->anonymize_ip_options($this->config['tas2580_privacyprotection_anonymize_ip']),
+					'FOOTERLINK'				=> $this->config['tas2580_privacyprotection_footerlink'],
 				));
 				break;
 			case 'privacy':
