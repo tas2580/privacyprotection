@@ -119,7 +119,7 @@ class privacyprotection_module
 						}
 
 						$user_array = group_memberships(array($this->config['tas2580_privacyprotection_reject_group']));
-						if (sizeof($user_array))
+						if (is_array($user_array) && sizeof($user_array))
 						{
 							foreach ($user_array as $usr)
 							{
