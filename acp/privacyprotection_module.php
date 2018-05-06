@@ -14,7 +14,7 @@ class privacyprotection_module
 	protected $user;
 	public function main($id, $mode)
 	{
-		global $config, $user, $template, $request, $phpbb_container, $db;
+		global $config, $user, $template, $request, $phpbb_container, $db, $phpbb_root_path, $phpEx;
 		$user->add_lang_ext('tas2580/privacyprotection', 'acp');
 
 		$this->user = $user;
@@ -22,6 +22,8 @@ class privacyprotection_module
 		$this->db = $db;
 		$this->config = $config;
 		$this->template = $template;
+		$this->phpbb_root_path = $phpbb_root_path;
+		$this->php_ext = $phpEx;
 
 		add_form_key('acp_privacyprotection');
 		switch ($mode)
@@ -106,11 +108,34 @@ class privacyprotection_module
 					{
 						trigger_error($user->lang('FORM_INVALID') . adm_back_link($this->u_action), E_USER_WARNING);
 					}
-					// Set the new settings to config
 
+					// Move users if group has changed
+					$reject_group = $this->request->variable('reject_group', 0);
+					if ($this->config['tas2580_privacyprotection_reject_group'] <> $reject_group)
+					{
+						if (!function_exists('group_memberships'))
+						{
+							include($this->phpbb_root_path . 'includes/functions_user.' . $this->php_ext);
+						}
+
+						$user_array = group_memberships(array($this->config['tas2580_privacyprotection_reject_group']));
+						if (sizeof($user_array))
+						{
+							foreach ($user_array as $usr)
+							{
+								$users[] = $usr['user_id'];
+							}
+
+							group_user_del($this->config['tas2580_privacyprotection_reject_group'], $users);
+							group_user_add($reject_group, $users);
+						}
+
+						$this->config->set('tas2580_privacyprotection_reject_group', $this->request->variable('reject_group', 0));
+					}
+
+					// Set the new settings to config
 					$this->config->set('tas2580_privacyprotection_privacy_url', $this->request->variable('privacy_url', '', true));
 					$this->config->set('tas2580_privacyprotection_reject_url', $this->request->variable('reject_url', '', true));
-					$this->config->set('tas2580_privacyprotection_reject_group', $this->request->variable('reject_group', 0));
 					$this->config->set('tas2580_privacyprotection_anonymize_ip', $this->request->variable('anonymize_ip', 0));
 					$this->config->set('tas2580_privacyprotection_footerlink', $this->request->variable('footerlink', 0));
 
