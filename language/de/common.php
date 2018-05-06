@@ -35,5 +35,5 @@ $lang = array_merge($lang, array(
 	'ACCEPT_PRIVACY'					=> 'Datenschutzerklärung akzeptieren',
 	'REJECT_PRIVACY'					=> 'Datenschutzerklärung ablehnen',
 	'NEED_TO_ACCEPT_PRIVACY_POLICY'		=> 'Du musst die Datenschutzerklärung akzeptieren, bevor du in diesem Forum Inhalte erzeugen kannst.',
-	'CONFIRM_ACCEPT_PRIVACY'			=> 'Ich habe die <a href="%s">Datenschutzerklärung</a> gelesen und bin damit einverstanden.'
+	'CONFIRM_ACCEPT_PRIVACY'			=> 'Ich habe die <a href="%s">Datenschutzerklärung</a> gelesen und bin damit einverstanden.',
 ));
