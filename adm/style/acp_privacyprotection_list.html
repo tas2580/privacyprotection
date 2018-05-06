@@ -1,0 +1,36 @@
+<!-- INCLUDE overall_header.html -->
+<h1>{L_ACP_PRIVACYPROTECTION_LIST}</h1>
+
+<table class="table1 zebra-table">
+	<thead>
+	<tr>
+		<th>{L_USERNAME}</th>
+		<th>{L_EMAIL}</th>
+		<th>{L_JOINED}</th>
+		<th>{L_LAST_VISIT}</th>
+		<th>{L_LAST_ACCPEPT}</th>
+	</tr>
+	</thead>
+	<tbody>
+	<!-- BEGIN list -->
+		<tr>
+			<td style="vertical-align: top;">
+				{list.USERNAME_FULL}
+				<!-- IF list.POSTS --><br />{L_POSTS}{L_COLON} <strong>{list.POSTS}</strong> [<a href="{list.U_SEARCH_USER}">{L_SEARCH_USER_POSTS}</a>]<!-- ENDIF -->
+			 </td>
+			<td style="vertical-align: top;">{list.USER_EMAIL}</td>
+			<td style="vertical-align: top;">{list.JOINED}</td>
+			<td style="vertical-align: top;">{list.LAST_VISIT}</td>
+			<td style="vertical-align: top;">{list.LAST_ACCEPTED}</td>
+		</tr>
+	<!-- END list -->
+	</tbody>
+	</table>
+
+<!-- IF .pagination -->
+	<div class="pagination">
+		<!-- INCLUDE pagination.html -->
+	</div>
+<!-- ENDIF -->
+
+<!-- INCLUDE overall_footer.html -->

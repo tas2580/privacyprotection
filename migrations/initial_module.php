@@ -36,6 +36,14 @@ class initial_module extends \phpbb\db\migration\migration
 					'modes'				=> array('privacy'),
 				),
 			)),
+			array('module.add', array(
+				'acp',
+				'ACP_PRIVACYPROTECTION_TITLE',
+				array(
+					'module_basename'	=> '\tas2580\privacyprotection\acp\privacyprotection_module',
+					'modes'				=> array('list'),
+				),
+			)),
 
 			// Add config values
 			array('config.add', array('tas2580_privacyprotection_privacy_url', '')),

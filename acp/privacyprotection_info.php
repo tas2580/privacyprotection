@@ -28,6 +28,11 @@ class privacyprotection_info
 					'auth'		=> 'ext_tas2580/privacyprotection&& acl_a_board',
 					'cat'		=> array('ACP_PRIVACYPROTECTION_TITLE')
 				),
+				'list'    => array(
+					'title'		=> 'ACP_PRIVACYPROTECTION_LIST',
+					'auth'		=> 'ext_tas2580/privacyprotection&& acl_a_board',
+					'cat'		=> array('ACP_PRIVACYPROTECTION_TITLE')
+				),
 			),
 		);
 	}

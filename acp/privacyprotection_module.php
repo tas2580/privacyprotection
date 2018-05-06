@@ -177,6 +177,48 @@ class privacyprotection_module
 
 				break;
 
+			case 'list':
+				$this->tpl_name = 'acp_privacyprotection_list';
+				$this->page_title = $this->user->lang('ACP_PRIVACYPROTECTION_LIST');
+
+				$start    = $request->variable('start', 0);
+
+
+
+				$sql = 'SELECT COUNT(user_id) AS num_users
+					FROM ' .  USERS_TABLE . '
+					WHERE tas2580_privacy_last_accepted < ' . (int) $this->config['tas2580_privacyprotection_last_update'] . '
+						AND user_type <> 2';
+				$result = $this->db->sql_query($sql);
+				$count = (int) $db->sql_fetchfield('num_users');
+
+
+				$sql = 'SELECT user_id, username, user_colour, user_email, user_regdate, user_lastvisit, tas2580_privacy_last_accepted
+					FROM ' .  USERS_TABLE . '
+						WHERE tas2580_privacy_last_accepted < ' . (int) $this->config['tas2580_privacyprotection_last_update'] . '
+						AND user_type <> 2
+					LIMIT ' . (int) $start . ',' . (int) $config['topics_per_page'];
+				$result = $this->db->sql_query($sql);
+				while($row = $this->db->sql_fetchrow($result))
+				{
+					$template->assign_block_vars('list', array(
+						'JOINED'			=> $user->format_date($row['user_regdate']),
+						'LAST_VISIT'		=> (!$row['user_lastvisit']) ? ' - ' : $user->format_date($row['user_lastvisit']),
+						'USERNAME_FULL'		=> get_username_string('full', $row['user_id'], $row['username'], $row['user_colour'], false, append_sid("{$this->phpbb_root_path}adm/index.{$this->php_ext}", 'i=users&amp;mode=overview')),
+						'USERNAME'			=> get_username_string('username', $row['user_id'], $row['username'], $row['user_colour']),
+						'USER_COLOR'		=> get_username_string('colour', $row['user_id'], $row['username'], $row['user_colour']),
+						'USER_EMAIL'		=> $row['user_email'],
+						'LAST_ACCEPTED'		=> (!$row['tas2580_privacy_last_accepted']) ? ' - ' : $user->format_date($row['tas2580_privacy_last_accepted']),
+					));
+				}
+
+				$pagination = $phpbb_container->get('pagination');
+
+				$base_url = $this->u_action;
+				$pagination->generate_template_pagination($base_url, 'pagination', 'start', $count, $config['topics_per_page'], $start);
+
+				break;
+
 		}
 	}
 
