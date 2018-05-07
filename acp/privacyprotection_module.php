@@ -175,7 +175,7 @@ class privacyprotection_module
 				$this->template->assign_vars(array(
 					'PRIVACY_URL'		=> empty($this->config['tas2580_privacyprotection_privacy_url']) ? '' : sprintf($this->user->lang['PRIVACY_URL_WARNING'], $this->config['tas2580_privacyprotection_privacy_url']),
 					'PRIVACY_TEXT'		=> $config_text->get('privacy_text'),
-					'PLACEHOLDER'		=> htmlspecialchars($this->user->lang['PRIVACY_POLICY']),
+					'PLACEHOLDER'		=> htmlspecialchars('<p>' . str_replace("\t", '', sprintf($this->user->lang['PRIVACY_POLICY'], $this->config['sitename'], generate_board_url())) . '</p>'),
 				));
 
 				break;
