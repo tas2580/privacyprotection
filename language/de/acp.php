@@ -45,7 +45,7 @@ $lang = array_merge($lang, array(
 	'ANONYMIZE_IP_NONE'						=> 'Nicht anonymisieren',
 	'ANONYMIZE_IP_FULL'						=> 'Komplett anonymisieren',
 	'ANONYMIZE_IP_HASH'						=> 'Hash verwenden',
-	'ACP_PRIVACYPROTECTION_PRIVACY_EXPLAIN'	=> 'Hier kannst du deine eigene Datenschutzerklärung eingeben, und so die Datenschutzerklärung aus der Sprachdatei überschreiben. Du kannst hier HTML verwenden. Verwende <code>%1$s</code> für den Namen des Forums und <code>%2$s</code> für die URL zum Forum. Lasse das Feld leer, um die Datenschutzerklärung aus der Sprachdatei zu verwenden.',
+	'ACP_PRIVACYPROTECTION_PRIVACY_EXPLAIN'	=> 'Hier kannst du deine eigene Datenschutzerklärung eingeben, und so die Datenschutzerklärung aus der Sprachdatei überschreiben. Du kannst hier HTML verwenden. Verwende <code>{SITE_NAME}</code> für den Namen des Forums und <code>{SITE_URL}</code> für die URL zum Forum. Lasse das Feld leer, um die Datenschutzerklärung aus der Sprachdatei zu verwenden.',
 	'PRIVACY_URL_WARNING'					=> 'Du hast <a href="%1$s">%1$s</a> als URL für die Datenschutzerklärung angegeben. Die oben angezeigte Datenschutzerklärung wird nur erscheinen, wenn du die URL in den Einstellungen wieder entfernst.',
 	'ACP_PRIVACY_OPTIONS'					=> 'Datenschutz-Optionen',
 	'UPDATE_PRIVACY'						=> 'Datenschutzerklärung wurde aktualisiert',

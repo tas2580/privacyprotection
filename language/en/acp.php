@@ -43,7 +43,7 @@ $lang = array_merge($lang, array(
 	'ANONYMIZE_IP_NONE'							=> 'Not anonymize',
 	'ANONYMIZE_IP_FULL'							=> 'Anonymize completely',
 	'ANONYMIZE_IP_HASH'							=> 'Use hash',
-	'ACP_PRIVACYPROTECTION_PRIVACY_EXPLAIN'		=> 'Here you can enter your own privacy policy, overriding the privacy policy from the language file. You can use HTML here. Use <code>%1$s</code> for the name and <code>%2$s</code> for the URL of your forum. Leave the field blank to use the privacy policy from the language file.',
+	'ACP_PRIVACYPROTECTION_PRIVACY_EXPLAIN'		=> 'Here you can enter your own privacy policy, overriding the privacy policy from the language file. You can use HTML here. Use <code>{SITE_NAME}</code> for the name and <code>{SITE_URL}</code> for the URL of your forum. Leave the field blank to use the privacy policy from the language file.',
 	'PRIVACY_URL_WARNING'						=> 'You have specified <a href="%1$s">%1$s</a> as the URL for the privacy policy. The privacy policy shown above will only be displayed if you remove this URL in the settings.',
 	'ACP_PRIVACY_OPTIONS'						=> 'Privacy options',
 	'UPDATE_PRIVACY'							=> 'Privacy Policy has been updated',
