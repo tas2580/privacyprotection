@@ -1,5 +1,6 @@
 <!-- INCLUDE overall_header.html -->
 <h1>{L_ACP_PRIVACYPROTECTION_LIST}</h1>
+<p>{LIST_EXPLAIN}</p>
 
 <table class="table1 zebra-table">
 	<thead>
@@ -12,6 +13,7 @@
 	</tr>
 	</thead>
 	<tbody>
+	<!-- IF .list -->
 	<!-- BEGIN list -->
 		<tr>
 			<td style="vertical-align: top;">
@@ -24,8 +26,21 @@
 			<td style="vertical-align: top;">{list.LAST_ACCEPTED}</td>
 		</tr>
 	<!-- END list -->
+	<!-- ELSE -->
+	<tr>
+		<td colspan="5">{L_ACP_NO_ITEMS}</td>
+	</tr>
+	<!-- ENDIF -->
 	</tbody>
-	</table>
+</table>
+
+<form method="post" action="{U_ACTION}">
+	<fieldset class="display-options">
+		{L_DISPLAY}{L_COLON} &nbsp;<select name="display">{DISPLAY_SELECT}</select>
+		<input class="button2" type="submit" value="{L_GO}" name="sort">
+	</fieldset>
+</form>
+<hr>
 
 <!-- IF .pagination -->
 	<div class="pagination">

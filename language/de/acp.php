@@ -58,4 +58,7 @@ $lang = array_merge($lang, array(
 	'LAST_ACCPEPT'							=> 'Zuletzt akzeptiert',
 	'ACP_SUBMIT'							=> 'Einstellungen speichern',
 	'ACP_SAVED'								=> 'Die Einstellungen wurden gespeichert.',
+	'USER_LIST_ACEPTED'						=> 'Akzeptiert',
+	'USER_LIST_NOT_ACEPTED'					=> 'Nicht akzeptiert',
+	'USER_LIST_NOT_ACEPTED_ONLINE'			=> 'Nicht akzeptiert, war online',
 ));

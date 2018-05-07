@@ -56,4 +56,7 @@ $lang = array_merge($lang, array(
 	'LAST_ACCPEPT'								=> 'Last accepted',
 	'ACP_SUBMIT'								=> 'Save settings',
 	'ACP_SAVED'									=> 'Settings saved.',
+	'USER_LIST_ACEPTED'							=> 'Accepted',
+	'USER_LIST_NOT_ACEPTED'						=> 'Not accepted',
+	'USER_LIST_NOT_ACEPTED_ONLINE'				=> 'Not accepted, was online',
 ));

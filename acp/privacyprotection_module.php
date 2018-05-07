@@ -184,21 +184,33 @@ class privacyprotection_module
 				$this->tpl_name = 'acp_privacyprotection_list';
 				$this->page_title = $this->user->lang('ACP_PRIVACYPROTECTION_LIST');
 
-				$start    = $request->variable('start', 0);
+				$start = $request->variable('start', 0);
+				$display = $request->variable('display', 0);
 
-
+				switch ($display)
+				{
+					case 0:
+						$sql_where = 'tas2580_privacy_last_accepted > ' . (int) $this->config['tas2580_privacyprotection_last_update'];
+						break;
+					case 1:
+						$sql_where = 'tas2580_privacy_last_accepted < ' . (int) $this->config['tas2580_privacyprotection_last_update'];
+						break;
+					case 2:
+						$sql_where = 'tas2580_privacy_last_accepted < ' . (int) $this->config['tas2580_privacyprotection_last_update'] . '
+							AND user_lastvisit > ' . (int) $this->config['tas2580_privacyprotection_last_update'];
+						break;
+				}
 
 				$sql = 'SELECT COUNT(user_id) AS num_users
 					FROM ' .  USERS_TABLE . '
-					WHERE tas2580_privacy_last_accepted < ' . (int) $this->config['tas2580_privacyprotection_last_update'] . '
+					WHERE ' . $sql_where . '
 						AND user_type <> 2';
 				$result = $this->db->sql_query($sql);
 				$count = (int) $db->sql_fetchfield('num_users');
 
-
 				$sql = 'SELECT user_id, username, user_colour, user_email, user_regdate, user_lastvisit, tas2580_privacy_last_accepted
 					FROM ' .  USERS_TABLE . '
-						WHERE tas2580_privacy_last_accepted < ' . (int) $this->config['tas2580_privacyprotection_last_update'] . '
+						WHERE ' . $sql_where . '
 						AND user_type <> 2
 					LIMIT ' . (int) $start . ',' . (int) $config['topics_per_page'];
 				$result = $this->db->sql_query($sql);
@@ -211,9 +223,15 @@ class privacyprotection_module
 						'USERNAME'			=> get_username_string('username', $row['user_id'], $row['username'], $row['user_colour']),
 						'USER_COLOR'		=> get_username_string('colour', $row['user_id'], $row['username'], $row['user_colour']),
 						'USER_EMAIL'		=> $row['user_email'],
-						'LAST_ACCEPTED'		=> (!$row['tas2580_privacy_last_accepted']) ? ' - ' : $user->format_date($row['tas2580_privacy_last_accepted']),
+						'LAST_ACCEPTED'		=> (!$row['tas2580_privacy_last_accepted']) ? $this->user->lang['NEVER'] : $user->format_date($row['tas2580_privacy_last_accepted']),
 					));
 				}
+
+				$this->template->assign_vars(array(
+					'DISPLAY_SELECT'		=> $this->display_select($display),
+					'U_ACTION'				=> $this->u_action,
+					'LIST_EXPLAIN'			=> ($display == 0) ? $this->user->lang['USER_LIST_ACEPTED_EXPLAIN'] : $this->user->lang['USER_LIST_NOT_ACEPTED_EXPLAIN'],
+				));
 
 				$pagination = $phpbb_container->get('pagination');
 
@@ -223,6 +241,24 @@ class privacyprotection_module
 				break;
 
 		}
+	}
+
+	/**
+	 * Generate HTML option list with user list options
+	 *
+	 * @param int $display
+	 * @return string
+	 */
+	private function display_select($display)
+	{
+		$values = array('ACEPTED', 'NOT_ACEPTED', 'NOT_ACEPTED_ONLINE');
+		$option = '';
+		foreach($values as $id => $value)
+		{
+			$selected = ($id == $display) ? ' selected="selected"' : '';
+			$option .= '<option' . $selected . ' value="' . $id . '">' . $this->user->lang['USER_LIST_' . $value] . '</option>';
+		}
+		return $option;
 	}
 
 	/**
