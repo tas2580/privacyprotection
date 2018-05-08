@@ -25,6 +25,9 @@ class listener implements EventSubscriberInterface
 	/** @var \phpbb\config\db_text */
 	protected $config_text;
 
+	/** @var \phpbb\content_visibility */
+	protected $content_visibility;
+
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
@@ -50,6 +53,7 @@ class listener implements EventSubscriberInterface
 	 * Constructor
 	 *
 	 * @param \phpbb\config\config					$config
+	 * @param \phpbb\config\db_text					$config_text
 	 * @param \phpbb\db\driver\driver_interface		$db						Database object
 	 * @param \phpbb\event\dispatcher_interface		$phpbb_dispatcher
 	 * @param \phpbb\user							$user					User Object
@@ -59,7 +63,17 @@ class listener implements EventSubscriberInterface
 	 * @param string								$php_ext				php_ext
 	 * @access public
 	 */
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\config\db_text $config_text, \phpbb\db\driver\driver_interface $db, \phpbb\event\dispatcher_interface $phpbb_dispatcher, \phpbb\user $user, \phpbb\template\template $template, \phpbb\request\request $request, $phpbb_root_path, $php_ext)
+	public function __construct(
+		\phpbb\auth\auth $auth,
+		\phpbb\config\config $config,
+		\phpbb\config\db_text $config_text,
+		\phpbb\db\driver\driver_interface $db,
+		\phpbb\event\dispatcher_interface $phpbb_dispatcher,
+		\phpbb\user $user, \phpbb\template\template $template,
+		\phpbb\request\request $request,
+		$phpbb_root_path,
+		$php_ext
+	)
 	{
 		$this->auth = $auth;
 		$this->config = $config;
@@ -357,15 +371,52 @@ class listener implements EventSubscriberInterface
 				header("Pragma: no-cache");
 				header("Expires: 0");
 
-				$fields = 'post_id, topic_id, forum_id, poster_ip, post_time, post_subject, post_text';
+				$fields = 'post_id, topic_id, forum_id, poster_ip, post_time, post_subject';
+				if ($this->config['tas2580_privacyprotection_post_format'])
+				{
+					$fields .= ', post_text';
+				}
+
+				// Output header
 				echo $fields . "\n";
+
+				$sql_and = '';
+
+				// Limit to readable forums
+				if ($this->config['tas2580_privacyprotection_post_read'])
+				{
+					$forum_ids = array_keys($this->auth->acl_getf('f_read', true));
+					$sql_and .= ' AND ' . $this->db->sql_in_set('forum_id', $forum_ids);
+				}
+
+				// all visible posts
+				$post_visibility = ' AND post_visibility = ' . ITEM_APPROVED;
+
+				// include unapproved posts
+				if ($this->config['tas2580_privacyprotection_post_unapproved'])
+				{
+					$post_visibility .= ' OR post_visibility = ' . ITEM_UNAPPROVED . ' OR post_visibility = ' . ITEM_REAPPROVE;
+				}
+
+				// include deleted posts
+				if ($this->config['tas2580_privacyprotection_post_deleted'])
+				{
+					$post_visibility .= ' OR post_visibility = ' . ITEM_DELETED;
+				}
+
+				$sql_and .= $post_visibility;
+
 				$sql = 'SELECT ' . $fields . '
 					FROM ' .  POSTS_TABLE . '
-					WHERE poster_id = ' . (int) $this->user->data['user_id'];
+					WHERE poster_id = ' . (int) $this->user->data['user_id'] .
+					$sql_and;
 				$result = $this->db->sql_query($sql);
 				while($row = $this->db->sql_fetchrow($result))
 				{
-					$row['post_text'] = $this->escape($row['post_text']);
+					if ($this->config['tas2580_privacyprotection_post_format'])
+					{
+						$row['post_text'] = $this->escape($row['post_text']);
+					}
 					$row['post_subject'] = $this->escape($row['post_subject']);
 					$row['post_time'] = '"' . $this->user->format_date($row['post_time']) . '"';
 					echo implode(', ', $row) . "\n";

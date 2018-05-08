@@ -141,6 +141,10 @@ class privacyprotection_module
 					$this->config->set('tas2580_privacyprotection_reject_url', $this->request->variable('reject_url', '', true));
 					$this->config->set('tas2580_privacyprotection_anonymize_ip', $this->request->variable('anonymize_ip', 0));
 					$this->config->set('tas2580_privacyprotection_footerlink', $this->request->variable('footerlink', 0));
+					$this->config->set('tas2580_privacyprotection_post_format', $this->request->variable('post_format', 0));
+					$this->config->set('tas2580_privacyprotection_post_read', $this->request->variable('post_read', 0));
+					$this->config->set('tas2580_privacyprotection_post_unapproved', $this->request->variable('post_unapproved', 0));
+					$this->config->set('tas2580_privacyprotection_post_deleted', $this->request->variable('post_deleted', 0));
 
 					trigger_error($this->user->lang('ACP_SAVED') . adm_back_link($this->u_action));
 				}
@@ -152,6 +156,10 @@ class privacyprotection_module
 					'REJECT_GROUP'				=> $this->group_select_options($this->config['tas2580_privacyprotection_reject_group']),
 					'ANONYMIZE_IP'				=> $this->anonymize_ip_options($this->config['tas2580_privacyprotection_anonymize_ip']),
 					'FOOTERLINK'				=> $this->config['tas2580_privacyprotection_footerlink'],
+					'POST_FORMAT'				=> $this->config['tas2580_privacyprotection_post_format'],
+					'POST_READ'					=> $this->config['tas2580_privacyprotection_post_read'],
+					'POST_UNAPPROVED'			=> $this->config['tas2580_privacyprotection_post_unapproved'],
+					'POST_DELETED'				=> $this->config['tas2580_privacyprotection_post_deleted'],
 				));
 				break;
 			case 'privacy':

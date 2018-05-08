@@ -26,12 +26,43 @@
 		<dd><label><input type="radio" class="radio" id="footerlink" name="footerlink" value="1"<!-- IF FOOTERLINK --> checked="checked"<!-- ENDIF --> /> {L_ENABLED}</label>
 		<label><input type="radio" class="radio" name="footerlink" value="0"<!-- IF not FOOTERLINK --> checked="checked"<!-- ENDIF --> /> {L_DISABLED}</label></dd>
 	</dl>
+</fieldset>
+
+<fieldset>
+	<legend>{L_ACP_DATA_DOWNLOAD_OPTIONS}</legend>
+	<dl>
+		<dt><label for="post_format">{L_ACP_POST_FORMAT}{L_COLON}</label><br /><span>{L_ACP_POST_FORMAT_EXPLAIN}</span></dt>
+		<dd><label><input type="radio" class="radio" id="post_format" name="post_format" value="1"<!-- IF POST_FORMAT --> checked="checked"<!-- ENDIF --> /> {L_INCLUDE_TEXT}</label>
+		<label><input type="radio" class="radio" name="post_format" value="0"<!-- IF not POST_FORMAT --> checked="checked"<!-- ENDIF --> /> {L_ONLY_META}</label></dd>
+	</dl>
+	<dl>
+		<dt><label for="post_read">{L_ACP_POST_READ}{L_COLON}</label><br /><span>{L_ACP_POST_READ_EXPLAIN}</span></dt>
+		<dd>
+			<label><input type="radio" class="radio" name="post_read" value="0"<!-- IF not POST_READ --> checked="checked"<!-- ENDIF --> /> {L_ALL_POSTS}</label>
+			<label><input type="radio" class="radio" id="post_read" name="post_read" value="1"<!-- IF POST_READ --> checked="checked"<!-- ENDIF --> /> {L_ONLY_READ}</label>
+		</dd>
+	</dl>
+	<dl>
+		<dt><label for="post_unapproved">{L_ACP_POST_UNAPPROVED}{L_COLON}</label><br /><span>{L_ACP_POST_UNAPPROVED_EXPLAIN}</span></dt>
+		<dd><label><input type="radio" class="radio" id="post_unapproved" name="post_unapproved" value="1"<!-- IF POST_UNAPPROVED --> checked="checked"<!-- ENDIF --> /> {L_YES}</label>
+		<label><input type="radio" class="radio" name="post_unapproved" value="0"<!-- IF not POST_UNAPPROVED --> checked="checked"<!-- ENDIF --> /> {L_NO}</label></dd>
+	</dl>
+	<dl>
+		<dt><label for="post_deleted">{L_ACP_POST_DELETED}{L_COLON}</label><br /><span>{L_ACP_POST_DELETED_EXPLAIN}</span></dt>
+		<dd><label><input type="radio" class="radio" id="post_deleted" name="post_deleted" value="1"<!-- IF POST_DELETED --> checked="checked"<!-- ENDIF --> /> {L_YES}</label>
+		<label><input type="radio" class="radio" name="post_deleted" value="0"<!-- IF not POST_DELETED --> checked="checked"<!-- ENDIF --> /> {L_NO}</label></dd>
+	</dl>
+</fieldset>
+
+<fieldset>
+	<legend>{L_ACP_SUBMIT_CHANGES}</legend>
 	<p class="submit-buttons">
 		<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}">&nbsp;
 		<input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}">
 	</p>
 	{S_FORM_TOKEN}
 </fieldset>
+
 
 <fieldset>
 	<legend>{L_ACP_PRIVACY_OPTIONS}</legend>
