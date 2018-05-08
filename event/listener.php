@@ -197,8 +197,9 @@ class listener implements EventSubscriberInterface
 					}
 					group_user_del($this->config['tas2580_privacyprotection_reject_group'], array($this->user->data['user_id']));
 				}
-
-				redirect(append_sid("{$this->phpbb_root_path}index.{$this->php_ext}"));
+				$this->user->add_lang_ext('tas2580/privacyprotection', 'common');
+				trigger_error($this->user->lang['PRIVACY_ACCEPT_SUCCESS']);
+				//redirect(append_sid("{$this->phpbb_root_path}index.{$this->php_ext}"));
 			}
 
 			// Move user to group
