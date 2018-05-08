@@ -397,21 +397,22 @@ class listener implements EventSubscriberInterface
 				}
 
 				// all visible posts
-				$post_visibility = ' AND post_visibility = ' . ITEM_APPROVED;
+				$post_visibility = array(ITEM_APPROVED);
 
 				// include unapproved posts
 				if ($this->config['tas2580_privacyprotection_post_unapproved'])
 				{
-					$post_visibility .= ' OR post_visibility = ' . ITEM_UNAPPROVED . ' OR post_visibility = ' . ITEM_REAPPROVE;
+					$post_visibility[] =  ITEM_UNAPPROVED;
+					$post_visibility[] =  ITEM_REAPPROVE;
 				}
 
 				// include deleted posts
 				if ($this->config['tas2580_privacyprotection_post_deleted'])
 				{
-					$post_visibility .= ' OR post_visibility = ' . ITEM_DELETED;
+					$post_visibility[] =  ITEM_DELETED;
 				}
 
-				$sql_and .= $post_visibility;
+				$sql_and .= ' AND ' . $this->db->sql_in_set('post_visibility', $post_visibility);
 
 				$sql = 'SELECT ' . $fields . '
 					FROM ' .  POSTS_TABLE . '
