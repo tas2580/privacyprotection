@@ -243,6 +243,13 @@ class listener implements EventSubscriberInterface
 		$mode = $this->request->variable('mode', '');
 		if ($mode == 'privacy')
 		{
+			// redirect if custom URL is set in ACP
+			if ($this->config['tas2580_privacyprotection_privacy_url'])
+			{
+				header('Location:' . $this->config['tas2580_privacyprotection_privacy_url'], true, 301);
+				exit;
+			}
+
 			$privacy_text = $this->config_text->get('privacy_text');
 			$privacy_text = empty($privacy_text) ? sprintf($this->user->lang['PRIVACY_POLICY'], $this->config['sitename'], generate_board_url()) : html_entity_decode(str_replace(array('{SITE_NAME}', '{SITE_URL}'), array($this->config['sitename'], generate_board_url()), $privacy_text));
 			$this->template->assign_vars(array(
