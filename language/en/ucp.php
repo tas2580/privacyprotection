@@ -36,5 +36,5 @@ $lang = array_merge($lang, array(
 	'DOWNLOAD_MY_POSTS_BTN'			=> 'Download my posts',
 	'NEED_ACCEPT_PRIVACY'			=> 'You must first read and accept the Privacy Policy statement.',
 	'PRIVACY_ACCEPTED'				=> 'Privacy Policy read and accepted',
-	'PRIVACY_ACCEPTED_EXPLAIN'		=> 'By marking this field I confirm that I have read and accepted the <a href="%s" target="_blank">Privacy Policy statement</a>.',
+	'PRIVACY_ACCEPTED_EXPLAIN'		=> 'By marking this field I confirm that I have read and accepted the <a href="%s">Privacy Policy statement</a>.',
 ));
