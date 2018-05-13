@@ -34,6 +34,6 @@ if (empty($lang) || !is_array($lang))
 // ‚ ‘ ’ « » „ “ ” …
 //
 $lang = array_merge($lang, array(
-	'ACL_U_PRIVACYPROTECTION_DL_DATA'				=> 'Can download his own profile data',
-	'ACL_U_PRIVACYPROTECTION_DL_POSTS'				=> 'Can download his own postings',
+	'ACL_U_PRIVACYPROTECTION_DL_DATA'				=> 'Can download own profile data',
+	'ACL_U_PRIVACYPROTECTION_DL_POSTS'				=> 'Can download own messages',
 ));
