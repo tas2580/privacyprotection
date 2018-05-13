@@ -35,6 +35,6 @@ if (empty($lang) || !is_array($lang))
 $lang = array_merge($lang, array(
 	'ACP_PRIVACYPROTECTION_TITLE'		=> 'Privacy protection',
 	'ACP_PRIVACYPROTECTION_SETTINGS'	=> 'Settings',
-	'ACP_PRIVACYPROTECTION_PRIVACY'		=> 'Privacy policy',
+	'ACP_PRIVACYPROTECTION_PRIVACY'		=> 'Privacy Policy',
 	'ACP_PRIVACYPROTECTION_LIST'		=> 'User list',
 ));

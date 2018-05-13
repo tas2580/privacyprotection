@@ -30,12 +30,12 @@ if (empty($lang) || !is_array($lang))
 // ‚ ‘ ’ « » „ “ ” …
 //
 $lang = array_merge($lang, array(
-	'DOWNLOAD_MY_DATA'				=> 'Download my personal data',
-	'DOWNLOAD_MY_DATA_EXPLAIN'		=> 'Click here to download your personal data (CSV file).',
-	'DOWNLOAD_MY_POSTS_EXPLAIN'		=> 'Click here to download your messages (CSV file).',
+	'DOWNLOAD_MY_DATA'				=> 'Meine Daten herunterladen',
+	'DOWNLOAD_MY_DATA_EXPLAIN'		=> 'Hier können Sie Ihre persönlichen Profildaten als CSV-Datei runterladen.',
+	'DOWNLOAD_MY_POSTS_EXPLAIN'		=> 'Hier können Sie die von Ihnen geschriebenen Beiträge als CSV-Datei runterladen.',
 	'DOWNLOAD_BTN'					=> 'Download',
-	'NEED_ACCEPT_PRIVACY'			=> 'You must first read and accept the Privacy Policy Statement.',
-	'PRIVACY_ACCEPTED'				=> 'Privacy Policy Stement read and accepted',
-	'PRIVACY_ACCEPTED_EXPLAIN'		=> 'By marking this field I confirm that I have read and accepted the <a href="%s">Privacy Policy Statement</a>.',
-	'PRIVACY_LAST_ACCEPTED'			=> 'Date of last acceptance of Privacy Policy Statement',
+	'NEED_ACCEPT_PRIVACY'			=> 'Sie müssen die Datenschutzerklärung lesen und akzeptieren.',
+	'PRIVACY_ACCEPTED'				=> 'Datenschutzerklärung gelesen und akzeptiert',
+	'PRIVACY_ACCEPTED_EXPLAIN'		=> 'Ich bestätige mit dem Auswählen dieses Feldes, das ich die <a href="%s">Datenschutzerklärung</a> gelesen habe und akzeptiere diese.',
+	'PRIVACY_LAST_ACCEPTED'			=> 'Datenschutzerklärung zuletzt akzeptiert',
 ));

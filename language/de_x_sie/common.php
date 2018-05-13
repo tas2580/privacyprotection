@@ -30,12 +30,11 @@ if (empty($lang) || !is_array($lang))
 // ‚ ‘ ’ « » „ “ ” …
 //
 $lang = array_merge($lang, array(
-	'DOWNLOAD_MY_DATA'				=> 'Download my personal data',
-	'DOWNLOAD_MY_DATA_EXPLAIN'		=> 'Click here to download your personal data (CSV file).',
-	'DOWNLOAD_MY_POSTS_EXPLAIN'		=> 'Click here to download your messages (CSV file).',
-	'DOWNLOAD_BTN'					=> 'Download',
-	'NEED_ACCEPT_PRIVACY'			=> 'You must first read and accept the Privacy Policy Statement.',
-	'PRIVACY_ACCEPTED'				=> 'Privacy Policy Stement read and accepted',
-	'PRIVACY_ACCEPTED_EXPLAIN'		=> 'By marking this field I confirm that I have read and accepted the <a href="%s">Privacy Policy Statement</a>.',
-	'PRIVACY_LAST_ACCEPTED'			=> 'Date of last acceptance of Privacy Policy Statement',
+	'NEED_ACCEPT_PRIVACY_HL'			=> 'Aktualisierte Datenschutzerklärung',
+	'NEED_ACCEPT_PRIVACY'				=> 'Unsere <a href="%s">Datenschutzerklärung</a> hat sich geändert. Sie müssen die neue Datenschutzerklärung akzeptieren, um das Forum weiterhin nutzen zu können.',
+	'PRIVACY_ACCEPT_SUCCESS'			=> 'Sie haben die Datenschutzerklärung erfolgreich akzeptiert und können das Forum wieder uneingeschränkt nutzen.',
+	'ACCEPT_PRIVACY'					=> 'Datenschutzerklärung akzeptieren',
+	'REJECT_PRIVACY'					=> 'Datenschutzerklärung ablehnen',
+	'NEED_TO_ACCEPT_PRIVACY_POLICY'		=> 'Sie müssen die Datenschutzerklärung akzeptieren, bevor Sie in diesem Forum Inhalte erzeugen können.',
+	'CONFIRM_ACCEPT_PRIVACY'			=> 'Ich habe die <a href="%s">Datenschutzerklärung</a> gelesen und bin damit einverstanden.',
 ));

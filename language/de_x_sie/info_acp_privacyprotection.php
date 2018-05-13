@@ -6,6 +6,9 @@
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
+/**
+* DO NOT CHANGE
+*/
 if (!defined('IN_PHPBB'))
 {
 	exit;
@@ -30,12 +33,8 @@ if (empty($lang) || !is_array($lang))
 // ‚ ‘ ’ « » „ “ ” …
 //
 $lang = array_merge($lang, array(
-	'DOWNLOAD_MY_DATA'				=> 'Download my personal data',
-	'DOWNLOAD_MY_DATA_EXPLAIN'		=> 'Click here to download your personal data (CSV file).',
-	'DOWNLOAD_MY_POSTS_EXPLAIN'		=> 'Click here to download your messages (CSV file).',
-	'DOWNLOAD_BTN'					=> 'Download',
-	'NEED_ACCEPT_PRIVACY'			=> 'You must first read and accept the Privacy Policy Statement.',
-	'PRIVACY_ACCEPTED'				=> 'Privacy Policy Stement read and accepted',
-	'PRIVACY_ACCEPTED_EXPLAIN'		=> 'By marking this field I confirm that I have read and accepted the <a href="%s">Privacy Policy Statement</a>.',
-	'PRIVACY_LAST_ACCEPTED'			=> 'Date of last acceptance of Privacy Policy Statement',
+	'ACP_PRIVACYPROTECTION_TITLE'		=> 'Privacy protection',
+	'ACP_PRIVACYPROTECTION_SETTINGS'	=> 'Einstellungen',
+	'ACP_PRIVACYPROTECTION_PRIVACY'		=> 'Datenschutzerklärung',
+	'ACP_PRIVACYPROTECTION_LIST'		=> 'Benutzerliste',
 ));

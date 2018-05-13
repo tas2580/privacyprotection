@@ -30,9 +30,9 @@ if (empty($lang) || !is_array($lang))
 // ‚ ‘ ’ « » „ “ ” …
 //
 $lang = array_merge($lang, array(
-	'DOWNLOAD_MY_DATA'				=> 'Meine Daten runterladen',
-	'DOWNLOAD_MY_DATA_EXPLAIN'		=> 'Hier kannst du deine persönlichen Profil Daten als CSV-Datei runterladen.',
-	'DOWNLOAD_MY_POSTS_EXPLAIN'		=> 'Hier kannst die von dir geschriebenen Beiträge als CSV-Datei runterladen.',
+	'DOWNLOAD_MY_DATA'				=> 'Meine Daten herunterladen',
+	'DOWNLOAD_MY_DATA_EXPLAIN'		=> 'Hier kannst Du Deine persönlichen Profildaten als CSV-Datei runterladen.',
+	'DOWNLOAD_MY_POSTS_EXPLAIN'		=> 'Hier kannst Du die von Dir geschriebenen Beiträge als CSV-Datei runterladen.',
 	'DOWNLOAD_BTN'					=> 'Download',
 	'NEED_ACCEPT_PRIVACY'			=> 'Du musst die Datenschutzerklärung lesen und akzeptieren.',
 	'PRIVACY_ACCEPTED'				=> 'Datenschutzerklärung gelesen und akzeptiert',
