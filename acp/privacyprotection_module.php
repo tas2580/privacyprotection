@@ -172,7 +172,7 @@ class privacyprotection_module extends \tas2580\privacyprotection\privacyprotect
 
 				$start = $request->variable('start', 0);
 				$display = $request->variable('display', 0);
-
+$config['topics_per_page'] = 2;
 				switch ($display)
 				{
 					case 0:
@@ -213,15 +213,14 @@ class privacyprotection_module extends \tas2580\privacyprotection\privacyprotect
 					));
 				}
 
+				$base_url = $this->u_action . '&display=' . $display;
 				$this->template->assign_vars(array(
 					'DISPLAY_SELECT'		=> $this->display_select($display),
-					'U_ACTION'				=> $this->u_action,
+					'U_ACTION'				=> $base_url,
 					'LIST_EXPLAIN'			=> ($display == 0) ? $this->user->lang['USER_LIST_ACEPTED_EXPLAIN'] : $this->user->lang['USER_LIST_NOT_ACEPTED_EXPLAIN'],
 				));
 
 				$pagination = $phpbb_container->get('pagination');
-
-				$base_url = $this->u_action;
 				$pagination->generate_template_pagination($base_url, 'pagination', 'start', $count, $config['topics_per_page'], $start);
 
 				break;
