@@ -8,13 +8,13 @@
 */
 
 namespace tas2580\privacyprotection\acp;
-class privacyprotection_module
+class privacyprotection_module extends \tas2580\privacyprotection\privacyprotection
 {
 	public $u_action;
 	protected $user;
 	public function main($id, $mode)
 	{
-		global $config, $user, $template, $request, $phpbb_container, $db, $phpbb_root_path, $phpEx;
+		global $config, $user, $template, $request, $phpbb_container, $db, $phpbb_dispatcher, $phpbb_root_path, $phpEx;
 		$user->add_lang_ext('tas2580/privacyprotection', 'acp');
 
 		$this->user = $user;
@@ -23,6 +23,7 @@ class privacyprotection_module
 		$this->config = $config;
 		$this->template = $template;
 		$this->phpbb_root_path = $phpbb_root_path;
+		$this->phpbb_dispatcher = $phpbb_dispatcher;
 		$this->php_ext = $phpEx;
 
 		add_form_key('acp_privacyprotection');
@@ -55,33 +56,7 @@ class privacyprotection_module
 				{
 					if (confirm_box(true))
 					{
-						$sql = 'UPDATE ' . POSTS_TABLE . "
-							SET poster_ip = '127.0.0.1'";
-						$this->db->sql_query($sql);
-
-						$sql = 'UPDATE ' . LOG_TABLE . "
-							SET log_ip = '127.0.0.1'";
-						$this->db->sql_query($sql);
-
-						$sql = 'UPDATE ' . POLL_VOTES_TABLE . "
-							SET vote_user_ip = '127.0.0.1'";
-						$this->db->sql_query($sql);
-
-						$sql = 'UPDATE ' . PRIVMSGS_TABLE . "
-							SET author_ip = '127.0.0.1'";
-						$this->db->sql_query($sql);
-
-						$sql = 'UPDATE ' . SESSIONS_TABLE . "
-							SET session_ip = '127.0.0.1'";
-						$this->db->sql_query($sql);
-
-						$sql = 'UPDATE ' . SESSIONS_KEYS_TABLE . "
-							SET last_ip = '127.0.0.1'";
-						$this->db->sql_query($sql);
-
-						$sql = 'UPDATE ' . USERS_TABLE . "
-							SET user_ip = '127.0.0.1'";
-						$this->db->sql_query($sql);
+						$this->anonymize_ip(time());
 
 						/**
 						 * Delete additional IP addresses
