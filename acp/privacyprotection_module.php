@@ -84,30 +84,33 @@ class privacyprotection_module extends \tas2580\privacyprotection\privacyprotect
 						trigger_error($user->lang('FORM_INVALID') . adm_back_link($this->u_action), E_USER_WARNING);
 					}
 
-					// Move users if group has changed
+					// Handle reject group
 					$reject_group = $this->request->variable('reject_group', 0);
 					if ($this->config['tas2580_privacyprotection_reject_group'] <> $reject_group)
 					{
-						if (!function_exists('group_memberships'))
+						// Move users if group has changed
+						if ($this->request->is_set_post('move_group'))
 						{
-							include($this->phpbb_root_path . 'includes/functions_user.' . $this->php_ext);
-						}
-
-						$user_array = group_memberships(array($this->config['tas2580_privacyprotection_reject_group']));
-						if (is_array($user_array) && sizeof($user_array))
-						{
-							foreach ($user_array as $usr)
+							if (!function_exists('group_memberships'))
 							{
-								$users[] = $usr['user_id'];
+								include($this->phpbb_root_path . 'includes/functions_user.' . $this->php_ext);
 							}
 
-							group_user_del($this->config['tas2580_privacyprotection_reject_group'], $users);
-							if ($reject_group <> 0)
+							$user_array = group_memberships(array($this->config['tas2580_privacyprotection_reject_group']));
+							if (is_array($user_array) && sizeof($user_array))
 							{
-								group_user_add($reject_group, $users);
+								foreach ($user_array as $usr)
+								{
+									$users[] = $usr['user_id'];
+								}
+
+								group_user_del($this->config['tas2580_privacyprotection_reject_group'], $users);
+								if ($reject_group <> 0)
+								{
+									group_user_add($reject_group, $users);
+								}
 							}
 						}
-
 						$this->config->set('tas2580_privacyprotection_reject_group', $this->request->variable('reject_group', 0));
 					}
 

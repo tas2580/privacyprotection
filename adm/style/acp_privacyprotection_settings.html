@@ -11,7 +11,10 @@
 	</dl>
 	<dl>
 		<dt><label for="reject_group">{L_ACP_REJECT_GROUP}{L_COLON}</label><br><span>{L_ACP_REJECT_GROUP_EXPLAIN}</span></dt>
-		<dd><select id="reject_group" name="reject_group">{REJECT_GROUP}</select></dd>
+		<dd>
+			<select id="reject_group" name="reject_group">{REJECT_GROUP}</select><br>
+			<small title="{L_ACP_MOVE_GROUP_EXPLAIN}"><input type="checkbox" name="move_group" value="1"> {L_ACP_MOVE_GROUP}</small>
+		</dd>
 	</dl>
 	<dl>
 		<dt><label for="privacy_url">{L_ACP_PRIVACY_URL}{L_COLON}</label><br><span>{L_ACP_PRIVACY_URL_EXPLAIN}</span></dt>
