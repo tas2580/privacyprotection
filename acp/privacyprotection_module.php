@@ -229,7 +229,6 @@ class privacyprotection_module extends \tas2580\privacyprotection\privacyprotect
 				$this->template->assign_vars(array(
 					'DISPLAY_SELECT'		=> $this->display_select($display),
 					'U_ACTION'				=> $base_url,
-					'LIST_EXPLAIN'			=> ($display == 0) ? $this->user->lang['USER_LIST_ACEPTED_EXPLAIN'] : $this->user->lang['USER_LIST_NOT_ACEPTED_EXPLAIN'],
 				));
 
 				$pagination = $phpbb_container->get('pagination');
