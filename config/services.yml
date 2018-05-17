@@ -14,3 +14,12 @@ services:
             - '%core.php_ext%'
         tags:
             - { name: event.listener }
+    tas2580.privacyprotection.cron.task.anonymize_ip:
+        class: tas2580\privacyprotection\cron\task\anonymize_ip
+        arguments:
+            - @config
+            - @log
+        calls:
+            - [set_name, [tas2580.privacyprotection.cron.task.anonymize_ip]]
+        tags:
+            - { name: cron.task }

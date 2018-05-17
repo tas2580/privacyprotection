@@ -6,17 +6,6 @@
 <fieldset>
 	<legend>{L_ACP_PRIVACY_SETTINGS}</legend>
 	<dl>
-		<dt><label for="anonymize_ip">{L_ACP_ANONYMIZE_IP}{L_COLON}</label><br><span>{L_ACP_ANONYMIZE_IP_EXPLAIN}</span></dt>
-		<dd><select id="anonymize_ip" name="anonymize_ip">{ANONYMIZE_IP}</select></dd>
-	</dl>
-	<dl>
-		<dt><label for="reject_group">{L_ACP_REJECT_GROUP}{L_COLON}</label><br><span>{L_ACP_REJECT_GROUP_EXPLAIN}</span></dt>
-		<dd>
-			<select id="reject_group" name="reject_group">{REJECT_GROUP}</select><br>
-			<small title="{L_ACP_MOVE_GROUP_EXPLAIN}"><input type="checkbox" name="move_group" value="1"> {L_ACP_MOVE_GROUP}</small>
-		</dd>
-	</dl>
-	<dl>
 		<dt><label for="privacy_url">{L_ACP_PRIVACY_URL}{L_COLON}</label><br><span>{L_ACP_PRIVACY_URL_EXPLAIN}</span></dt>
 		<dd><input id="privacy_url" type="url" name="privacy_url" value="{PRIVACY_URL}" style="width:80%;"></dd>
 	</dl>
@@ -28,6 +17,32 @@
 		<dt><label for="footerlink">{L_ACP_FOOTERLINK}{L_COLON}</label><br /><span>{L_ACP_FOOTERLINK_EXPLAIN}</span></dt>
 		<dd><label><input type="radio" class="radio" id="footerlink" name="footerlink" value="1"<!-- IF FOOTERLINK --> checked="checked"<!-- ENDIF --> /> {L_ENABLED}</label>
 		<label><input type="radio" class="radio" name="footerlink" value="0"<!-- IF not FOOTERLINK --> checked="checked"<!-- ENDIF --> /> {L_DISABLED}</label></dd>
+	</dl>
+	<dl>
+		<dt><label for="reject_group">{L_ACP_REJECT_GROUP}{L_COLON}</label><br><span>{L_ACP_REJECT_GROUP_EXPLAIN}</span></dt>
+		<dd>
+			<select id="reject_group" name="reject_group">{REJECT_GROUP}</select><br>
+			<small title="{L_ACP_MOVE_GROUP_EXPLAIN}"><input type="checkbox" name="move_group" id="move_group" value="1"> <label for="move_group">{L_ACP_MOVE_GROUP}</label></small>
+		</dd>
+	</dl>
+</fieldset>
+
+<fieldset>
+	<legend>{L_ACP_IP_SETTINGS}</legend>
+	<dl>
+		<dt><label for="anonymize_ip">{L_ACP_ANONYMIZE_IP}{L_COLON}</label><br><span>{L_ACP_ANONYMIZE_IP_EXPLAIN}</span></dt>
+		<dd><select id="anonymize_ip" name="anonymize_ip">{ANONYMIZE_IP}</select></dd>
+	</dl>
+	<dl>
+		<dt><label for="anonymize_ip_time">{L_ACP_ANONYMIZE_IP_TIME}{L_COLON}</label><br><span>{L_ACP_ANONYMIZE_IP_TIME_EXPLAIN}</span></dt>
+		<dd>
+			<input id="anonymize_ip_time" type="number" min="0" name="anonymize_ip_time" value="{ANONYMIZE_IP_TIME}">
+			<select id="anonymize_ip_time_type" name="anonymize_ip_time_type">{ANONYMIZE_IP_TIME_TYPE}</select>
+		</dd>
+	</dl>
+	<dl>
+		<dt><label for="action_delete_ip">{L_ACP_DELETE_IP}{L_COLON}</label><br><span>{L_ACP_DELETE_IP_EXPLAIN}</span></dt>
+		<dd><input class="button2" type="submit" id="action_delete_ip" name="action_delete_ip" value="{L_RUN}"></dd>
 	</dl>
 </fieldset>
 
@@ -66,22 +81,29 @@
 	{S_FORM_TOKEN}
 </fieldset>
 
-
-<fieldset>
-	<legend>{L_ACP_PRIVACY_OPTIONS}</legend>
-	<form id="action_update_privacy_form" method="post" action="{U_ACTION}" data-ajax="true">
-		<dl>
-			<dt><label for="action_update_privacy">{L_UPDATE_PRIVACY}</label><br><span>{L_UPDATE_PRIVACY_EXPLAIN}</span></dt>
-			<dd><input class="button2" type="submit" id="action_update_privacy" name="action_update_privacy" value="{L_RUN}"></dd>
-		</dl>
-	</form>
-	<form id="action_delete_ip" method="post" action="{U_ACTION}" data-ajax="true">
-		<dl>
-			<dt><label for="action_delete_ip">{L_DELETE_IP}</label><br><span>{L_DELETE_IP_EXPLAIN}</span></dt>
-			<dd><input class="button2" type="submit" id="action_delete_ip" name="action_delete_ip" value="{L_RUN}"></dd>
-		</dl>
-	</form>
-</fieldset>
-
 </form>
+
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+
+		var change = false, submitted = false;
+		$('select').change(function(){
+			change = true;
+		});
+		$('input').change(function(){
+			change = true;
+		});
+
+		$(document).ready(function() {
+			$("#submit").click(function() {
+				submitted = true;
+			});
+			window.onbeforeunload = function () {
+				if (!submitted && change) {
+					return '{L_CONFIRM_LEAVE_PAGE}';
+				}
+			}
+		});
+	});
+</script>
 <!-- INCLUDE overall_footer.html -->

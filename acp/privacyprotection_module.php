@@ -33,30 +33,15 @@ class privacyprotection_module extends \tas2580\privacyprotection\privacyprotect
 				$this->tpl_name = 'acp_privacyprotection_settings';
 				$this->page_title = $user->lang('ACP_PRIVACYPROTECTION_SETTINGS');
 
-				// update privacy policy
-				$update_privacy = $this->request->variable('action_update_privacy', '');
-				if ($update_privacy)
-				{
-					if (confirm_box(true))
-					{
-						$this->config->set('tas2580_privacyprotection_last_update', time());
-						trigger_error($user->lang('PRIVACY_POLICE_UPDATED') . adm_back_link($this->u_action));
-					}
-					else
-					{
-						confirm_box(false, $this->user->lang['CONFIRM_OPERATION'], build_hidden_fields(array(
-							'action_update_privacy'		=> $update_privacy))
-						);
-					}
-				}
-
 				// anonymize stored IPs
-				$delete_ip = $this->request->variable('action_delete_ip', '');
-				if ($delete_ip)
+				$anonymize_ip = $this->request->variable('action_delete_ip', '');
+				if ($anonymize_ip)
 				{
 					if (confirm_box(true))
 					{
-						$this->anonymize_ip(time());
+						$intervall = $this->config['tas2580_privacyprotection_anonymize_ip_time'] * 60 * 60 * 24;
+						$time = time() - ($intervall * $this->config['tas2580_privacyprotection_anonymize_ip_time_type']);
+						$this->anonymize_ip($time);
 
 						/**
 						 * Delete additional IP addresses
@@ -71,7 +56,7 @@ class privacyprotection_module extends \tas2580\privacyprotection\privacyprotect
 					else
 					{
 						confirm_box(false, $this->user->lang['CONFIRM_OPERATION'], build_hidden_fields(array(
-							'action_delete_ip'		=> $delete_ip))
+							'action_delete_ip'		=> $anonymize_ip))
 						);
 					}
 				}
@@ -118,6 +103,8 @@ class privacyprotection_module extends \tas2580\privacyprotection\privacyprotect
 					$this->config->set('tas2580_privacyprotection_privacy_url', $this->request->variable('privacy_url', '', true));
 					$this->config->set('tas2580_privacyprotection_reject_url', $this->request->variable('reject_url', '', true));
 					$this->config->set('tas2580_privacyprotection_anonymize_ip', $this->request->variable('anonymize_ip', 0));
+					$this->config->set('tas2580_privacyprotection_anonymize_ip_time', $this->request->variable('anonymize_ip_time', 0));
+					$this->config->set('tas2580_privacyprotection_anonymize_ip_time_type', $this->request->variable('anonymize_ip_time_type', 0));
 					$this->config->set('tas2580_privacyprotection_footerlink', $this->request->variable('footerlink', 0));
 					$this->config->set('tas2580_privacyprotection_post_format', $this->request->variable('post_format', 0));
 					$this->config->set('tas2580_privacyprotection_post_read', $this->request->variable('post_read', 0));
@@ -126,6 +113,8 @@ class privacyprotection_module extends \tas2580\privacyprotection\privacyprotect
 
 					trigger_error($this->user->lang('ACP_SAVED') . adm_back_link($this->u_action));
 				}
+
+
 				// Send the curent settings to template
 				$this->template->assign_vars(array(
 					'U_ACTION'					=> $this->u_action,
@@ -133,6 +122,8 @@ class privacyprotection_module extends \tas2580\privacyprotection\privacyprotect
 					'REJECT_URL'				=> $this->config['tas2580_privacyprotection_reject_url'],
 					'REJECT_GROUP'				=> $this->group_select_options($this->config['tas2580_privacyprotection_reject_group']),
 					'ANONYMIZE_IP'				=> $this->anonymize_ip_options($this->config['tas2580_privacyprotection_anonymize_ip']),
+					'ANONYMIZE_IP_TIME'			=> $this->config['tas2580_privacyprotection_anonymize_ip_time'],
+					'ANONYMIZE_IP_TIME_TYPE'	=> $this->anonymize_time_type_options($this->config['tas2580_privacyprotection_anonymize_ip_time_type']),
 					'FOOTERLINK'				=> $this->config['tas2580_privacyprotection_footerlink'],
 					'POST_FORMAT'				=> $this->config['tas2580_privacyprotection_post_format'],
 					'POST_READ'					=> $this->config['tas2580_privacyprotection_post_read'],
@@ -141,6 +132,23 @@ class privacyprotection_module extends \tas2580\privacyprotection\privacyprotect
 				));
 				break;
 			case 'privacy':
+				// update privacy policy
+				$update_privacy = $this->request->variable('action_update_privacy', '');
+				if ($update_privacy)
+				{
+					if (confirm_box(true))
+					{
+						$this->config->set('tas2580_privacyprotection_last_update', time());
+						trigger_error($user->lang('PRIVACY_POLICE_UPDATED') . adm_back_link($this->u_action));
+					}
+					else
+					{
+						confirm_box(false, $this->user->lang['CONFIRM_OPERATION'], build_hidden_fields(array(
+							'action_update_privacy'		=> $update_privacy))
+						);
+					}
+				}
+
 				$this->tpl_name = 'acp_privacyprotection_privacy';
 				$this->page_title = $this->user->lang('ACP_PRIVACYPROTECTION_PRIVACY');
 
@@ -172,7 +180,7 @@ class privacyprotection_module extends \tas2580\privacyprotection\privacyprotect
 
 				$start = $request->variable('start', 0);
 				$display = $request->variable('display', 0);
-$config['topics_per_page'] = 2;
+
 				switch ($display)
 				{
 					case 0:
@@ -280,6 +288,27 @@ $config['topics_per_page'] = 2;
 		{
 			$selected = ($id == $anonymize) ? ' selected="selected"' : '';
 			$option .= '<option' . $selected . ' value="' . $id . '">' . $this->user->lang['ANONYMIZE_IP_' . $value] . '</option>';
+		}
+		return $option;
+	}
+
+	private function anonymize_time_type_options($time_type)
+	{
+
+		$this->user->add_lang_ext('tas2580/privacyprotection', 'acp');
+		$values = array(
+			0	=> 'DISABLE',
+			1	=> 'DAYS',
+			7	=> 'WEEKS',
+			30	=> 'MONTHS',
+			365	=> 'YEARS',
+		);
+
+		$option = '';
+		foreach($values as $id => $value)
+		{
+			$selected = ($id == $time_type) ? ' selected="selected"' : '';
+			$option .= '<option' . $selected . ' value="' . $id . '">' . $this->user->lang[$value] . '</option>';
 		}
 		return $option;
 	}

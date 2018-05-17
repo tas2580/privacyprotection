@@ -56,6 +56,10 @@ class initial_module extends \phpbb\db\migration\migration
 			array('config.add', array('tas2580_privacyprotection_post_read', '0')),
 			array('config.add', array('tas2580_privacyprotection_post_unapproved', '1')),
 			array('config.add', array('tas2580_privacyprotection_post_deleted', '1')),
+			array('config.add', array('tas2580_privacyprotection_anonymize_gc', '0')),
+			array('config.add', array('tas2580_privacyprotection_anonymize_last_gc', '0')),
+			array('config.add', array('tas2580_privacyprotection_anonymize_ip_time', '0')),
+			array('config.add', array('tas2580_privacyprotection_anonymize_ip_time_type', '0')),
 			array('config_text.add', array('privacy_text', '')),
 
 			// Add permissions
