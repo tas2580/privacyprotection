@@ -25,6 +25,16 @@
 			<small title="{L_ACP_MOVE_GROUP_EXPLAIN}"><input type="checkbox" name="move_group" id="move_group" value="1"> <label for="move_group">{L_ACP_MOVE_GROUP}</label></small>
 		</dd>
 	</dl>
+	<dl>
+		<dt><label for="reg_accept_privacy">{L_ACP_REG_ACCEPT_PRIVACY}{L_COLON}</label><br /><span>{L_ACP_REG_ACCEPT_PRIVACY_EXPLAIN}</span></dt>
+		<dd><label><input type="radio" class="radio" id="reg_accept_privacy" name="reg_accept_privacy" value="1"<!-- IF REG_ACCEPT_PRIVACY --> checked="checked"<!-- ENDIF --> /> {L_YES}</label>
+		<label><input type="radio" class="radio" name="reg_accept_privacy" value="0"<!-- IF not REG_ACCEPT_PRIVACY --> checked="checked"<!-- ENDIF --> /> {L_NO}</label></dd>
+	</dl>
+	<dl>
+		<dt><label for="reg_accept_mail">{L_ACP_REG_ACCEPT_MAIL}{L_COLON}</label><br /><span>{L_ACP_REG_ACCEPT_MAIL_EXPLAIN}</span></dt>
+		<dd><label><input type="radio" class="radio" id="reg_accept_mail" name="reg_accept_mail" value="1"<!-- IF REG_ACCEPT_MAIL --> checked="checked"<!-- ENDIF --> /> {L_YES}</label>
+		<label><input type="radio" class="radio" name="reg_accept_mail" value="0"<!-- IF not REG_ACCEPT_MAIL --> checked="checked"<!-- ENDIF --> /> {L_NO}</label></dd>
+	</dl>
 </fieldset>
 
 <fieldset>

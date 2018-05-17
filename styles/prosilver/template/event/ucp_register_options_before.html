@@ -1,3 +1,4 @@
+<!-- IF S_DISPLAY_ACCEPT_MAIL -->
 <dl>
 	<dt><label for="massemail1">{L_ADMIN_EMAIL}{L_COLON}</label></dt>
 	<dd>
@@ -5,6 +6,8 @@
 		 <label for="massemail0"><input type="radio" name="massemail" id="massemail0" value="0"<!-- IF not S_MASS_EMAIL --> checked="checked"<!-- ENDIF --> /> {L_NO}</label>
 	</dd>
 </dl>
+<!-- ENDIF -->
+<!-- IF S_DISPLAY_ACCEPT_PRIVACY -->
 <dl>
 	<dt><label for="privacy1">{L_PRIVACY_ACCEPTED}{L_COLON}</label><br><span>{PRIVACY_ACCEPTED_EXPLAIN}</span></dt>
 	<dd>
@@ -12,3 +15,4 @@
 		 <label for="privacy0"><input type="radio" name="privacy" id="privacy0" value="0"<!-- IF not S_PRIVACY --> checked="checked"<!-- ENDIF --> /> {L_NO}</label>
 	</dd>
 </dl>
+<!-- ENDIF -->

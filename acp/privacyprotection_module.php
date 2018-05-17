@@ -110,6 +110,8 @@ class privacyprotection_module extends \tas2580\privacyprotection\privacyprotect
 					$this->config->set('tas2580_privacyprotection_post_read', $this->request->variable('post_read', 0));
 					$this->config->set('tas2580_privacyprotection_post_unapproved', $this->request->variable('post_unapproved', 0));
 					$this->config->set('tas2580_privacyprotection_post_deleted', $this->request->variable('post_deleted', 0));
+					$this->config->set('tas2580_privacyprotection_reg_accept_mail', $this->request->variable('reg_accept_mail', 0));
+					$this->config->set('tas2580_privacyprotection_reg_accept_privacy', $this->request->variable('reg_accept_privacy', 0));
 
 					trigger_error($this->user->lang('ACP_SAVED') . adm_back_link($this->u_action));
 				}
@@ -129,6 +131,8 @@ class privacyprotection_module extends \tas2580\privacyprotection\privacyprotect
 					'POST_READ'					=> $this->config['tas2580_privacyprotection_post_read'],
 					'POST_UNAPPROVED'			=> $this->config['tas2580_privacyprotection_post_unapproved'],
 					'POST_DELETED'				=> $this->config['tas2580_privacyprotection_post_deleted'],
+					'REG_ACCEPT_MAIL'			=> $this->config['tas2580_privacyprotection_reg_accept_mail'],
+					'REG_ACCEPT_PRIVACY'		=> $this->config['tas2580_privacyprotection_reg_accept_privacy'],
 				));
 				break;
 			case 'privacy':
