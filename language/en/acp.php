@@ -3,6 +3,7 @@
 *
 * @package phpBB Extension - tas2580 privacyprotection
 * @copyright (c) 2018 tas2580 (https://tas2580.net)
+* English translation Update @ Solidjeuh <https://www.froddelpower.be>
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -38,11 +39,23 @@ $lang = array_merge($lang, array(
 	'ACP_REJECT_GROUP'							=> 'Move to group',
 	'ACP_REJECT_GROUP_EXPLAIN'					=> 'Select a group to which all users will be added who did not agree to the privacy policy.',
 	'ACP_NO_REJECT_GROUP'						=> ' - Don\'t move -',
+	'ACP_MOVE_GROUP'						    => 'Move from old group',
+	'ACP_MOVE_GROUP_EXPLAIN'				    => 'Activate to move all members from the previously selected group to the newly selected group.',
+	'ACP_REG_ACCEPT_PRIVACY'				    => 'Privacy policy when registering',
+	'ACP_REG_ACCEPT_PRIVACY_EXPLAIN'		    => 'Do users have to accept the privacy policy when registering?',
+	'ACP_REG_ACCEPT_MAIL'					    => 'Mass email when registering',
+	'ACP_REG_ACCEPT_MAIL_EXPLAIN'			    => 'Do users need to agree to receive mass email when registering?',
+	'ACP_IP_SETTINGS'						    => 'IP Addresses',
 	'ACP_ANONYMIZE_IP'							=> 'Anonymize IP addresses',
 	'ACP_ANONYMIZE_IP_EXPLAIN'					=> 'Choose whether IP\'s shall be anonymized and, if yes, which method to use.',
 	'ANONYMIZE_IP_NONE'							=> 'Don\'t anonymize',
 	'ANONYMIZE_IP_FULL'							=> 'Anonymize completely',
 	'ANONYMIZE_IP_HASH'							=> 'Use hash',
+	'ACP_ANONYMIZE_IP_TIME'					    => 'Anonymize automatically',
+	'ACP_ANONYMIZE_IP_TIME_EXPLAIN'			    => 'Choose from after which time stored IP addresses should be automatically anonymized. The IP addresses are completely anonymized.',
+	'WEEKS'									    => 'weeks',
+	'MONTHS'								    => 'Months',
+	'YEARS'									    => 'Years',
 	'ACP_FOOTERLINK'							=> 'Add link to footer',
 	'ACP_FOOTERLINK_EXPLAIN'					=> 'If activated a link to your privacy olicy statement will be shown in the footer.',
 	'ACP_DATA_DOWNLOAD_OPTIONS'					=> 'Data Download',
@@ -63,8 +76,8 @@ $lang = array_merge($lang, array(
 	'UPDATE_PRIVACY'							=> 'Privacy Policy has been updated',
 	'UPDATE_PRIVACY_EXPLAIN'					=> 'Perform this action after updating the privacy policy. All users must then accept the new privacy policy.',
 	'PRIVACY_POLICE_UPDATED'					=> 'The privacy policy has been set to the current date. All users must first re-confirm their acceptance in order to continue using the board.',
-	'DELETE_IP'									=> 'Anonymize all stored IP´s.',
-	'DELETE_IP_EXPLAIN'							=> 'Perform this option to anonymize all IP´s stored in phpBB.<br><strong>Please note that this cannot be undone!</strong>',
+	'ACP_DELETE_IP'						        => 'Anonymize all stored IP´s.',
+	'ACP_DELETE_IP_EXPLAIN'						=> 'Perform this option to anonymize all IP´s stored in phpBB.<br><strong>Please note that this cannot be undone!</strong>',
 	'IP_DELETE_SUCCESS'							=> 'All IP addresses have been anonymized.',
 	'PRIVACY_LAST_ACCPEPT'						=> 'Privacy policy last accepted',
 	'LAST_ACCPEPT'								=> 'Last accepted',

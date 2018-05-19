@@ -3,7 +3,7 @@
 *
 * @package phpBB Extension - tas2580 privacyprotection
 * @copyright (c) 2018 tas2580 (https://tas2580.net)
-* English translation Update @ Solidjeuh <https://www.froddelpower.be>
+* Nederlandse vertaling @ Solidjeuh <https://www.froddelpower.be>
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -35,6 +35,6 @@ if (empty($lang) || !is_array($lang))
 // ‚ ‘ ’ « » „ “ ” …
 //
 $lang = array_merge($lang, array(
-	'ACL_U_PRIVACYPROTECTION_DL_DATA'				=> 'Can download own profile data',
-	'ACL_U_PRIVACYPROTECTION_DL_POSTS'				=> 'Can download own messages',
+	'ACL_U_PRIVACYPROTECTION_DL_DATA'				=> 'Kan eigen profiel gegevens downloaden',
+	'ACL_U_PRIVACYPROTECTION_DL_POSTS'				=> 'Kan eigen berichten downloaden',
 ));
