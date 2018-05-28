@@ -3,6 +3,7 @@
 *
 * @package phpBB Extension - tas2580 privacyprotection
 * @copyright (c) 2018 tas2580 (https://tas2580.net)
+* English translation Update @ Solidjeuh <https://www.froddelpower.be>
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -31,10 +32,10 @@ if (empty($lang) || !is_array($lang))
 //
 $lang = array_merge($lang, array(
 	'NEED_ACCEPT_PRIVACY_HL'			=> 'Privacy Policy updated',
-	'NEED_ACCEPT_PRIVACY'				=> 'There has been an update to the <a href="%s">Privacy Policy Statement</a>. You have to re-confirm your acceptance in order to continue using this board.',
+	'NEED_ACCEPT_PRIVACY'				=> 'Our <a href="%s">privacy policy</a> has changed. You must accept the new privacy policy to continue using the forum.',
 	'PRIVACY_ACCEPT_SUCCESS'			=> 'You have accepted the new Privacy Policy and now have unrestricted access to the board again.',
-	'ACCEPT_PRIVACY'					=> 'Privacy Policy accepted',
-	'REJECT_PRIVACY'					=> 'Privacy Policy declined',
+	'ACCEPT_PRIVACY'					=> 'Accept Privacy Policy',
+	'REJECT_PRIVACY'					=> 'Decline Privacy Policy',
 	'NEED_TO_ACCEPT_PRIVACY_POLICY'		=> 'You have to confirm your acceptance of the privacy policy to be able to create content in this board.',
 	'CONFIRM_ACCEPT_PRIVACY'			=> 'I accept the <a href="%s">Privacy policy</a>.',
 ));

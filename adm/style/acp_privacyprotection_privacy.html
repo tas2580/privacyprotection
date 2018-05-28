@@ -3,7 +3,6 @@
 <p>{L_ACP_PRIVACYPROTECTION_PRIVACY_EXPLAIN}</p>
 <!-- IF PRIVACY_URL --><div class="warningbox">{PRIVACY_URL}</div><!-- ENDIF -->
 <form method="post" action="{U_ACTION}">
-
 	<fieldset>
 		<legend>{L_ACP_PRIVACYPROTECTION_PRIVACY}</legend>
 		<textarea name="privacy_text" rows="36" cols="60" style="width: 100%;" placeholder="{PLACEHOLDER}">{PRIVACY_TEXT}</textarea>
@@ -18,4 +17,14 @@
 		{S_FORM_TOKEN}
 	</fieldset>
 </form>
+
+<fieldset>
+	<legend>{L_ACP_PRIVACY_OPTIONS}</legend>
+	<form id="action_update_privacy_form" method="post" action="{U_ACTION}" data-ajax="true">
+		<dl>
+			<dt><label for="action_update_privacy">{L_UPDATE_PRIVACY}</label><br><span>{L_UPDATE_PRIVACY_EXPLAIN}</span></dt>
+			<dd><input class="button2" type="submit" id="action_update_privacy" name="action_update_privacy" value="{L_RUN}"></dd>
+		</dl>
+	</form>
+</fieldset>
 <!-- INCLUDE overall_footer.html -->

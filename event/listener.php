@@ -197,9 +197,11 @@ class listener implements EventSubscriberInterface
 					}
 					group_user_del($this->config['tas2580_privacyprotection_reject_group'], array($this->user->data['user_id']));
 				}
+
 				$this->user->add_lang_ext('tas2580/privacyprotection', 'common');
+				$redirect_url = append_sid("{$this->phpbb_root_path}index.{$this->php_ext}");
+				meta_refresh(5, $redirect_url);
 				trigger_error($this->user->lang['PRIVACY_ACCEPT_SUCCESS']);
-				//redirect(append_sid("{$this->phpbb_root_path}index.{$this->php_ext}"));
 			}
 
 			// Move user to group
@@ -446,6 +448,8 @@ class listener implements EventSubscriberInterface
 		$privacy_link = empty($this->config['tas2580_privacyprotection_privacy_url']) ? append_sid("{$this->phpbb_root_path}ucp.{$this->php_ext}", 'mode=privacy') : $this->config['tas2580_privacyprotection_privacy_url'];
 		$this->template->assign_vars(array(
 			'PRIVACY_ACCEPTED_EXPLAIN'			=> sprintf($this->user->lang['PRIVACY_ACCEPTED_EXPLAIN'], $privacy_link),
+			'S_DISPLAY_ACCEPT_PRIVACY'			=> $this->config['tas2580_privacyprotection_reg_accept_privacy'],
+			'S_DISPLAY_ACCEPT_MAIL'				=> $this->config['tas2580_privacyprotection_reg_accept_mail'],
 		));
 	}
 
@@ -460,7 +464,7 @@ class listener implements EventSubscriberInterface
 	{
 		$error = $event['error'];
 		$privacy = $this->request->variable('privacy', 0);
-		if ($privacy <> 1)
+		if ($this->config['tas2580_privacyprotection_reg_accept_privacy'] == 1 && $privacy <> 1)
 		{
 			$this->user->add_lang_ext('tas2580/privacyprotection', 'ucp');
 			$error[] = $this->user->lang['NEED_ACCEPT_PRIVACY'];
