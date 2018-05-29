@@ -174,7 +174,7 @@ class listener implements EventSubscriberInterface
 	 */
 	public function page_header_after()
 	{
-		if ($this->user->data['is_registered'] && $this->user->data['tas2580_privacy_last_accepted'] < $this->config['tas2580_privacyprotection_last_update'])
+		if (!$this->config['board_disable'] && $this->user->data['is_registered'] && ($this->user->data['tas2580_privacy_last_accepted'] < $this->config['tas2580_privacyprotection_last_update']))
 		{
 			// User has accepted the new privacy policy
 			$mode = $this->request->variable('mode', '');
