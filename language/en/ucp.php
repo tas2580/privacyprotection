@@ -39,4 +39,7 @@ $lang = array_merge($lang, array(
 	'PRIVACY_ACCEPTED'				=> 'Privacy Policy Stement read and accepted',
 	'PRIVACY_ACCEPTED_EXPLAIN'		=> 'By marking this field I confirm that I have read and accepted the <a href="%s">Privacy Policy Statement</a>.',
 	'PRIVACY_LAST_ACCEPTED'			=> 'Date of last acceptance of Privacy Policy Statement',
+	'REVOKE_PRIVACY'				=> '',
+	'REVOKE_PRIVACY_CONFIRM'		=> '',
+	'REVOKE_PRIVACY_SUCCESS'		=> '',
 ));

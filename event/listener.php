@@ -295,12 +295,13 @@ class listener implements EventSubscriberInterface
 		switch ($event['mode'])
 		{
 			case 'front':
-			case '': // The dirty code of phpBB can also use empty mode for the front page
+			case '': // mode can also use empty for the front page
 				$this->user->add_lang_ext('tas2580/privacyprotection', 'ucp');
 				$this->template->assign_vars(array(
 					'U_DOWNLOAD_MY_DATA'		=> $this->auth->acl_get('u_privacyprotection_dl_data') ? append_sid("{$this->phpbb_root_path}ucp.$this->php_ext", 'mode=profile_download') : '',
 					'U_DOWNLOAD_MY_POSTS'		=> $this->auth->acl_get('u_privacyprotection_dl_posts') ? append_sid("{$this->phpbb_root_path}ucp.$this->php_ext", 'mode=post_download') : '',
-					'PRIVACY_LAST_ACCEPTED'		=> $this->user->format_date($this->user->data['tas2580_privacy_last_accepted']),
+					'PRIVACY_LAST_ACCEPTED'		=> ($this->user->data['tas2580_privacy_last_accepted'] <> 0) ? $this->user->format_date($this->user->data['tas2580_privacy_last_accepted']) : 0,
+					'U_REVOKE_PRIVACY'			=> append_sid("{$this->phpbb_root_path}ucp.$this->php_ext", 'mode=revoke_privacy'),
 				));
 				break;
 
@@ -433,6 +434,26 @@ class listener implements EventSubscriberInterface
 					echo implode(', ', $row) . "\n";
 				}
 				exit;
+
+			case 'revoke_privacy':
+				if (confirm_box(true))
+				{
+					$data = array(
+						'tas2580_privacy_last_accepted'		=> 0,
+					);
+					$sql = 'UPDATE ' . USERS_TABLE . '
+						SET ' . $this->db->sql_build_array('UPDATE', $data) . '
+						WHERE user_id = ' . (int) $this->user->data['user_id'] ;
+					$this->db->sql_query($sql);
+					$message = $this->user->lang['REVOKE_PRIVACY_SUCCESS'] . '<br /><br />' . sprintf($this->user->lang['RETURN_INDEX'], '<a href="' . append_sid("{$this->phpbb_root_path}index.{$this->php_ext}") . '">', '</a> ');
+					trigger_error($message);
+				}
+				else
+				{
+					confirm_box(false, $this->user->lang['REVOKE_PRIVACY_CONFIRM']
+					);
+				}
+				redirect(append_sid("{$this->phpbb_root_path}ucp.{$this->php_ext}"));
 		}
 	}
 
