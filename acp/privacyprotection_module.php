@@ -209,9 +209,8 @@ class privacyprotection_module extends \tas2580\privacyprotection\privacyprotect
 				$sql = 'SELECT user_id, username, user_colour, user_email, user_regdate, user_lastvisit, tas2580_privacy_last_accepted
 					FROM ' .  USERS_TABLE . '
 						WHERE ' . $sql_where . '
-						AND user_type <> 2
-					LIMIT ' . (int) $start . ',' . (int) $config['topics_per_page'];
-				$result = $this->db->sql_query($sql);
+						AND user_type <> 2';
+				$result = $this->db->sql_query_limit($sql, (int) $config['topics_per_page'], $start);
 				while($row = $this->db->sql_fetchrow($result))
 				{
 					$template->assign_block_vars('list', array(
