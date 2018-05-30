@@ -86,4 +86,5 @@ $lang = array_merge($lang, array(
 	'USER_LIST_ACEPTED'							=> 'Accepted',
 	'USER_LIST_NOT_ACEPTED'						=> 'Not accepted',
 	'USER_LIST_NOT_ACEPTED_ONLINE'				=> 'Not accepted, was online',
+	'USER_ADMIN_REVOKE_PRIVACY'					=> '',
 ));

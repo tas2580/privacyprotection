@@ -73,4 +73,5 @@ $lang = array_merge($lang, array(
 	'USER_LIST_ACEPTED'						=> 'Akzeptiert',
 	'USER_LIST_NOT_ACEPTED'					=> 'Nicht akzeptiert',
 	'USER_LIST_NOT_ACEPTED_ONLINE'			=> 'Nicht akzeptiert, war online',
+	'USER_ADMIN_REVOKE_PRIVACY'				=> 'Zustimmung zur Datenschutzerklärung zurück ziehen',
 ));
