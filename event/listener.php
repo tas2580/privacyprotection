@@ -102,6 +102,7 @@ class listener implements EventSubscriberInterface
 			'core.page_header_after'							=> 'page_header_after',
 			'core.page_footer'									=> 'page_footer',
 			'core.acp_users_display_overview'					=> 'acp_users_display_overview',
+			'core.acp_users_overview_before'					=> 'acp_users_overview_before',
 			'core.ucp_display_module_before'					=> 'ucp_display_module_before',
 			'core.ucp_register_data_before'						=> 'ucp_register_data_before',
 			'core.ucp_register_data_after'						=> 'ucp_register_data_after',
@@ -281,7 +282,37 @@ class listener implements EventSubscriberInterface
 		$this->template->assign_vars(array(
 			'PRIVACY_LAST_ACCPEPT'		=> ($event['user_row']['tas2580_privacy_last_accepted'] <> 0) ? $this->user->format_date($event['user_row']['tas2580_privacy_last_accepted']) : $this->user->lang('NEVER'),
 		));
+
+		// Add revoke option
+		if ($event['user_row']['tas2580_privacy_last_accepted'] <> 0)
+		{
+			$quick_tool_ary = $event['quick_tool_ary'];
+			$quick_tool_ary['revoke_privacy'] = 'REVOKE_PRIVACY';
+			$event['quick_tool_ary'] = $quick_tool_ary;
+		}
 	}
+
+	/**
+	 * Force an user to accept the privacy policy again
+	 *
+	 * @param object $event The event object
+	 * @return null
+	 * @access public
+	 */
+	public function acp_users_overview_before($event)
+	{
+		if ($event['action'])
+		{
+			$data = array(
+				'tas2580_privacy_last_accepted'		=> 0,
+			);
+			$sql = 'UPDATE ' . USERS_TABLE . '
+				SET ' . $this->db->sql_build_array('UPDATE', $data) . '
+				WHERE user_id = ' . (int) $event['user_row']['user_id'] ;
+			$this->db->sql_query($sql);
+		}
+	}
+
 
 	/**
 	 * Handle download of private data in UCP
