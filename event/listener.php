@@ -467,6 +467,7 @@ class listener implements EventSubscriberInterface
 				exit;
 
 			case 'revoke_privacy':
+				$this->user->add_lang_ext('tas2580/privacyprotection', 'ucp');
 				if (confirm_box(true))
 				{
 					$data = array(
