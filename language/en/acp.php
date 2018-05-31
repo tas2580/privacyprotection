@@ -51,6 +51,7 @@ $lang = array_merge($lang, array(
 	'ANONYMIZE_IP_NONE'							=> 'Don\'t anonymize',
 	'ANONYMIZE_IP_FULL'							=> 'Anonymize completely',
 	'ANONYMIZE_IP_HASH'							=> 'Use hash',
+	'ANONYMIZE_IP_LAST'							=> 'Anonymize last part',
 	'ACP_ANONYMIZE_IP_TIME'					    => 'Anonymize automatically',
 	'ACP_ANONYMIZE_IP_TIME_EXPLAIN'			    => 'Choose from after which time stored IP addresses should be automatically anonymized. The IP addresses are completely anonymized.',
 	'WEEKS'									    => 'weeks',

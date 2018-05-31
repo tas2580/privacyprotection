@@ -139,6 +139,12 @@ class listener implements EventSubscriberInterface
 			case 2:
 				$fake_ip = $this->generate_fake_ip();
 				$this->request->overwrite('REMOTE_ADDR', $fake_ip, \phpbb\request\request_interface::SERVER);
+
+			// Anonymize last oktett
+			case 3:
+				$ip = $this->request->variable('REMOTE_ADDR', '', false, \phpbb\request\request_interface::SERVER);
+				$new_ip = preg_replace(['/\.\d*$/','/[\da-f]*:[\da-f]*$/'],['.XXX','XXXX:XXXX'],$ip);
+				$this->request->overwrite('REMOTE_ADDR', $new_ip, \phpbb\request\request_interface::SERVER);
 		}
 	}
 
