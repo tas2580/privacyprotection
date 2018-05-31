@@ -124,6 +124,7 @@ class listener implements EventSubscriberInterface
 	 */
 	public function common()
 	{
+
 		switch ($this->config['tas2580_privacyprotection_anonymize_ip'])
 		{
 			// Do not anonymize
@@ -139,12 +140,14 @@ class listener implements EventSubscriberInterface
 			case 2:
 				$fake_ip = $this->generate_fake_ip();
 				$this->request->overwrite('REMOTE_ADDR', $fake_ip, \phpbb\request\request_interface::SERVER);
+				break;
 
 			// Anonymize last oktett
 			case 3:
 				$ip = $this->request->variable('REMOTE_ADDR', '', false, \phpbb\request\request_interface::SERVER);
-				$new_ip = preg_replace(['/\.\d*$/','/[\da-f]*:[\da-f]*$/'],['.XXX','XXXX:XXXX'],$ip);
+				$new_ip = preg_replace(['/\.\d*$/','/[\da-f]*:[\da-f]*$/'],['.000','0000:0000'],$ip);
 				$this->request->overwrite('REMOTE_ADDR', $new_ip, \phpbb\request\request_interface::SERVER);
+				break;
 		}
 	}
 

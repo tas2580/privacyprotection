@@ -34,8 +34,8 @@ class privacyprotection_module extends \tas2580\privacyprotection\privacyprotect
 				$this->page_title = $user->lang('ACP_PRIVACYPROTECTION_SETTINGS');
 
 				// anonymize stored IPs
-				$anonymize_ip = $this->request->variable('action_delete_ip', '');
-				if ($anonymize_ip)
+				$action_delete_ip = $this->request->variable('action_delete_ip', '');
+				if ($action_delete_ip)
 				{
 					if (confirm_box(true))
 					{
@@ -56,7 +56,7 @@ class privacyprotection_module extends \tas2580\privacyprotection\privacyprotect
 					else
 					{
 						confirm_box(false, $this->user->lang['CONFIRM_OPERATION'], build_hidden_fields(array(
-							'action_delete_ip'		=> $anonymize_ip))
+							'action_delete_ip'		=> $action_delete_ip))
 						);
 					}
 				}
@@ -99,10 +99,20 @@ class privacyprotection_module extends \tas2580\privacyprotection\privacyprotect
 						$this->config->set('tas2580_privacyprotection_reject_group', $this->request->variable('reject_group', 0));
 					}
 
+					$anonymize_ip = $this->request->variable('anonymize_ip', 0);
+					if ($anonymize_ip <> $this->config['tas2580_privacyprotection_anonymize_ip'])
+					{
+						$sql = 'DELETE FROM ' . SESSIONS_TABLE;
+						$this->db->sql_query($sql);
+
+						$sql = 'DELETE FROM ' . SESSIONS_KEYS_TABLE;
+						$this->db->sql_query($sql);
+					}
+
 					// Set the new settings to config
 					$this->config->set('tas2580_privacyprotection_privacy_url', $this->request->variable('privacy_url', '', true));
 					$this->config->set('tas2580_privacyprotection_reject_url', $this->request->variable('reject_url', '', true));
-					$this->config->set('tas2580_privacyprotection_anonymize_ip', $this->request->variable('anonymize_ip', 0));
+					$this->config->set('tas2580_privacyprotection_anonymize_ip', $anonymize_ip);
 					$this->config->set('tas2580_privacyprotection_anonymize_ip_time', $this->request->variable('anonymize_ip_time', 0));
 					$this->config->set('tas2580_privacyprotection_anonymize_ip_time_type', $this->request->variable('anonymize_ip_time_type', 0));
 					$this->config->set('tas2580_privacyprotection_footerlink', $this->request->variable('footerlink', 0));
@@ -284,7 +294,8 @@ class privacyprotection_module extends \tas2580\privacyprotection\privacyprotect
 	private function anonymize_ip_options($anonymize)
 	{
 		$this->user->add_lang_ext('tas2580/privacyprotection', 'acp');
-		$values = array('NONE', 'FULL', 'HASH', 'LAST');
+		//$values = array('NONE', 'FULL', 'HASH', 'LAST');
+		$values = array('NONE', 'FULL', 'HASH');
 		$option = '';
 		foreach($values as $id => $value)
 		{
