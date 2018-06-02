@@ -87,5 +87,5 @@ $lang = array_merge($lang, array(
 	'USER_LIST_ACEPTED'						=> 'Geaccepteerd',
 	'USER_LIST_NOT_ACEPTED'					=> 'Niet geaccepteerd',
 	'USER_LIST_NOT_ACEPTED_ONLINE'			=> 'Niet geaccepteerd, was online',
-	'USER_ADMIN_REVOKE_PRIVACY'				=> '',
+	'USER_ADMIN_REVOKE_PRIVACY'				=> 'Intrekking van het privacybeleid intrekken',
 ));
