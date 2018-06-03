@@ -2,6 +2,7 @@
 
 This is an extension for the phpBB forums software. You need an installation of <a href="https://github.com/phpbb/phpbb">phpBB</a> 3.1.x or 3.2.x to use this extension.
 
+[![Download](https://raw.githubusercontent.com/tas2580/privacyprotection/master/.github/download.jpg)](https://tas2580.net/downloads/phpbb-privacyprotection/)
 
 ## DOCUMENTATION
 For documentation visit our <a href="https://github.com/tas2580/privacyprotection/wiki">Wiki</a>.
