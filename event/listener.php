@@ -102,6 +102,7 @@ class listener implements EventSubscriberInterface
 			'core.page_header_after'							=> 'page_header_after',
 			'core.page_footer'									=> 'page_footer',
 			'core.acp_users_display_overview'					=> 'acp_users_display_overview',
+			'core.acp_users_overview_before'					=> 'acp_users_overview_before',
 			'core.ucp_display_module_before'					=> 'ucp_display_module_before',
 			'core.ucp_register_data_before'						=> 'ucp_register_data_before',
 			'core.ucp_register_data_after'						=> 'ucp_register_data_after',
@@ -123,6 +124,7 @@ class listener implements EventSubscriberInterface
 	 */
 	public function common()
 	{
+
 		switch ($this->config['tas2580_privacyprotection_anonymize_ip'])
 		{
 			// Do not anonymize
@@ -138,6 +140,14 @@ class listener implements EventSubscriberInterface
 			case 2:
 				$fake_ip = $this->generate_fake_ip();
 				$this->request->overwrite('REMOTE_ADDR', $fake_ip, \phpbb\request\request_interface::SERVER);
+				break;
+
+			// Anonymize last oktett
+			case 3:
+				$ip = $this->request->variable('REMOTE_ADDR', '', false, \phpbb\request\request_interface::SERVER);
+				$new_ip = preg_replace(['/\.\d*$/','/[\da-f]*:[\da-f]*$/'],['.000','0000:0000'],$ip);
+				$this->request->overwrite('REMOTE_ADDR', $new_ip, \phpbb\request\request_interface::SERVER);
+				break;
 		}
 	}
 
@@ -174,7 +184,7 @@ class listener implements EventSubscriberInterface
 	 */
 	public function page_header_after()
 	{
-		if ($this->user->data['is_registered'] && $this->user->data['tas2580_privacy_last_accepted'] < $this->config['tas2580_privacyprotection_last_update'])
+		if (!$this->config['board_disable'] && $this->user->data['is_registered'] && ($this->user->data['tas2580_privacy_last_accepted'] < $this->config['tas2580_privacyprotection_last_update']))
 		{
 			// User has accepted the new privacy policy
 			$mode = $this->request->variable('mode', '');
@@ -281,7 +291,37 @@ class listener implements EventSubscriberInterface
 		$this->template->assign_vars(array(
 			'PRIVACY_LAST_ACCPEPT'		=> ($event['user_row']['tas2580_privacy_last_accepted'] <> 0) ? $this->user->format_date($event['user_row']['tas2580_privacy_last_accepted']) : $this->user->lang('NEVER'),
 		));
+
+		// Add revoke option
+		if ($event['user_row']['tas2580_privacy_last_accepted'] <> 0)
+		{
+			$quick_tool_ary = $event['quick_tool_ary'];
+			$quick_tool_ary['revoke_privacy'] = 'REVOKE_PRIVACY';
+			$event['quick_tool_ary'] = $quick_tool_ary;
+		}
 	}
+
+	/**
+	 * Force an user to accept the privacy policy again
+	 *
+	 * @param object $event The event object
+	 * @return null
+	 * @access public
+	 */
+	public function acp_users_overview_before($event)
+	{
+		if ($event['action'])
+		{
+			$data = array(
+				'tas2580_privacy_last_accepted'		=> 0,
+			);
+			$sql = 'UPDATE ' . USERS_TABLE . '
+				SET ' . $this->db->sql_build_array('UPDATE', $data) . '
+				WHERE user_id = ' . (int) $event['user_row']['user_id'] ;
+			$this->db->sql_query($sql);
+		}
+	}
+
 
 	/**
 	 * Handle download of private data in UCP
@@ -295,12 +335,13 @@ class listener implements EventSubscriberInterface
 		switch ($event['mode'])
 		{
 			case 'front':
-			case '': // The dirty code of phpBB can also use empty mode for the front page
+			case '': // mode can also use empty for the front page
 				$this->user->add_lang_ext('tas2580/privacyprotection', 'ucp');
 				$this->template->assign_vars(array(
 					'U_DOWNLOAD_MY_DATA'		=> $this->auth->acl_get('u_privacyprotection_dl_data') ? append_sid("{$this->phpbb_root_path}ucp.$this->php_ext", 'mode=profile_download') : '',
 					'U_DOWNLOAD_MY_POSTS'		=> $this->auth->acl_get('u_privacyprotection_dl_posts') ? append_sid("{$this->phpbb_root_path}ucp.$this->php_ext", 'mode=post_download') : '',
-					'PRIVACY_LAST_ACCEPTED'		=> $this->user->format_date($this->user->data['tas2580_privacy_last_accepted']),
+					'PRIVACY_LAST_ACCEPTED'		=> ($this->user->data['tas2580_privacy_last_accepted'] <> 0) ? $this->user->format_date($this->user->data['tas2580_privacy_last_accepted']) : 0,
+					'U_REVOKE_PRIVACY'			=> append_sid("{$this->phpbb_root_path}ucp.$this->php_ext", 'mode=revoke_privacy'),
 				));
 				break;
 
@@ -433,6 +474,27 @@ class listener implements EventSubscriberInterface
 					echo implode(', ', $row) . "\n";
 				}
 				exit;
+
+			case 'revoke_privacy':
+				$this->user->add_lang_ext('tas2580/privacyprotection', 'ucp');
+				if (confirm_box(true))
+				{
+					$data = array(
+						'tas2580_privacy_last_accepted'		=> 0,
+					);
+					$sql = 'UPDATE ' . USERS_TABLE . '
+						SET ' . $this->db->sql_build_array('UPDATE', $data) . '
+						WHERE user_id = ' . (int) $this->user->data['user_id'] ;
+					$this->db->sql_query($sql);
+					$message = $this->user->lang['REVOKE_PRIVACY_SUCCESS'] . '<br /><br />' . sprintf($this->user->lang['RETURN_INDEX'], '<a href="' . append_sid("{$this->phpbb_root_path}index.{$this->php_ext}") . '">', '</a> ');
+					trigger_error($message);
+				}
+				else
+				{
+					confirm_box(false, $this->user->lang['REVOKE_PRIVACY_CONFIRM']
+					);
+				}
+				redirect(append_sid("{$this->phpbb_root_path}ucp.{$this->php_ext}"));
 		}
 	}
 

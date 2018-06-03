@@ -43,6 +43,7 @@ $lang = array_merge($lang, array(
 	'ANONYMIZE_IP_NONE'						=> 'Nicht anonymisieren',
 	'ANONYMIZE_IP_FULL'						=> 'Komplett anonymisieren',
 	'ANONYMIZE_IP_HASH'						=> 'Hash verwenden',
+	'ANONYMIZE_IP_LAST'						=> 'Letzten Teil anonymisieren',
 	'ACP_FOOTERLINK'						=> 'Link in Footer',
 	'ACP_FOOTERLINK_EXPLAIN'				=> 'Soll ein Link zur Datenschutzerklärung im Footer angezeigt werden?',
 	'ACP_DATA_DOWNLOAD_OPTIONS'				=> 'Daten Download',
@@ -73,4 +74,5 @@ $lang = array_merge($lang, array(
 	'USER_LIST_ACEPTED'						=> 'Akzeptiert',
 	'USER_LIST_NOT_ACEPTED'					=> 'Nicht akzeptiert',
 	'USER_LIST_NOT_ACEPTED_ONLINE'			=> 'Nicht akzeptiert, war online',
+	'USER_ADMIN_REVOKE_PRIVACY'				=> 'Zustimmung zur Datenschutzerklärung zurück ziehen',
 ));

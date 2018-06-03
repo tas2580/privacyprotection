@@ -50,6 +50,7 @@ $lang = array_merge($lang, array(
 	'ANONYMIZE_IP_NONE'						=> 'Nicht anonymisieren',
 	'ANONYMIZE_IP_FULL'						=> 'Komplett anonymisieren',
 	'ANONYMIZE_IP_HASH'						=> 'Hash verwenden',
+	'ANONYMIZE_IP_LAST'						=> 'Letzten Teil anonymisieren',
 	'ACP_ANONYMIZE_IP_TIME'					=> 'Automatisch anonymisieren',
 	'ACP_ANONYMIZE_IP_TIME_EXPLAIN'			=> 'Wähle aus nach welcher Zeit gespeicherte IP Adressen automatisch anonymisiert werden sollen. Dabei werden die IP Adressen komplett anonymisiert.',
 	'WEEKS'									=> 'Wochen',
@@ -85,4 +86,5 @@ $lang = array_merge($lang, array(
 	'USER_LIST_ACEPTED'						=> 'Akzeptiert',
 	'USER_LIST_NOT_ACEPTED'					=> 'Nicht akzeptiert',
 	'USER_LIST_NOT_ACEPTED_ONLINE'			=> 'Nicht akzeptiert, war online',
+	'USER_ADMIN_REVOKE_PRIVACY'				=> 'Zustimmung zur Datenschutzerklärung zurück ziehen',
 ));

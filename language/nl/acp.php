@@ -51,6 +51,7 @@ $lang = array_merge($lang, array(
 	'ANONYMIZE_IP_NONE'						=> 'Niet anoniem maken',
 	'ANONYMIZE_IP_FULL'						=> 'Volledig anonimiseren',
 	'ANONYMIZE_IP_HASH'						=> 'Gebruik hash',
+	'ANONYMIZE_IP_LAST'						=> '',
 	'ACP_ANONYMIZE_IP_TIME'					=> 'Anonimiseer automatisch',
 	'ACP_ANONYMIZE_IP_TIME_EXPLAIN'			=> 'Kies na welk tijdstip de opgeslagen IP-adressen automatisch moeten worden geanonimiseerd. De IP-adressen zijn volledig geanonimiseerd.',
 	'WEEKS'									=> 'weken',
@@ -86,4 +87,5 @@ $lang = array_merge($lang, array(
 	'USER_LIST_ACEPTED'						=> 'Geaccepteerd',
 	'USER_LIST_NOT_ACEPTED'					=> 'Niet geaccepteerd',
 	'USER_LIST_NOT_ACEPTED_ONLINE'			=> 'Niet geaccepteerd, was online',
+	'USER_ADMIN_REVOKE_PRIVACY'				=> 'Intrekking van het privacybeleid intrekken',
 ));
