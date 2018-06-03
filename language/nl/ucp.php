@@ -39,7 +39,7 @@ $lang = array_merge($lang, array(
 	'PRIVACY_ACCEPTED'				=> 'Privacybeleid gelezen en geaccepteerd',
 	'PRIVACY_ACCEPTED_EXPLAIN'		=> 'Door dit veld te markeren, bevestig ik dat ik de <a href="%s">Privacybeleid verklaring</a> heb gelezen en geaccepteerd.',
 	'PRIVACY_LAST_ACCEPTED'			=> 'Privacybeleid laatst geaccepteerd',
-	'REVOKE_PRIVACY'				=> '',
-	'REVOKE_PRIVACY_CONFIRM'		=> '',
-	'REVOKE_PRIVACY_SUCCESS'		=> '',
+	'REVOKE_PRIVACY'				=> 'Intrekken',
+	'REVOKE_PRIVACY_CONFIRM'		=> 'Weet u zeker dat u uw toestemming voor het privacybeleid wilt hernieuwen?',
+	'REVOKE_PRIVACY_SUCCESS'		=> 'U hebt met succes uw toestemming voor het privacybeleid ingetrokken.',
 ));

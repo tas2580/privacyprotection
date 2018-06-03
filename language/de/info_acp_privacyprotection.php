@@ -33,8 +33,8 @@ if (empty($lang) || !is_array($lang))
 // ‚ ‘ ’ « » „ “ ” …
 //
 $lang = array_merge($lang, array(
-	'ACP_PRIVACYPROTECTION_TITLE'		=> 'Privacy protection',
+	'ACP_PRIVACYPROTECTION_TITLE'		=> 'Privacy Protection',
 	'ACP_PRIVACYPROTECTION_SETTINGS'	=> 'Einstellungen',
 	'ACP_PRIVACYPROTECTION_PRIVACY'		=> 'Datenschutzerklärung',
-	'ACP_PRIVACYPROTECTION_LIST'		=> 'Benutzer Liste',
+	'ACP_PRIVACYPROTECTION_LIST'		=> 'Benutzerliste',
 ));
