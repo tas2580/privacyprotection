@@ -145,7 +145,7 @@ class listener implements EventSubscriberInterface
 			// Anonymize last oktett
 			case 3:
 				$ip = $this->request->variable('REMOTE_ADDR', '', false, \phpbb\request\request_interface::SERVER);
-				$new_ip = preg_replace(['/\.\d*$/','/[\da-f]*:[\da-f]*$/'],['.000','0000:0000'],$ip);
+				$new_ip = preg_replace(['/\.\d*$/','/[\da-f]*:[\da-f]*$/'],['.0','0000:0000'],$ip);
 				$this->request->overwrite('REMOTE_ADDR', $new_ip, \phpbb\request\request_interface::SERVER);
 				break;
 		}

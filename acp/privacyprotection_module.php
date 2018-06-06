@@ -294,8 +294,7 @@ class privacyprotection_module extends \tas2580\privacyprotection\privacyprotect
 	private function anonymize_ip_options($anonymize)
 	{
 		$this->user->add_lang_ext('tas2580/privacyprotection', 'acp');
-		//$values = array('NONE', 'FULL', 'HASH', 'LAST');
-		$values = array('NONE', 'FULL', 'HASH');
+		$values = array('NONE', 'FULL', 'HASH', 'LAST');
 		$option = '';
 		foreach($values as $id => $value)
 		{
