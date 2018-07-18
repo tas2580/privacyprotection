@@ -39,6 +39,6 @@ $lang = array_merge($lang, array(
 	'PRIVACY_ACCEPTED_EXPLAIN'		=> 'Ich bestätige mit dem Auswählen dieses Feldes, das ich die <a href="%s">Datenschutzerklärung</a> gelesen habe und akzeptiere diese.',
 	'PRIVACY_LAST_ACCEPTED'			=> 'Datenschutzerklärung zuletzt akzeptiert',
 	'REVOKE_PRIVACY'				=> 'Widerrufen',
-	'REVOKE_PRIVACY_CONFIRM'		=> 'Sind Sie sich sicher, dass Sie Ihre Zustimmung zur Datenschutzerklärung wiederufen möchten?',
-	'REVOKE_PRIVACY_SUCCESS'		=> 'Sie haben Ihre Zustimmung zur Datenschutzerklärung erfolgreich wiederufen.',
+	'REVOKE_PRIVACY_CONFIRM'		=> 'Sind Sie sich sicher, dass Sie Ihre Zustimmung zur Datenschutzerklärung widerrufen möchten?',
+	'REVOKE_PRIVACY_SUCCESS'		=> 'Sie haben Ihre Zustimmung zur Datenschutzerklärung erfolgreich widerrufen.',
 ));
