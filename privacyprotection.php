@@ -15,8 +15,7 @@ namespace tas2580\privacyprotection;
  */
 class privacyprotection
 {
-
-	protected function anonymize_ip($time)
+	public function anonymize_ip($time)
 	{
 		$sql = 'UPDATE ' . POSTS_TABLE . "
 			SET poster_ip = '127.0.0.1'
