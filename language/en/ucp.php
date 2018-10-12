@@ -36,7 +36,7 @@ $lang = array_merge($lang, array(
 	'DOWNLOAD_MY_POSTS_EXPLAIN'		=> 'Click here to download your messages (CSV file).',
 	'DOWNLOAD_BTN'					=> 'Download',
 	'NEED_ACCEPT_PRIVACY'			=> 'You must first read and accept the Privacy Policy Statement.',
-	'PRIVACY_ACCEPTED'				=> 'Privacy Policy Stement read and accepted',
+	'PRIVACY_ACCEPTED'				=> 'Privacy Policy Statement read and accepted',
 	'PRIVACY_ACCEPTED_EXPLAIN'		=> 'By marking this field I confirm that I have read and accepted the <a href="%s">Privacy Policy Statement</a>.',
 	'PRIVACY_LAST_ACCEPTED'			=> 'Date of last acceptance of Privacy Policy Statement',
 	'REVOKE_PRIVACY'				=> 'Withdraw',
