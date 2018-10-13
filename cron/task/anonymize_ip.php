@@ -80,6 +80,6 @@ class anonymize_ip extends \phpbb\cron\task\base
 	*/
 	public function should_run()
 	{
-		return $this->config['tas2580_privacyprotection_anonymize_last_gc'] < time() - $this->config['tas2580_privacyprotection_anonymize_gc'];
+		return (int) $this->config['tas2580_privacyprotection_anonymize_last_gc'] < time() - (int) $this->config['tas2580_privacyprotection_anonymize_gc'];
 	}
 }
