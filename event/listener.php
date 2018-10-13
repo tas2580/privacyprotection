@@ -103,6 +103,7 @@ class listener implements EventSubscriberInterface
 			'core.page_footer'									=> 'page_footer',
 			'core.acp_users_display_overview'					=> 'acp_users_display_overview',
 			'core.acp_users_overview_before'					=> 'acp_users_overview_before',
+			'core.get_logs_main_query_before'					=> 'get_logs_main_query_before',
 			'core.ucp_display_module_before'					=> 'ucp_display_module_before',
 			'core.ucp_register_data_before'						=> 'ucp_register_data_before',
 			'core.ucp_register_data_after'						=> 'ucp_register_data_after',
@@ -322,6 +323,10 @@ class listener implements EventSubscriberInterface
 		}
 	}
 
+	public function get_logs_main_query_before()
+	{
+		$this->user->add_lang_ext('tas2580/privacyprotection', 'acp');
+	}
 
 	/**
 	 * Handle download of private data in UCP
