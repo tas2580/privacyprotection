@@ -33,11 +33,11 @@ if (empty($lang) || !is_array($lang))
 $lang = array_merge($lang, array(
 	'DOWNLOAD_MY_DATA'				=> 'Download mijn persoonlijke gegevens',
 	'DOWNLOAD_MY_DATA_EXPLAIN'		=> 'Hier kunt u uw persoonlijke profiel gegevens downloaden als een CSV bestand.',
-	'DOWNLOAD_MY_POSTS_EXPLAIN'		=> 'Hier kun je de berichten die je hebt geschreven als een CSV bestand downloaden.',
+	'DOWNLOAD_MY_POSTS_EXPLAIN'		=> 'Hier kunt u de berichten die u hebt geschreven als een CSV bestand downloaden.',
 	'DOWNLOAD_BTN'					=> 'Download',
 	'NEED_ACCEPT_PRIVACY'			=> 'U moet eerst de privacy beleidsverklaring lezen en accepteren.',
 	'PRIVACY_ACCEPTED'				=> 'Privacybeleid gelezen en geaccepteerd',
-	'PRIVACY_ACCEPTED_EXPLAIN'		=> 'Door dit veld te markeren, bevestig ik dat ik de <a href="%s">Privacybeleid verklaring</a> heb gelezen en geaccepteerd.',
+	'PRIVACY_ACCEPTED_EXPLAIN'		=> 'Door dit veld te markeren, bevestigt u dat u de <a href="%s">Privacybeleid verklaring</a> heb gelezen en geaccepteerd.',
 	'PRIVACY_LAST_ACCEPTED'			=> 'Privacybeleid laatst geaccepteerd',
 	'REVOKE_PRIVACY'				=> 'Intrekken',
 	'REVOKE_PRIVACY_CONFIRM'		=> 'Weet u zeker dat u uw toestemming voor het privacybeleid wilt hernieuwen?',
