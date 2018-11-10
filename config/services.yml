@@ -17,8 +17,9 @@ services:
     tas2580.privacyprotection.cron.task.anonymize_ip:
         class: tas2580\privacyprotection\cron\task\anonymize_ip
         arguments:
-            - @config
-            - @log
+            - '@config'
+            - '@dbal.conn'
+            - '@log'
         calls:
             - [set_name, [tas2580.privacyprotection.cron.task.anonymize_ip]]
         tags:

@@ -41,7 +41,7 @@ class privacyprotection_module extends \tas2580\privacyprotection\privacyprotect
 					{
 						$intervall = $this->config['tas2580_privacyprotection_anonymize_ip_time'] * 60 * 60 * 24;
 						$time = time() - ($intervall * $this->config['tas2580_privacyprotection_anonymize_ip_time_type']);
-						$this->anonymize_ip($time);
+						$this->anonymize_ip($time, $this->db);
 
 						/**
 						 * Delete additional IP addresses

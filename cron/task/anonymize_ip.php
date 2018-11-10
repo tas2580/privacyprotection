@@ -33,9 +33,10 @@ class anonymize_ip extends \phpbb\cron\task\base
 	* @param \phpbb\log\log_interface 				$log
 	* @param \phpbb\user							$user
 	*/
-	public function __construct(\phpbb\config\config $config, \phpbb\log\log_interface $log)
+	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\log\log_interface $log)
 	{
 		$this->config 					= $config;
+		$this->db						= $db;
 		$this->phpbb_log 				= $log;
 	}
 
@@ -58,7 +59,7 @@ class anonymize_ip extends \phpbb\cron\task\base
 		$intervall = $this->config['tas2580_privacyprotection_anonymize_ip_time'] * 60 * 60 * 24;
 		$time = $now - ($intervall * $this->config['tas2580_privacyprotection_anonymize_ip_time_type']);
 		$privacyprotection = new \tas2580\privacyprotection\privacyprotection;
-		$privacyprotection->anonymize_ip($time);
+		$privacyprotection->anonymize_ip($time, $this->db);
 	}
 
 
