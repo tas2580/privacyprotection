@@ -43,6 +43,9 @@ class listener implements EventSubscriberInterface
 	/** @var \phpbb\request\request */
 	protected $request;
 
+	/* @var \phpbb\language\language */
+	protected $language;
+
 	/** @var string phpbb_root_path */
 	protected $phpbb_root_path;
 
@@ -59,6 +62,7 @@ class listener implements EventSubscriberInterface
 	 * @param \phpbb\user							$user					User Object
 	 * @param \phpbb\template\template				$template				Template object
 	 * @param \phpbb\request\request				$request				Request object
+	 * @param \phpbb\language\language				$language				Language object
 	 * @param string								$phpbb_root_path		phpbb_root_path
 	 * @param string								$php_ext				php_ext
 	 * @access public
@@ -71,6 +75,7 @@ class listener implements EventSubscriberInterface
 		\phpbb\event\dispatcher_interface $phpbb_dispatcher,
 		\phpbb\user $user, \phpbb\template\template $template,
 		\phpbb\request\request $request,
+		\phpbb\language\language $language,
 		$phpbb_root_path,
 		$php_ext
 	)
@@ -83,6 +88,7 @@ class listener implements EventSubscriberInterface
 		$this->user = $user;
 		$this->template = $template;
 		$this->request = $request;
+		$this->language = $language;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
 	}
@@ -209,10 +215,10 @@ class listener implements EventSubscriberInterface
 					group_user_del($this->config['tas2580_privacyprotection_reject_group'], array($this->user->data['user_id']));
 				}
 
-				$this->user->add_lang_ext('tas2580/privacyprotection', 'common');
+				$this->language->add_lang('common', 'tas2580/privacyprotection');
 				$redirect_url = append_sid("{$this->phpbb_root_path}index.{$this->php_ext}");
 				meta_refresh(5, $redirect_url);
-				trigger_error($this->user->lang['PRIVACY_ACCEPT_SUCCESS']);
+				trigger_error($this->language->lang('PRIVACY_ACCEPT_SUCCESS'));
 			}
 
 			// Move user to group
@@ -226,11 +232,11 @@ class listener implements EventSubscriberInterface
 				group_user_add($this->config['tas2580_privacyprotection_reject_group'], array($this->user->data['user_id']));
 			}
 
-			$this->user->add_lang_ext('tas2580/privacyprotection', 'common');
+			$this->language->add_lang('common', 'tas2580/privacyprotection');
 			$privacy_link = empty($this->config['tas2580_privacyprotection_privacy_url']) ? append_sid("{$this->phpbb_root_path}ucp.{$this->php_ext}", 'mode=privacy') : $this->config['tas2580_privacyprotection_privacy_url'];
 			$this->template->assign_vars(array(
 				'S_NEED_ACCEPT_PRIVACY'		=> true,
-				'NEED_ACCEPT_PRIVACY'			=> sprintf($this->user->lang['NEED_ACCEPT_PRIVACY'], $privacy_link),
+				'NEED_ACCEPT_PRIVACY'			=> sprintf($this->language->lang('NEED_ACCEPT_PRIVACY'), $privacy_link),
 				'U_ACCPEPT_PRIVACY'				=> append_sid("{$this->phpbb_root_path}index.{$this->php_ext}", 'mode=accept_privacy'),
 				'U_REJECT_PRIVACY'				=> str_replace('{SID}', $this->user->data['session_id'], $this->config['tas2580_privacyprotection_reject_url']),
 				'S_IS_BOT'						=> true,	// Handle users as bot until they accept the privacy policy
@@ -265,7 +271,7 @@ class listener implements EventSubscriberInterface
 			}
 
 			$privacy_text = $this->config_text->get('privacy_text');
-			$privacy_text = empty($privacy_text) ? sprintf($this->user->lang['PRIVACY_POLICY'], $this->config['sitename'], generate_board_url()) : html_entity_decode(str_replace(array('{SITE_NAME}', '{SITE_URL}'), array($this->config['sitename'], generate_board_url()), $privacy_text));
+			$privacy_text = empty($privacy_text) ? sprintf($this->language->lang('PRIVACY_POLICY'), $this->config['sitename'], generate_board_url()) : html_entity_decode(str_replace(array('{SITE_NAME}', '{SITE_URL}'), array($this->config['sitename'], generate_board_url()), $privacy_text));
 			$this->template->assign_vars(array(
 				'AGREEMENT_TEXT'		=> sprintf($privacy_text, $this->config['sitename'], generate_board_url()),
 			));
@@ -287,10 +293,10 @@ class listener implements EventSubscriberInterface
 	 */
 	public function acp_users_display_overview($event)
 	{
-		$this->user->add_lang_ext('tas2580/privacyprotection', 'acp');
+		$this->language->add_lang('acp', 'tas2580/privacyprotection');
 
 		$this->template->assign_vars(array(
-			'PRIVACY_LAST_ACCPEPT'		=> ($event['user_row']['tas2580_privacy_last_accepted'] <> 0) ? $this->user->format_date($event['user_row']['tas2580_privacy_last_accepted']) : $this->user->lang('NEVER'),
+			'PRIVACY_LAST_ACCPEPT'		=> ($event['user_row']['tas2580_privacy_last_accepted'] <> 0) ? $this->user->format_date($event['user_row']['tas2580_privacy_last_accepted']) : $this->language->lang('NEVER'),
 		));
 
 		// Add revoke option
@@ -325,7 +331,7 @@ class listener implements EventSubscriberInterface
 
 	public function get_logs_main_query_before()
 	{
-		$this->user->add_lang_ext('tas2580/privacyprotection', 'acp');
+		$this->language->add_lang('acp', 'tas2580/privacyprotection');
 	}
 
 	/**
@@ -341,7 +347,8 @@ class listener implements EventSubscriberInterface
 		{
 			case 'front':
 			case '': // mode can also use empty for the front page
-				$this->user->add_lang_ext('tas2580/privacyprotection', 'ucp');
+				$this->language->add_lang('ucp', 'tas2580/privacyprotection');
+				
 				$this->template->assign_vars(array(
 					'U_DOWNLOAD_MY_DATA'		=> $this->auth->acl_get('u_privacyprotection_dl_data') ? append_sid("{$this->phpbb_root_path}ucp.$this->php_ext", 'mode=profile_download') : '',
 					'U_DOWNLOAD_MY_POSTS'		=> $this->auth->acl_get('u_privacyprotection_dl_posts') ? append_sid("{$this->phpbb_root_path}ucp.$this->php_ext", 'mode=post_download') : '',
@@ -481,7 +488,8 @@ class listener implements EventSubscriberInterface
 				exit;
 
 			case 'revoke_privacy':
-				$this->user->add_lang_ext('tas2580/privacyprotection', 'ucp');
+				$this->language->add_lang('ucp', 'tas2580/privacyprotection');
+
 				if (confirm_box(true))
 				{
 					$data = array(
@@ -491,12 +499,12 @@ class listener implements EventSubscriberInterface
 						SET ' . $this->db->sql_build_array('UPDATE', $data) . '
 						WHERE user_id = ' . (int) $this->user->data['user_id'] ;
 					$this->db->sql_query($sql);
-					$message = $this->user->lang['REVOKE_PRIVACY_SUCCESS'] . '<br /><br />' . sprintf($this->user->lang['RETURN_INDEX'], '<a href="' . append_sid("{$this->phpbb_root_path}index.{$this->php_ext}") . '">', '</a> ');
+					$message = $this->language->lang('REVOKE_PRIVACY_SUCCESS') . '<br /><br />' . sprintf($this->language->lang('RETURN_INDEX'), '<a href="' . append_sid("{$this->phpbb_root_path}index.{$this->php_ext}") . '">', '</a> ');
 					trigger_error($message);
 				}
 				else
 				{
-					confirm_box(false, $this->user->lang['REVOKE_PRIVACY_CONFIRM']
+					confirm_box(false, $this->language->lang('REVOKE_PRIVACY_CONFIRM')
 					);
 				}
 				redirect(append_sid("{$this->phpbb_root_path}ucp.{$this->php_ext}"));
@@ -511,10 +519,10 @@ class listener implements EventSubscriberInterface
 	 */
 	public function ucp_register_data_before()
 	{
-		$this->user->add_lang_ext('tas2580/privacyprotection', 'ucp');
+		$this->language->add_lang('ucp', 'tas2580/privacyprotection');
 		$privacy_link = empty($this->config['tas2580_privacyprotection_privacy_url']) ? append_sid("{$this->phpbb_root_path}ucp.{$this->php_ext}", 'mode=privacy') : $this->config['tas2580_privacyprotection_privacy_url'];
 		$this->template->assign_vars(array(
-			'PRIVACY_ACCEPTED_EXPLAIN'			=> sprintf($this->user->lang['PRIVACY_ACCEPTED_EXPLAIN'], $privacy_link),
+			'PRIVACY_ACCEPTED_EXPLAIN'			=> sprintf($this->language->lang('PRIVACY_ACCEPTED_EXPLAIN'), $privacy_link),
 			'S_DISPLAY_ACCEPT_PRIVACY'			=> $this->config['tas2580_privacyprotection_reg_accept_privacy'],
 			'S_DISPLAY_ACCEPT_MAIL'				=> $this->config['tas2580_privacyprotection_reg_accept_mail'],
 		));
@@ -533,8 +541,8 @@ class listener implements EventSubscriberInterface
 		$privacy = $this->request->variable('privacy', 0);
 		if ($this->config['tas2580_privacyprotection_reg_accept_privacy'] == 1 && $privacy <> 1)
 		{
-			$this->user->add_lang_ext('tas2580/privacyprotection', 'ucp');
-			$error[] = $this->user->lang['NEED_ACCEPT_PRIVACY'];
+			$this->language->add_lang('ucp', 'tas2580/privacyprotection');
+			$error[] = $this->language->lang('NEED_ACCEPT_PRIVACY');
 			$event['error'] = $error;
 		}
 	}
@@ -595,15 +603,15 @@ class listener implements EventSubscriberInterface
 	{
 		if ($this->user->data['is_registered'] && $this->user->data['tas2580_privacy_last_accepted'] < $this->config['tas2580_privacyprotection_last_update'])
 		{
-			$this->user->add_lang_ext('tas2580/privacyprotection', 'common');
+			$this->language->add_lang('common', 'tas2580/privacyprotection');
 			trigger_error('NEED_TO_ACCEPT_PRIVACY_POLICY');
 		}
 		else if(!$this->user->data['is_registered'])
 		{
-			$this->user->add_lang_ext('tas2580/privacyprotection', 'common');
+			$this->language->add_lang('common', 'tas2580/privacyprotection');
 			$privacy_link = empty($this->config['tas2580_privacyprotection_privacy_url']) ? append_sid("{$this->phpbb_root_path}ucp.{$this->php_ext}", 'mode=privacy') : $this->config['tas2580_privacyprotection_privacy_url'];
 			$this->template->assign_vars(array(
-				'ACCEPT_PRIVACY'			=> sprintf($this->user->lang['CONFIRM_ACCEPT_PRIVACY'], $privacy_link),
+				'ACCEPT_PRIVACY'			=> sprintf($this->language->lang('CONFIRM_ACCEPT_PRIVACY'), $privacy_link),
 			));
 		}
 	}
@@ -623,8 +631,8 @@ class listener implements EventSubscriberInterface
 			if($accept_privacy == 0)
 			{
 				$error = $event['error'];
-				$this->user->add_lang_ext('tas2580/privacyprotection', 'common');
-				$error[] = $this->user->lang['NEED_TO_ACCEPT_PRIVACY_POLICY'];
+				$this->language->add_lang('common', 'tas2580/privacyprotection');
+				$error[] = $this->language->lang('NEED_TO_ACCEPT_PRIVACY_POLICY');
 				$event['error'] = $error;
 			}
 		}
