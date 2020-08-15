@@ -15,7 +15,8 @@ class privacyprotection_module extends \tas2580\privacyprotection\privacyprotect
 	public function main($id, $mode)
 	{
 		global $config, $user, $template, $request, $phpbb_container, $db, $phpbb_dispatcher, $phpbb_root_path, $phpEx;
-		$user->add_lang_ext('tas2580/privacyprotection', 'acp');
+		global $phpbb_container; $language = $phpbb_container->get('language');
+		$language->add_lang('acp', 'tas2580/privacyprotection');
 
 		$this->user = $user;
 		$this->request = $request;
@@ -293,7 +294,8 @@ class privacyprotection_module extends \tas2580\privacyprotection\privacyprotect
 	 */
 	private function anonymize_ip_options($anonymize)
 	{
-		$this->user->add_lang_ext('tas2580/privacyprotection', 'acp');
+		global $phpbb_container; $language = $phpbb_container->get('language');
+		$language->add_lang('acp', 'tas2580/privacyprotection');
 		$values = array('NONE', 'FULL', 'HASH', 'LAST');
 		$option = '';
 		foreach($values as $id => $value)
@@ -306,8 +308,8 @@ class privacyprotection_module extends \tas2580\privacyprotection\privacyprotect
 
 	private function anonymize_time_type_options($time_type)
 	{
-
-		$this->user->add_lang_ext('tas2580/privacyprotection', 'acp');
+		global $phpbb_container; $language = $phpbb_container->get('language');
+		$language->add_lang('acp', 'tas2580/privacyprotection');
 		$values = array(
 			0	=> 'DISABLE',
 			1	=> 'DAYS',

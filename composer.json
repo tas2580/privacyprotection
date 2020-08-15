@@ -3,7 +3,7 @@
 	"type": "phpbb-extension",
 	"description": "",
 	"homepage": "https://tas2580.net/downloads/phpbb-privacyprotection/",
-	"version": "1.0.0-RC1",
+	"version": "1.1.0-RC1",
 	"keywords": ["phpbb", "extension", "privacy"],
 	"license": "GPL-2.0",
 	"authors": [
@@ -20,7 +20,7 @@
 		}
 	],
 	"require": {
-		"php": ">=5.4",
+		"php": ">=5.4.7",
 		"composer/installers": "~1.0"
 	},
 	"require-dev": {
@@ -29,7 +29,7 @@
 	"extra": {
 		"display-name": "Privacy protection",
 		"soft-require": {
-			"phpbb/phpbb": ">=3.1.0,<3.2.3"
+			"phpbb/phpbb": ">=3.2.2"
 		},
 		"version-check": {
 			"host": "raw.githubusercontent.com",
